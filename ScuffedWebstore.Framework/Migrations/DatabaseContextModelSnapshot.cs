@@ -73,6 +73,45 @@ namespace ScuffedWebstore.Framework.Migrations
                     b.ToTable("addresses", (string)null);
                 });
 
+            modelBuilder.Entity("ScuffedWebstore.Core.src.Entities.CartItem", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("integer")
+                        .HasColumnName("amount");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid>("ProductID")
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_id");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("ID")
+                        .HasName("pk_cart_items");
+
+                    b.HasIndex("ProductID")
+                        .HasDatabaseName("ix_cart_items_product_id");
+
+                    b.HasIndex("UserID")
+                        .HasDatabaseName("ix_cart_items_user_id");
+
+                    b.ToTable("cart_items", (string)null);
+                });
+
             modelBuilder.Entity("ScuffedWebstore.Core.src.Entities.Category", b =>
                 {
                     b.Property<Guid>("ID")
@@ -340,14 +379,19 @@ namespace ScuffedWebstore.Framework.Migrations
                         .HasColumnType("text")
                         .HasColumnName("last_name");
 
-                    b.Property<string>("Password")
+                    b.Property<byte[]>("Password")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("bytea")
                         .HasColumnName("password");
 
                     b.Property<UserRole>("Role")
                         .HasColumnType("user_role")
                         .HasColumnName("role");
+
+                    b.Property<byte[]>("Salt")
+                        .IsRequired()
+                        .HasColumnType("bytea")
+                        .HasColumnName("salt");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp without time zone")
@@ -367,6 +411,23 @@ namespace ScuffedWebstore.Framework.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_addresses_users_user_id");
+                });
+
+            modelBuilder.Entity("ScuffedWebstore.Core.src.Entities.CartItem", b =>
+                {
+                    b.HasOne("ScuffedWebstore.Core.src.Entities.Product", null)
+                        .WithMany("CartItems")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_cart_items_products_product_id");
+
+                    b.HasOne("ScuffedWebstore.Core.src.Entities.User", null)
+                        .WithMany("CartItems")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_cart_items_users_user_id");
                 });
 
             modelBuilder.Entity("ScuffedWebstore.Core.src.Entities.Image", b =>
@@ -430,6 +491,8 @@ namespace ScuffedWebstore.Framework.Migrations
 
             modelBuilder.Entity("ScuffedWebstore.Core.src.Entities.Product", b =>
                 {
+                    b.Navigation("CartItems");
+
                     b.Navigation("Images");
 
                     b.Navigation("OrderProducts");
@@ -440,6 +503,8 @@ namespace ScuffedWebstore.Framework.Migrations
             modelBuilder.Entity("ScuffedWebstore.Core.src.Entities.User", b =>
                 {
                     b.Navigation("Addresses");
+
+                    b.Navigation("CartItems");
 
                     b.Navigation("Orders");
 

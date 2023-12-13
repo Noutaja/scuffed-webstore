@@ -27,10 +27,14 @@ public class UserRepo : IUserRepo
 
     public bool DeleteOne(Guid id)
     {
-        throw new NotImplementedException();
+        User? u = GetOneById(id);
+        if (u == null) return false;
+
+        _users.Remove(u);
+        return true;
     }
 
-    public IEnumerable<User> GetAll(GetAllUsersParams options)
+    public IEnumerable<User> GetAll(GetAllParams options)
     {
         return _users.Where(u => u.FirstName.Contains(options.Search)).Skip(options.Offset).Take(options.Limit);
     }
@@ -38,6 +42,11 @@ public class UserRepo : IUserRepo
     public User? GetOneById(Guid id)
     {
         return _users.FirstOrDefault(u => u.ID == id);
+    }
+
+    public User? GetOneByEmail(string email)
+    {
+        return _users.FirstOrDefault(u => u.Email == email);
     }
 
     public User UpdateOne(User user)

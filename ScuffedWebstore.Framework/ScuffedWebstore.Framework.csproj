@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ScuffedWebstore.Core\ScuffedWebstore.Core.csproj" />
     <ProjectReference Include="..\ScuffedWebstore.Service\ScuffedWebstore.Service.csproj" />
+    <ProjectReference Include="..\ScuffedWebstore.Controller\ScuffedWebstore.Controller.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,11 +2,7 @@ using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Core.src.Parameters;
 
 namespace ScuffedWebstore.Core.src.Abstractions;
-public interface IUserRepo
+public interface IUserRepo : IBaseRepo<User>
 {
-    IEnumerable<User> GetAll(GetAllUsersParams options);
-    User? GetOneById(Guid id);
-    User CreateOne(User user);
-    User UpdateOne(User user);
-    bool DeleteOne(Guid id);
+    public User? GetOneByEmail(string email);
 }

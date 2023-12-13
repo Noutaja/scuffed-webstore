@@ -11,5 +11,5 @@ public class Product : BaseEntity
     public IEnumerable<Image> Images { get; set; }
     public IEnumerable<Review> Reviews { get; set; }
     public IEnumerable<OrderProduct> OrderProducts { get; set; }
-
+    public IEnumerable<CartItem> CartItems { get; set; }
 }

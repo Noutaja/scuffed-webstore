@@ -1,6 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using ScuffedWebstore.Core.src.Abstractions;
 using ScuffedWebstore.Framework.Middleware;
 using ScuffedWebstore.Framework.src.Database;
+using ScuffedWebstore.Framework.src.Repositories;
+using ScuffedWebstore.Service.src.Abstractions;
+using ScuffedWebstore.Service.src.Services;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +14,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepo, UserRepo>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddTransient<ExceptionHandlerMiddleware>();
 

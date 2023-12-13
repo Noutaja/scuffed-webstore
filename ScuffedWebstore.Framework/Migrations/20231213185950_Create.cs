@@ -58,7 +58,8 @@ namespace ScuffedWebstore.Framework.Migrations
                     first_name = table.Column<string>(type: "text", nullable: false),
                     last_name = table.Column<string>(type: "text", nullable: false),
                     email = table.Column<string>(type: "text", nullable: false),
-                    password = table.Column<string>(type: "text", nullable: false),
+                    password = table.Column<byte[]>(type: "bytea", nullable: false),
+                    salt = table.Column<byte[]>(type: "bytea", nullable: false),
                     avatar = table.Column<string>(type: "text", nullable: false),
                     role = table.Column<UserRole>(type: "user_role", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -108,6 +109,34 @@ namespace ScuffedWebstore.Framework.Migrations
                     table.PrimaryKey("pk_addresses", x => x.id);
                     table.ForeignKey(
                         name: "fk_addresses_users_user_id",
+                        column: x => x.user_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "cart_items",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    product_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    amount = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_cart_items", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_cart_items_products_product_id",
+                        column: x => x.product_id,
+                        principalTable: "products",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "fk_cart_items_users_user_id",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
@@ -201,6 +230,16 @@ namespace ScuffedWebstore.Framework.Migrations
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
+                name: "ix_cart_items_product_id",
+                table: "cart_items",
+                column: "product_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_cart_items_user_id",
+                table: "cart_items",
+                column: "user_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_images_product_id",
                 table: "images",
                 column: "product_id");
@@ -236,6 +275,9 @@ namespace ScuffedWebstore.Framework.Migrations
         {
             migrationBuilder.DropTable(
                 name: "addresses");
+
+            migrationBuilder.DropTable(
+                name: "cart_items");
 
             migrationBuilder.DropTable(
                 name: "categories");

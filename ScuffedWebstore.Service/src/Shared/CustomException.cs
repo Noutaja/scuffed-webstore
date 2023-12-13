@@ -18,5 +18,10 @@ namespace ScuffedWebstore.Service.src.Shared
         {
             return new CustomException(404, msg);
         }
+
+        public static CustomException InvalidPassword(string msg = "Password does not match")
+        {
+            return new CustomException(401, msg);
+        }
     }
 }
