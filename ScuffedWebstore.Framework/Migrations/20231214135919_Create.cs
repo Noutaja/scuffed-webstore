@@ -129,6 +129,7 @@ namespace ScuffedWebstore.Framework.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_cart_items", x => x.id);
+                    table.CheckConstraint("CK_CartItem_Amount_Positive", "amount>=0");
                     table.ForeignKey(
                         name: "fk_cart_items_products_product_id",
                         column: x => x.product_id,
@@ -209,6 +210,7 @@ namespace ScuffedWebstore.Framework.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_order_products", x => x.id);
+                    table.CheckConstraint("CK_OrderProduct_Amount_Positive", "amount>=0");
                     table.CheckConstraint("CK_OrderProduct_Price_Positive", "price>=0");
                     table.ForeignKey(
                         name: "fk_order_products_orders_order_id",
@@ -268,6 +270,12 @@ namespace ScuffedWebstore.Framework.Migrations
                 name: "ix_reviews_user_id",
                 table: "reviews",
                 column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_users_email",
+                table: "users",
+                column: "email",
+                unique: true);
         }
 
         /// <inheritdoc />

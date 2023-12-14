@@ -10,13 +10,9 @@ namespace ScuffedWebstore.Service.src.Abstractions
     public interface IUserService
     {
         public UserReadDTO CreateOne(UserCreateDTO user);
-
         public bool DeleteOne(Guid id);
-
         public IEnumerable<UserReadDTO> GetAll(GetAllParams options);
-
         public UserReadDTO? GetOneById(Guid id);
-
         public UserReadDTO UpdateOne(Guid id, UserUpdateDTO user);
     }
 }

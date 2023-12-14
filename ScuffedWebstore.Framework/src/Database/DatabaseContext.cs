@@ -46,12 +46,17 @@ public class DatabaseContext : DbContext
     {
         modelBuilder.HasPostgresEnum<UserRole>();
         modelBuilder.Entity<User>(entity => entity.Property(e => e.Role).HasColumnType("user_role"));
+        modelBuilder.Entity<User>(entity => entity.HasIndex(e => e.Email).IsUnique());
 
         modelBuilder.HasPostgresEnum<OrderStatus>();
         modelBuilder.Entity<Order>(entity => entity.Property(e => e.Status).HasColumnType("order_status"));
 
         modelBuilder.Entity<Product>().ToTable(p => p.HasCheckConstraint("CK_Product_Price_Positive", "price>=0"));
+
         modelBuilder.Entity<OrderProduct>().ToTable(p => p.HasCheckConstraint("CK_OrderProduct_Price_Positive", "price>=0"));
+        modelBuilder.Entity<OrderProduct>().ToTable(p => p.HasCheckConstraint("CK_OrderProduct_Amount_Positive", "amount>=0"));
+
+        modelBuilder.Entity<CartItem>().ToTable(p => p.HasCheckConstraint("CK_CartItem_Amount_Positive", "amount>=0"));
         base.OnModelCreating(modelBuilder);
     }
 }

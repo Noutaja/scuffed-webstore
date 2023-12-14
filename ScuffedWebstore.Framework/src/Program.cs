@@ -3,6 +3,7 @@ using ScuffedWebstore.Core.src.Abstractions;
 using ScuffedWebstore.Framework.Middleware;
 using ScuffedWebstore.Framework.src.Database;
 using ScuffedWebstore.Framework.src.Repositories;
+using ScuffedWebstore.Framework.src.Services;
 using ScuffedWebstore.Service.src.Abstractions;
 using ScuffedWebstore.Service.src.Services;
 
@@ -18,6 +19,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddTransient<ExceptionHandlerMiddleware>();
 

@@ -109,7 +109,10 @@ namespace ScuffedWebstore.Framework.Migrations
                     b.HasIndex("UserID")
                         .HasDatabaseName("ix_cart_items_user_id");
 
-                    b.ToTable("cart_items", (string)null);
+                    b.ToTable("cart_items", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_CartItem_Amount_Positive", "amount>=0");
+                        });
                 });
 
             modelBuilder.Entity("ScuffedWebstore.Core.src.Entities.Category", b =>
@@ -254,6 +257,8 @@ namespace ScuffedWebstore.Framework.Migrations
 
                     b.ToTable("order_products", null, t =>
                         {
+                            t.HasCheckConstraint("CK_OrderProduct_Amount_Positive", "amount>=0");
+
                             t.HasCheckConstraint("CK_OrderProduct_Price_Positive", "price>=0");
                         });
                 });
@@ -399,6 +404,10 @@ namespace ScuffedWebstore.Framework.Migrations
 
                     b.HasKey("ID")
                         .HasName("pk_users");
+
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasDatabaseName("ix_users_email");
 
                     b.ToTable("users", (string)null);
                 });

@@ -7,10 +7,12 @@ namespace ScuffedWebstore.Service.src.Services;
 public class AuthService : IAuthService
 {
     private IUserRepo _userRepo;
+    private ITokenService _tokenService;
 
-    public AuthService(IUserRepo userRepo)
+    public AuthService(IUserRepo userRepo, ITokenService tokenService)
     {
         _userRepo = userRepo;
+        _tokenService = tokenService;
     }
 
     public string Login(string email, string password)
@@ -18,7 +20,8 @@ public class AuthService : IAuthService
         User? u = _userRepo.GetOneByEmail(email);
         if (u == null) throw CustomException.NotFoundException("User not found");
 
-        if (!PasswordHandler.VerifyPassword(password, u.Password, u.Salt)) return "token here";
+        if (!PasswordHandler.VerifyPassword(password, u.Password, u.Salt)) return _tokenService.GenerateToken(u);
+
         throw CustomException.InvalidPassword();
     }
 }

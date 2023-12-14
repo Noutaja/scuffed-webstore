@@ -3,6 +3,7 @@ using ScuffedWebstore.Core.src.Abstractions;
 using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Core.src.Parameters;
 using ScuffedWebstore.Framework.src.Database;
+using ScuffedWebstore.Service.src.Shared;
 
 namespace ScuffedWebstore.Framework.src.Repositories;
 public class UserRepo : IUserRepo
@@ -31,12 +32,13 @@ public class UserRepo : IUserRepo
         if (u == null) return false;
 
         _users.Remove(u);
+        _database.SaveChanges();
         return true;
     }
 
     public IEnumerable<User> GetAll(GetAllParams options)
     {
-        return _users.Where(u => u.FirstName.Contains(options.Search)).Skip(options.Offset).Take(options.Limit);
+        return _users.Where(u => (u.FirstName + " " + u.LastName).Contains(options.Search)).Skip(options.Offset).Take(options.Limit);
     }
 
     public User? GetOneById(Guid id)
@@ -51,6 +53,11 @@ public class UserRepo : IUserRepo
 
     public User UpdateOne(User user)
     {
-        throw new NotImplementedException();
+        User? u = GetOneById(user.ID);
+        if (u == null) throw CustomException.NotFoundException("User not found");
+
+        _users.Update(user);
+        _database.SaveChanges();
+        return u;
     }
 }

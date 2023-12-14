@@ -32,7 +32,6 @@ public class UserCreateDTO
     public string Email { get; set; }
     public string Avatar { get; set; }
     public string Password { get; set; }
-    public UserRole Role { get; set; } = UserRole.Normal;
 
     public User Transform()
     {
@@ -43,17 +42,17 @@ public class UserCreateDTO
             LastName = this.LastName,
             Email = this.Email,
             Avatar = this.Avatar,
-            Role = this.Role,
+            Role = UserRole.Normal
         };
     }
 }
 
 public class UserUpdateDTO
 {
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Email { get; set; }
-    public string Avatar { get; set; }
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+    public string? Email { get; set; }
+    public string? Avatar { get; set; }
 
     public User ApplyTo(User user)
     {
