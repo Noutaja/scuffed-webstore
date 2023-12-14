@@ -34,7 +34,7 @@ namespace ScuffedWebstore.Framework.src.Services
                 SigningCredentials = signingKey
             };
             SecurityToken? token = tokenHandler.CreateToken(descriptor);
-            return token.ToString()!;
+            return tokenHandler.WriteToken(token);
         }
     }
 }
