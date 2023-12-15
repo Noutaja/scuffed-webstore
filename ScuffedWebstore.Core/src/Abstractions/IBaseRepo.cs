@@ -1,17 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Core.src.Parameters;
 
-namespace ScuffedWebstore.Core.src.Abstractions
+namespace ScuffedWebstore.Core.src.Abstractions;
+public interface IBaseRepo<T> where T : BaseEntity
 {
-    public interface IBaseRepo<T> where T : BaseEntity
-    {
-        IEnumerable<T> GetAll(GetAllParams options);
-        T? GetOneById(Guid id);
-        T CreateOne(T user);
-        T UpdateOne(T user);
-        bool DeleteOne(Guid id);
-    }
+    IEnumerable<T> GetAll(GetAllParams options);
+    T? GetOneById(Guid id);
+    T CreateOne(T createObject);
+    T UpdateOne(T updateObject);
+    bool DeleteOne(Guid id);
 }

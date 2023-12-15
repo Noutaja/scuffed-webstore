@@ -1,7 +1,7 @@
 using ScuffedWebstore.Core.src.Entities;
 
 namespace ScuffedWebstore.Core.src.Abstractions;
-public interface IUserRepo : IBaseRepo<User>
+public interface IAddressRepo : IBaseRepo<Address>
 {
-    public User? GetOneByEmail(string email);
+
 }

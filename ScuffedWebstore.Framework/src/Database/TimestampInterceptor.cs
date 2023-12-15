@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using ScuffedWebstore.Core.src.Abstractions;
+using ScuffedWebstore.Core.src.Entities;
 
 namespace ScuffedWebstore.Framework.src.Database;
 public class TimestampInterceptor : SaveChangesInterceptor

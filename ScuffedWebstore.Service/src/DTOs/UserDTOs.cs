@@ -10,6 +10,7 @@ public class UserReadDTO
     public string Email { get; set; }
     public string Avatar { get; set; }
     public UserRole Role { get; set; }
+    public IEnumerable<CartItem> Cart { get; set; }
 
     public UserReadDTO Convert(User user)
     {
@@ -20,7 +21,8 @@ public class UserReadDTO
             LastName = user.LastName,
             Email = user.Email,
             Avatar = user.Avatar,
-            Role = user.Role
+            Role = user.Role,
+            Cart = user.CartItems
         };
     }
 }

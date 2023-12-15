@@ -1,4 +1,4 @@
-namespace ScuffedWebstore.Core.src.Abstractions;
+namespace ScuffedWebstore.Core.src.Entities;
 public abstract class BaseEntity
 {
     public Guid ID { get; set; }

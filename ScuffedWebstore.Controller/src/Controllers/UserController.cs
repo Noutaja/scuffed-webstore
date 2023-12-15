@@ -7,7 +7,7 @@ using ScuffedWebstore.Service.src.DTOs;
 namespace ScuffedWebstore.Controller.src.Controllers;
 [ApiController]
 [Route("api/v1/[controller]s")]
-[Authorize(Roles = "Admin")]
+//[Authorize(Roles = "Admin")]
 public class UserController : ControllerBase
 {
     private IUserService _userService;
@@ -30,6 +30,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost()]
+    [AllowAnonymous]
     public ActionResult<UserReadDTO> CreateOne([FromBody] UserCreateDTO userCreateDto)
     {
         return CreatedAtAction(nameof(CreateOne), _userService.CreateOne(userCreateDto));

@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ScuffedWebstore.Core.src.Entities;
+using Microsoft.Extensions.Primitives;
 using ScuffedWebstore.Service.src.Abstractions;
 using ScuffedWebstore.Service.src.DTOs;
 using ScuffedWebstore.Service.src.Shared;
@@ -33,10 +33,10 @@ public class AuthController : ControllerBase
     [Authorize]
     public ActionResult<UserReadDTO> GetProfile()
     {
-        Request.Headers.TryGetValue("Authorization", out var token);
+        Request.Headers.TryGetValue("Authorization", out StringValues token);
         JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
         JwtSecurityToken? jwtToken = handler.ReadJwtToken(token.ToString().Replace("Bearer ", string.Empty));
-        var id = jwtToken.Claims.FirstOrDefault(c => c.Type == "nameid").Value;
+        string id = jwtToken.Claims.FirstOrDefault(c => c.Type == "nameid").Value;
         return _authService.GetProfile(id);
     }
 }
