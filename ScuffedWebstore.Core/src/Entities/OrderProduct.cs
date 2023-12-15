@@ -1,5 +1,3 @@
-using ScuffedWebstore.Core.src.Abstractions;
-
 namespace ScuffedWebstore.Core.src.Entities;
 public class OrderProduct : BaseEntity
 {
