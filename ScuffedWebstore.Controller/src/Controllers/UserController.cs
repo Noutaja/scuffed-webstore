@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ScuffedWebstore.Core.src.Parameters;
 using ScuffedWebstore.Service.src.Abstractions;
@@ -6,6 +7,7 @@ using ScuffedWebstore.Service.src.DTOs;
 namespace ScuffedWebstore.Controller.src.Controllers;
 [ApiController]
 [Route("api/v1/[controller]s")]
+[Authorize(Roles = "Admin")]
 public class UserController : ControllerBase
 {
     private IUserService _userService;

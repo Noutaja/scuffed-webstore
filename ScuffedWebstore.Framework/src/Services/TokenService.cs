@@ -35,6 +35,7 @@ namespace ScuffedWebstore.Framework.src.Services
             };
             SecurityToken? token = tokenHandler.CreateToken(descriptor);
             return tokenHandler.WriteToken(token);
+            //return token.ToString()!;
         }
     }
 }

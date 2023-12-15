@@ -1,10 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using ScuffedWebstore.Service.src.DTOs;
 
 namespace ScuffedWebstore.Service.src.Abstractions;
 public interface IAuthService
 {
     public string Login(string email, string password);
+    public UserReadDTO GetProfile(string id);
 }

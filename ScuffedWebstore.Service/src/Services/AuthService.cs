@@ -1,6 +1,7 @@
 using ScuffedWebstore.Core.src.Abstractions;
 using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Service.src.Abstractions;
+using ScuffedWebstore.Service.src.DTOs;
 using ScuffedWebstore.Service.src.Shared;
 
 namespace ScuffedWebstore.Service.src.Services;
@@ -23,5 +24,11 @@ public class AuthService : IAuthService
         if (!PasswordHandler.VerifyPassword(password, u.Password, u.Salt)) return _tokenService.GenerateToken(u);
 
         throw CustomException.InvalidPassword();
+    }
+
+    public UserReadDTO GetProfile(string id)
+    {
+        Guid g = new Guid(id.ToString());
+        return new UserReadDTO().Convert(_userRepo.GetOneById(g));
     }
 }
