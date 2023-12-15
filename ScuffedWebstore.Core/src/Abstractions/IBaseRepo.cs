@@ -4,9 +4,9 @@ using ScuffedWebstore.Core.src.Parameters;
 namespace ScuffedWebstore.Core.src.Abstractions;
 public interface IBaseRepo<T> where T : BaseEntity
 {
-    IEnumerable<T> GetAll(GetAllParams options);
-    T? GetOneById(Guid id);
-    T CreateOne(T createObject);
-    T UpdateOne(T updateObject);
-    bool DeleteOne(Guid id);
+    public IEnumerable<T> GetAll(GetAllParams options);
+    public T? GetOneById(Guid id);
+    public T CreateOne(T createObject);
+    public T UpdateOne(T updateObject);
+    public bool DeleteOne(Guid id);
 }

@@ -6,11 +6,11 @@ using ScuffedWebstore.Core.src.Parameters;
 using ScuffedWebstore.Service.src.DTOs;
 
 namespace ScuffedWebstore.Service.src.Abstractions;
-public interface IUserService
+public interface IOrderService
 {
-    public UserReadDTO CreateOne(UserCreateDTO user);
+    public OrderReadDTO CreateOne(OrderCreateDTO address);
     public bool DeleteOne(Guid id);
-    public IEnumerable<UserReadDTO> GetAll(GetAllParams options);
-    public UserReadDTO? GetOneById(Guid id);
-    public UserReadDTO UpdateOne(Guid id, UserUpdateDTO user);
+    public IEnumerable<OrderReadDTO> GetAll(GetAllParams options);
+    public OrderReadDTO? GetOneById(Guid id);
+    public OrderReadDTO UpdateOne(Guid id, OrderUpdateDTO address);
 }
