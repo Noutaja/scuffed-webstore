@@ -1,13 +1,8 @@
-using ScuffedWebstore.Core.src.Parameters;
+using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Service.src.DTOs;
 
 namespace ScuffedWebstore.Service.src.Abstractions;
-public interface IAddressService
+public interface IAddressService : IBaseService<Address, AddressReadDTO, AddressCreateDTO, AddressUpdateDTO>
 {
-    public AddressReadDTO CreateOne(AddressCreateDTO address);
-    public bool DeleteOne(Guid id);
-    public IEnumerable<AddressReadDTO> GetAll(GetAllParams options);
-    public AddressReadDTO? GetOneById(Guid id);
-    public AddressReadDTO UpdateOne(Guid id, AddressUpdateDTO address);
 
 }

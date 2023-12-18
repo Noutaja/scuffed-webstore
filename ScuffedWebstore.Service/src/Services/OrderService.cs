@@ -1,32 +1,13 @@
-using ScuffedWebstore.Core.src.Parameters;
+using AutoMapper;
+using ScuffedWebstore.Core.src.Abstractions;
+using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Service.src.Abstractions;
 using ScuffedWebstore.Service.src.DTOs;
 
 namespace ScuffedWebstore.Service.src.Services;
-public class OrderService : IOrderService
+public class OrderService : BaseService<Order, OrderReadDTO, OrderCreateDTO, OrderUpdateDTO>, IOrderService
 {
-    public OrderReadDTO CreateOne(OrderCreateDTO address)
+    public OrderService(IBaseRepo<Order> repo, IMapper mapper) : base(repo, mapper)
     {
-        throw new NotImplementedException();
-    }
-
-    public bool DeleteOne(Guid id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IEnumerable<OrderReadDTO> GetAll(GetAllParams options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public OrderReadDTO? GetOneById(Guid id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public OrderReadDTO UpdateOne(Guid id, OrderUpdateDTO address)
-    {
-        throw new NotImplementedException();
     }
 }

@@ -1,12 +1,9 @@
+using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Core.src.Parameters;
 using ScuffedWebstore.Service.src.DTOs;
 
 namespace ScuffedWebstore.Service.src.Abstractions;
-public interface ICategoryService
+public interface ICategoryService : IBaseService<Category, CategoryReadDTO, CategoryCreateDTO, CategoryUpdateDTO>
 {
-    public CategoryReadDTO CreateOne(CategoryCreateDTO address);
-    public bool DeleteOne(Guid id);
-    public IEnumerable<CategoryReadDTO> GetAll(GetAllParams options);
-    public CategoryReadDTO? GetOneById(Guid id);
-    public CategoryReadDTO UpdateOne(Guid id, CategoryUpdateDTO address);
+
 }

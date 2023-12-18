@@ -22,27 +22,10 @@ public class CategoryCreateDTO
 {
     public string Name { get; set; }
     public string Url { get; set; }
-
-    public Category Transform()
-    {
-        return new Category
-        {
-            ID = new Guid(),
-            Name = this.Name,
-            Url = this.Url
-        };
-    }
 }
 
 public class CategoryUpdateDTO
 {
     public string? Name { get; set; }
     public string? Url { get; set; }
-
-    public Category ApplyTo(Category category)
-    {
-        if (!string.IsNullOrEmpty(this.Name)) category.Name = this.Name;
-        if (!string.IsNullOrEmpty(this.Url)) category.Url = this.Url;
-        return category;
-    }
 }
