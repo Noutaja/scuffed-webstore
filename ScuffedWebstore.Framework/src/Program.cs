@@ -9,6 +9,7 @@ using ScuffedWebstore.Framework.src.Repositories;
 using ScuffedWebstore.Framework.src.Services;
 using ScuffedWebstore.Service.src.Abstractions;
 using ScuffedWebstore.Service.src.Services;
+using ScuffedWebstore.Service.src.Shared;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -44,7 +45,10 @@ builder.Services.AddTransient<ExceptionHandlerMiddleware>();
 
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql());
 
+builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
+
 WebApplication app = builder.Build();
+
 
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 

@@ -1,3 +1,4 @@
+using AutoMapper;
 using ScuffedWebstore.Core.src.Abstractions;
 using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Service.src.Abstractions;
@@ -9,11 +10,13 @@ public class AuthService : IAuthService
 {
     private IUserRepo _userRepo;
     private ITokenService _tokenService;
+    private IMapper _mapper;
 
-    public AuthService(IUserRepo userRepo, ITokenService tokenService)
+    public AuthService(IUserRepo userRepo, ITokenService tokenService, IMapper mapper)
     {
         _userRepo = userRepo;
         _tokenService = tokenService;
+        _mapper = mapper;
     }
 
     public string Login(string email, string password)
@@ -29,6 +32,6 @@ public class AuthService : IAuthService
     public UserReadDTO GetProfile(string id)
     {
         Guid g = new Guid(id.ToString());
-        return new UserReadDTO().Convert(_userRepo.GetOneById(g));
+        return _mapper.Map<User?, UserReadDTO>(_userRepo.GetOneById(g));
     }
 }

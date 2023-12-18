@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using ScuffedWebstore.Core.src.Abstractions;
 using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Core.src.Parameters;
@@ -43,11 +44,8 @@ public abstract class BaseRepo<T> : IBaseRepo<T> where T : BaseEntity
 
     public virtual T UpdateOne(T updateObject)
     {
-        T? t = GetOneById(updateObject.ID);
-        if (t == null) throw CustomException.NotFoundException("Not found");
-
         _data.Update(updateObject);
         _database.SaveChanges();
-        return t;
+        return updateObject;
     }
 }
