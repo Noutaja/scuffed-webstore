@@ -7,7 +7,7 @@ using ScuffedWebstore.Service.src.DTOs;
 namespace ScuffedWebstore.Service.src.Services;
 public class OrderService : BaseService<Order, OrderReadDTO, OrderCreateDTO, OrderUpdateDTO>, IOrderService
 {
-    public OrderService(IBaseRepo<Order> repo, IMapper mapper) : base(repo, mapper)
+    public OrderService(IOrderRepo repo, IMapper mapper) : base(repo, mapper)
     {
     }
 }

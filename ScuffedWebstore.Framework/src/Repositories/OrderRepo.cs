@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using ScuffedWebstore.Core.src.Abstractions;
 using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Core.src.Parameters;
@@ -12,6 +13,6 @@ public class OrderRepo : BaseRepo<Order>, IOrderRepo
 
     public override IEnumerable<Order> GetAll(GetAllParams options)
     {
-        return _data.Skip(options.Offset).Take(options.Limit);
+        return _data.AsNoTracking().Skip(options.Offset).Take(options.Limit);
     }
 }

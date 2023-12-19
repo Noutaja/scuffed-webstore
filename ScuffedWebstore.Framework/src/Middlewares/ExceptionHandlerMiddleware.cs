@@ -1,29 +1,23 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ScuffedWebstore.Service.src.Shared;
 
-namespace ScuffedWebstore.Framework.Middleware
+namespace ScuffedWebstore.Framework.Middleware;
+public class ExceptionHandlerMiddleware : IMiddleware
 {
-    public class ExceptionHandlerMiddleware : IMiddleware
+    public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+        try
         {
-            try
-            {
-                await next(context); // to pass the question to the next handler
-            }
-            catch (CustomException e)
-            {
-                context.Response.StatusCode = e.StatusCode;
-                await context.Response.WriteAsync(e.Message);
-            }
-            catch (Exception e)
-            {
-                context.Response.StatusCode = 500;
-                await context.Response.WriteAsync(e.Message);
-            }
+            await next(context);
+        }
+        catch (CustomException e)
+        {
+            context.Response.StatusCode = e.StatusCode;
+            await context.Response.WriteAsync(e.Message);
+        }
+        catch (Exception e)
+        {
+            context.Response.StatusCode = 500;
+            await context.Response.WriteAsync(e.Message);
         }
     }
 }

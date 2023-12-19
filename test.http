@@ -2,7 +2,6 @@
 GET http://localhost:5157/api/v1/users HTTP/1.1
 content-type: application/json
 
-
 {}
 
 ###
@@ -14,6 +13,7 @@ content-type: application/json
   "email": "a@b.com",
   "password": "string"
 }
+
 ###
 
 GET http://localhost:5157/api/v1/auth/profile HTTP/1.1
@@ -21,4 +21,12 @@ content-type: application/json
 Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJjM2RiYzM3ZS1lMWNmLTRjNDMtYTA1Zi03NWVlOTk4Mjk5YzIiLCJyb2xlIjoiTm9ybWFsIiwibmJmIjoxNzAyNjQxNDQ4LCJleHAiOjE3MDI4MTQyNDgsImlhdCI6MTcwMjY0MTQ0OCwiaXNzIjoiTm91dGFqYSIsImF1ZCI6Ik5vdXRhamFTY3VmZmVkV2Vic3RvcmUifQ.CdLobmMnsK1195N2FC0muuHH7lewXHpd1Np5Ti1eh_g
 
 {}
+
+###
+
+GET http://localhost:5157/api/v1/addresss HTTP/1.1
+content-type: application/json
+
+{}
+
 ###

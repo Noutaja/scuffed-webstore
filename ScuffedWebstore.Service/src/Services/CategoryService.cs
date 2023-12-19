@@ -8,7 +8,7 @@ using ScuffedWebstore.Service.src.DTOs;
 namespace ScuffedWebstore.Service.src.Services;
 public class CategoryService : BaseService<Category, CategoryReadDTO, CategoryCreateDTO, CategoryUpdateDTO>, ICategoryService
 {
-    public CategoryService(IBaseRepo<Category> repo, IMapper mapper) : base(repo, mapper)
+    public CategoryService(ICategoryRepo repo, IMapper mapper) : base(repo, mapper)
     {
     }
 }

@@ -8,7 +8,7 @@ using ScuffedWebstore.Service.src.DTOs;
 namespace ScuffedWebstore.Service.src.Services;
 public class ImageService : BaseService<Image, ImageReadDTO, ImageCreateDTO, ImageUpdateDTO>, IImageService
 {
-    public ImageService(IBaseRepo<Image> repo, IMapper mapper) : base(repo, mapper)
+    public ImageService(IImageRepo repo, IMapper mapper) : base(repo, mapper)
     {
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using ScuffedWebstore.Core.src.Abstractions;
 using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Core.src.Parameters;
@@ -16,6 +17,6 @@ public class ImageRepo : BaseRepo<Image>, IImageRepo
 
     public override IEnumerable<Image> GetAll(GetAllParams options)
     {
-        return _data.Skip(options.Offset).Take(options.Limit);
+        return _data.AsNoTracking().Skip(options.Offset).Take(options.Limit);
     }
 }

@@ -8,7 +8,7 @@ using ScuffedWebstore.Service.src.DTOs;
 namespace ScuffedWebstore.Service.src.Services;
 public class ProductService : BaseService<Product, ProductReadDTO, ProductCreateDTO, ProductUpdateDTO>, IProductService
 {
-    public ProductService(IBaseRepo<Product> repo, IMapper mapper) : base(repo, mapper)
+    public ProductService(IProductRepo repo, IMapper mapper) : base(repo, mapper)
     {
     }
 }

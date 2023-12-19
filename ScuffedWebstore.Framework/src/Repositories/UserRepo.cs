@@ -13,11 +13,11 @@ public class UserRepo : BaseRepo<User>, IUserRepo
 
     public override IEnumerable<User> GetAll(GetAllParams options)
     {
-        return _data.Where(u => (u.FirstName + " " + u.LastName).Contains(options.Search)).Skip(options.Offset).Take(options.Limit);
+        return _data.AsNoTracking().Where(u => (u.FirstName + " " + u.LastName).Contains(options.Search)).Skip(options.Offset).Take(options.Limit);
     }
 
     public User? GetOneByEmail(string email)
     {
-        return _data.FirstOrDefault(u => u.Email == email);
+        return _data.AsNoTracking().FirstOrDefault(u => u.Email == email);
     }
 }

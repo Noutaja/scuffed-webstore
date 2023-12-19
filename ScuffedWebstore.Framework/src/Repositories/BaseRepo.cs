@@ -39,7 +39,7 @@ public abstract class BaseRepo<T> : IBaseRepo<T> where T : BaseEntity
 
     public virtual T? GetOneById(Guid id)
     {
-        return _data.FirstOrDefault(t => t.ID == id);
+        return _data.AsNoTracking().FirstOrDefault(t => t.ID == id);
     }
 
     public virtual T UpdateOne(T updateObject)

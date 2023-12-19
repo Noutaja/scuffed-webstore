@@ -7,7 +7,7 @@ using ScuffedWebstore.Service.src.DTOs;
 namespace ScuffedWebstore.Service.src.Services;
 public class AddressService : BaseService<Address, AddressReadDTO, AddressCreateDTO, AddressUpdateDTO>, IAddressService
 {
-    public AddressService(IBaseRepo<Address> repo, IMapper mapper) : base(repo, mapper)
+    public AddressService(IAddressRepo repo, IMapper mapper) : base(repo, mapper)
     {
     }
 }
