@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Core.src.Parameters;
@@ -6,6 +7,7 @@ using ScuffedWebstore.Service.src.Abstractions;
 namespace ScuffedWebstore.Controller.src.Controllers;
 [ApiController]
 [Route("api/v1/[controller]s")]
+[Authorize(Roles = "Admin")]
 public class BaseController<T, TReadDTO, TCreateDTO, TUpdateDTO> : ControllerBase where T : BaseEntity
 {
     protected IBaseService<T, TReadDTO, TCreateDTO, TUpdateDTO> _service;

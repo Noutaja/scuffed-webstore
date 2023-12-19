@@ -6,13 +6,17 @@ using ScuffedWebstore.Service.src.DTOs;
 
 namespace ScuffedWebstore.Controller.src.Controllers;
 
-//[Authorize(Roles = "Admin")]
 public class UserController : BaseController<User, UserReadDTO, UserCreateDTO, UserUpdateDTO>
 {
     public UserController(IUserService service) : base(service)
     {
     }
 
+    [AllowAnonymous]
+    public override ActionResult<UserReadDTO> CreateOne([FromBody] UserCreateDTO createObject)
+    {
+        return base.CreateOne(createObject);
+    }
     /* [HttpGet()]
     public ActionResult<IEnumerable<UserReadDTO>> GetAll([FromQuery] GetAllParams options)
     {
