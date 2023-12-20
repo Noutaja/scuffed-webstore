@@ -12,6 +12,7 @@ public class AddressReadDTO
 
 public class AddressCreateDTO
 {
+    public Guid UserID { get; set; }
     public string Street { get; set; }
     public string Zipcode { get; set; }
     public string City { get; set; }

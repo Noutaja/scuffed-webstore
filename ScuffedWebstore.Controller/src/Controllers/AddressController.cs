@@ -5,13 +5,13 @@ using ScuffedWebstore.Service.src.Abstractions;
 using ScuffedWebstore.Service.src.DTOs;
 
 namespace ScuffedWebstore.Controller.src.Controllers;
+[Route("api/v1/addresses")]
 public class AddressController : BaseController<Address, AddressReadDTO, AddressCreateDTO, AddressUpdateDTO>
 {
     public AddressController(IAddressService service) : base(service)
     {
     }
 
-    [Authorize]
     public override ActionResult<AddressReadDTO> CreateOne([FromBody] AddressCreateDTO createObject)
     {
         return base.CreateOne(createObject);

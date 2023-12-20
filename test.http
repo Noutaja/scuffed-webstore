@@ -1,8 +1,23 @@
 
 GET http://localhost:5157/api/v1/users HTTP/1.1
 content-type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5NzQzOC04OTgzLTRiY2EtYjExMS1kZjcwNjQzNTYwNmMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMwNjc3NDYsImV4cCI6MTcwMzI0MDU0NiwiaWF0IjoxNzAzMDY3NzQ2LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.2uSlwAehSplFQHXacy49rgKW2c5KoO2sCbXmlCYRNq4
 
 {}
+
+###
+
+POST http://localhost:5157/api/v1/users HTTP/1.1
+content-type: application/json
+
+{
+  "firstName": "Admin",
+  "lastName": "Man",
+  "email": "a@b.com",
+  "avatar": "string",
+  "password": "string",
+  "role": "Admin"
+}
 
 ###
 
@@ -18,7 +33,7 @@ content-type: application/json
 
 GET http://localhost:5157/api/v1/auth/profile HTTP/1.1
 content-type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJjM2RiYzM3ZS1lMWNmLTRjNDMtYTA1Zi03NWVlOTk4Mjk5YzIiLCJyb2xlIjoiTm9ybWFsIiwibmJmIjoxNzAyNjQxNDQ4LCJleHAiOjE3MDI4MTQyNDgsImlhdCI6MTcwMjY0MTQ0OCwiaXNzIjoiTm91dGFqYSIsImF1ZCI6Ik5vdXRhamFTY3VmZmVkV2Vic3RvcmUifQ.CdLobmMnsK1195N2FC0muuHH7lewXHpd1Np5Ti1eh_g
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5NzQzOC04OTgzLTRiY2EtYjExMS1kZjcwNjQzNTYwNmMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMwNjc3NDYsImV4cCI6MTcwMzI0MDU0NiwiaWF0IjoxNzAzMDY3NzQ2LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.2uSlwAehSplFQHXacy49rgKW2c5KoO2sCbXmlCYRNq4
 
 {}
 
@@ -28,5 +43,18 @@ GET http://localhost:5157/api/v1/addresss HTTP/1.1
 content-type: application/json
 
 {}
+
+###
+
+POST http://localhost:5157/api/v1/addresss HTTP/1.1
+content-type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5NzQzOC04OTgzLTRiY2EtYjExMS1kZjcwNjQzNTYwNmMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMwNjc3NDYsImV4cCI6MTcwMzI0MDU0NiwiaWF0IjoxNzAzMDY3NzQ2LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.2uSlwAehSplFQHXacy49rgKW2c5KoO2sCbXmlCYRNq4
+
+{
+  "street": "Some street",
+  "zipcode": "12345",
+  "city": "Some city",
+  "country": "Some country"
+}
 
 ###

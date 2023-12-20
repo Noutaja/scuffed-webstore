@@ -10,4 +10,6 @@ public class AddressService : BaseService<Address, AddressReadDTO, AddressCreate
     public AddressService(IAddressRepo repo, IMapper mapper) : base(repo, mapper)
     {
     }
+
+
 }

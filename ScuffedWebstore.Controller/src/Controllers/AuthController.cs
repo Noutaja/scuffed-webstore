@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
@@ -33,10 +34,29 @@ public class AuthController : ControllerBase
     [Authorize]
     public ActionResult<UserReadDTO> GetProfile()
     {
-        Request.Headers.TryGetValue("Authorization", out StringValues token);
-        JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
-        JwtSecurityToken? jwtToken = handler.ReadJwtToken(token.ToString().Replace("Bearer ", string.Empty));
-        string id = jwtToken.Claims.FirstOrDefault(c => c.Type == "nameid").Value;
-        return _authService.GetProfile(id);
+        return Ok(_authService.GetProfile(GetIdFromToken()));
+    }
+
+    [HttpDelete("profile/delete")]
+    [Authorize]
+    public ActionResult<bool> DeleteProfile()
+    {
+        _authService.DeleteProfile(GetIdFromToken());
+        return NoContent();
+    }
+
+    [HttpPatch("profile/password")]
+    [Authorize]
+    public ActionResult<bool> ChangePassword([FromBody] string password)
+    {
+        return Ok(_authService.ChangePassword(GetIdFromToken(), password));
+    }
+
+    private Guid GetIdFromToken()
+    {
+        ClaimsPrincipal claims = HttpContext.User;
+        string id = claims.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)!.Value;
+        Guid guid = new Guid(id);
+        return guid;
     }
 }

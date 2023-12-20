@@ -58,7 +58,7 @@ namespace ScuffedWebstore.Framework.Migrations
                     first_name = table.Column<string>(type: "text", nullable: false),
                     last_name = table.Column<string>(type: "text", nullable: false),
                     email = table.Column<string>(type: "text", nullable: false),
-                    password = table.Column<byte[]>(type: "bytea", nullable: false),
+                    password = table.Column<string>(type: "text", nullable: false),
                     salt = table.Column<byte[]>(type: "bytea", nullable: false),
                     avatar = table.Column<string>(type: "text", nullable: false),
                     role = table.Column<UserRole>(type: "user_role", nullable: false),
@@ -116,35 +116,6 @@ namespace ScuffedWebstore.Framework.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "cart_items",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    product_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    amount = table.Column<int>(type: "integer", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    updated_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_cart_items", x => x.id);
-                    table.CheckConstraint("CK_CartItem_Amount_Positive", "amount>=0");
-                    table.ForeignKey(
-                        name: "fk_cart_items_products_product_id",
-                        column: x => x.product_id,
-                        principalTable: "products",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "fk_cart_items_users_user_id",
-                        column: x => x.user_id,
-                        principalTable: "users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "orders",
                 columns: table => new
                 {
@@ -170,7 +141,6 @@ namespace ScuffedWebstore.Framework.Migrations
                 name: "reviews",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
                     review_text = table.Column<string>(type: "text", nullable: false),
@@ -180,7 +150,7 @@ namespace ScuffedWebstore.Framework.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_reviews", x => x.id);
+                    table.PrimaryKey("pk_reviews", x => new { x.product_id, x.user_id });
                     table.ForeignKey(
                         name: "fk_reviews_products_product_id",
                         column: x => x.product_id,
@@ -199,7 +169,6 @@ namespace ScuffedWebstore.Framework.Migrations
                 name: "order_products",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
                     order_id = table.Column<Guid>(type: "uuid", nullable: false),
                     amount = table.Column<int>(type: "integer", nullable: false),
@@ -209,7 +178,7 @@ namespace ScuffedWebstore.Framework.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_order_products", x => x.id);
+                    table.PrimaryKey("pk_order_products", x => new { x.product_id, x.order_id });
                     table.CheckConstraint("CK_OrderProduct_Amount_Positive", "amount>=0");
                     table.CheckConstraint("CK_OrderProduct_Price_Positive", "price>=0");
                     table.ForeignKey(
@@ -232,16 +201,6 @@ namespace ScuffedWebstore.Framework.Migrations
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_cart_items_product_id",
-                table: "cart_items",
-                column: "product_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_cart_items_user_id",
-                table: "cart_items",
-                column: "user_id");
-
-            migrationBuilder.CreateIndex(
                 name: "ix_images_product_id",
                 table: "images",
                 column: "product_id");
@@ -252,19 +211,9 @@ namespace ScuffedWebstore.Framework.Migrations
                 column: "order_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_order_products_product_id",
-                table: "order_products",
-                column: "product_id");
-
-            migrationBuilder.CreateIndex(
                 name: "ix_orders_user_id",
                 table: "orders",
                 column: "user_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_reviews_product_id",
-                table: "reviews",
-                column: "product_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_reviews_user_id",
@@ -283,9 +232,6 @@ namespace ScuffedWebstore.Framework.Migrations
         {
             migrationBuilder.DropTable(
                 name: "addresses");
-
-            migrationBuilder.DropTable(
-                name: "cart_items");
 
             migrationBuilder.DropTable(
                 name: "categories");

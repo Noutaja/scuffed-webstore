@@ -1,27 +1,24 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace ScuffedWebstore.Service.src.Shared
+namespace ScuffedWebstore.Service.src.Shared;
+public class PasswordHandler
 {
-    public class PasswordHandler
+    public static (byte[] salt, string password) HashPassword(string plainPassword)
     {
-        public static (byte[] salt, byte[] password) HashPassword(string plainPassword)
-        {
-            HMACSHA256 hmac = new HMACSHA256();
-            byte[] salt = hmac.Key;
-            byte[] hashedPassword = hmac.ComputeHash(Encoding.UTF8.GetBytes(plainPassword));
+        HMACSHA256 hmac = new HMACSHA256();
+        byte[] salt = hmac.Key;
+        string hashedPassword = BitConverter.ToString(hmac.ComputeHash(Encoding.UTF8.GetBytes(plainPassword)));
 
-            return (salt, hashedPassword);
-        }
+        return (salt, hashedPassword);
+    }
 
-        public static bool VerifyPassword(string plainPassword, byte[] hashedPassword, byte[] salt)
-        {
-            HMACSHA256 hmac = new HMACSHA256(salt);
-            return hmac.ComputeHash(Encoding.UTF8.GetBytes(plainPassword)) == hashedPassword;
-        }
+    public static bool VerifyPassword(string plainPassword, string hashedPassword, byte[] salt)
+    {
+        HMACSHA256 hmac = new HMACSHA256(salt);
+        Console.WriteLine(BitConverter.ToString(hmac.ComputeHash(Encoding.UTF8.GetBytes(plainPassword))));
+        Console.WriteLine(hashedPassword);
+        Console.WriteLine(BitConverter.ToString(hmac.ComputeHash(Encoding.UTF8.GetBytes(plainPassword))) == hashedPassword);
+        return BitConverter.ToString(hmac.ComputeHash(Encoding.UTF8.GetBytes(plainPassword))) == hashedPassword;
     }
 }

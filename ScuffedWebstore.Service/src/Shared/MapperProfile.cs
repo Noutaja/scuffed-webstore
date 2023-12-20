@@ -8,17 +8,35 @@ namespace ScuffedWebstore.Service.src.Shared
     {
         public MapperProfile()
         {
-            CreateMap<User, UserReadDTO>();
-            CreateMap<UserCreateDTO, User>();
+            CreateMap<User, UserReadDTO>()
+                .ForMember(dest => dest.Addresses,
+                    opt => opt.MapFrom(src => src.Addresses.Select(a =>
+                    new AddressReadDTO { Street = a.Street, City = a.City, Zipcode = a.Zipcode, Country = a.Country })));
+            CreateMap<UserCreateDTO, User>()
+                .ForMember(dest => dest.Password,
+                    opt => opt.Ignore());
             CreateMap<UserUpdateDTO, User>().ForAllMembers(opt => opt.Condition((src, dest, value) => value != null));
 
             CreateMap<Address, AddressReadDTO>();
             CreateMap<AddressCreateDTO, Address>();
             CreateMap<AddressUpdateDTO, Address>().ForAllMembers(opt => opt.Condition((src, dest, value) => value != null));
 
-            CreateMap<Product, ProductReadDTO>();
-            CreateMap<ProductCreateDTO, Product>();
-            CreateMap<ProductUpdateDTO, Product>().ForAllMembers(opt => opt.Condition((src, dest, value) => value != null));
+            CreateMap<Product, ProductReadDTO>()
+                .ForMember(dest => dest.Category,
+                    opt => opt.MapFrom(src => src.CategoryID))
+                .ForMember(dest => dest.Images,
+                    opt => opt.MapFrom(src => src.Images.Select(img => new ImageReadDTO { Url = img.Url, ID = img.ID, ProductID = img.ProductID })));
+            CreateMap<ProductCreateDTO, Product>()
+                .ForMember(dest => dest.CategoryID,
+                    opt => opt.MapFrom(src => src.CategoryID))
+                .ForMember(dest => dest.Images,
+                    opt => opt.MapFrom(src => src.Images.Select(img => new Image { Url = img.Url, ProductID = img.ProductID })));
+            CreateMap<ProductUpdateDTO, Product>()
+                .ForMember(dest => dest.CategoryID,
+                    opt => opt.MapFrom(src => src.CategoryID))
+                .ForMember(dest => dest.Images,
+                    opt => opt.MapFrom(src => src.Images))
+                .ForAllMembers(opt => opt.Condition((src, dest, value) => value != null));
 
             CreateMap<Image, ImageReadDTO>();
             CreateMap<ImageCreateDTO, Image>();
@@ -28,8 +46,12 @@ namespace ScuffedWebstore.Service.src.Shared
             CreateMap<CategoryCreateDTO, Category>();
             CreateMap<CategoryUpdateDTO, Category>().ForAllMembers(opt => opt.Condition((src, dest, value) => value != null));
 
-            CreateMap<Order, OrderReadDTO>();
-            CreateMap<OrderCreateDTO, Order>();
+            CreateMap<Order, OrderReadDTO>()
+                .ForMember(dest => dest.OrderProducts,
+                    opt => opt.MapFrom(src => src.OrderProducts));
+            CreateMap<OrderCreateDTO, Order>()
+                .ForMember(dest => dest.OrderProducts,
+                    opt => opt.MapFrom(src => src.OrderProducts));
             CreateMap<OrderUpdateDTO, Order>().ForAllMembers(opt => opt.Condition((src, dest, value) => value != null));
 
             CreateMap<OrderProduct, OrderProductReadDTO>();

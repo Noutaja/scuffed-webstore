@@ -1,5 +1,5 @@
 namespace ScuffedWebstore.Core.src.Entities;
-public class OrderProduct : BaseEntity
+public class OrderProduct : Timestamp
 {
     public Guid ProductID { get; set; }
     public Guid OrderID { get; set; }

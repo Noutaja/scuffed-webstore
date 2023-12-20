@@ -12,7 +12,7 @@ public class OrderReadDTO
     public Guid UserID { get; set; }
     public Guid AddressID { get; set; }
     public OrderStatus Status { get; set; }
-    public IEnumerable<OrderProduct> OrderProducts { get; set; }
+    public IEnumerable<OrderProductReadDTO> OrderProducts { get; set; }
 }
 
 public class OrderCreateDTO
@@ -20,7 +20,7 @@ public class OrderCreateDTO
     public Guid UserID { get; set; }
     public Guid AddressID { get; set; }
     public OrderStatus Status { get; set; }
-    public IEnumerable<OrderProduct> OrderProducts { get; set; }
+    public IEnumerable<OrderProductCreateDTO> OrderProducts { get; set; }
 }
 
 public class OrderUpdateDTO

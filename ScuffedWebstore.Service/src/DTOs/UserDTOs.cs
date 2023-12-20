@@ -10,7 +10,7 @@ public class UserReadDTO
     public string Email { get; set; }
     public string Avatar { get; set; }
     public UserRole Role { get; set; }
-    public IEnumerable<CartItem> Cart { get; set; }
+    public IEnumerable<AddressReadDTO> Addresses { get; set; }
 }
 
 public class UserCreateDTO
@@ -20,6 +20,7 @@ public class UserCreateDTO
     public string Email { get; set; }
     public string Avatar { get; set; }
     public string Password { get; set; }
+    public UserRole Role { get; set; } //is here for debugging purposes
 }
 
 public class UserUpdateDTO

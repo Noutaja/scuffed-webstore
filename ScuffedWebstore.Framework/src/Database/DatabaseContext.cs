@@ -16,7 +16,6 @@ public class DatabaseContext : DbContext
     public DbSet<Product> Products { get; set; }
     public DbSet<Review> Reviews { get; set; }
     public DbSet<User> Users { get; set; }
-    public DbSet<CartItem> CartItems { get; set; }
 
     static DatabaseContext()
     {
@@ -53,10 +52,12 @@ public class DatabaseContext : DbContext
 
         modelBuilder.Entity<Product>().ToTable(p => p.HasCheckConstraint("CK_Product_Price_Positive", "price>=0"));
 
+        modelBuilder.Entity<OrderProduct>().HasKey(entity => new { entity.ProductID, entity.OrderID });
         modelBuilder.Entity<OrderProduct>().ToTable(p => p.HasCheckConstraint("CK_OrderProduct_Price_Positive", "price>=0"));
         modelBuilder.Entity<OrderProduct>().ToTable(p => p.HasCheckConstraint("CK_OrderProduct_Amount_Positive", "amount>=0"));
 
-        modelBuilder.Entity<CartItem>().ToTable(p => p.HasCheckConstraint("CK_CartItem_Amount_Positive", "amount>=0"));
+        modelBuilder.Entity<Review>().HasKey(entity => new { entity.ProductID, entity.UserID });
+
         base.OnModelCreating(modelBuilder);
     }
 }

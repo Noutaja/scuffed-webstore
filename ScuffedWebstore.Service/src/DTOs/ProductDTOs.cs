@@ -8,8 +8,8 @@ public class ProductReadDTO
     public string Description { get; set; }
     public double Price { get; set; }
     public int Inventory { get; set; }
-    public Guid CategoryID { get; set; }
-    public IEnumerable<Image> Images { get; set; }
+    public CategoryReadDTO Category { get; set; }
+    public IEnumerable<ImageReadDTO> Images { get; set; }
 }
 
 public class ProductCreateDTO
@@ -19,7 +19,7 @@ public class ProductCreateDTO
     public double Price { get; set; }
     public int Inventory { get; set; }
     public Guid CategoryID { get; set; }
-    public IEnumerable<Image> Images { get; set; }
+    public IEnumerable<ImageCreateDTO> Images { get; set; }
 }
 
 public class ProductUpdateDTO
@@ -29,5 +29,5 @@ public class ProductUpdateDTO
     public double? Price { get; set; }
     public int? Inventory { get; set; }
     public Guid? CategoryID { get; set; }
-    public IEnumerable<Image>? Images { get; set; }
+    public IEnumerable<Guid>? Images { get; set; }
 }
