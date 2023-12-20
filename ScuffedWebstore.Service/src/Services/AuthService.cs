@@ -9,12 +9,14 @@ namespace ScuffedWebstore.Service.src.Services;
 public class AuthService : IAuthService
 {
     private IUserRepo _userRepo;
+    private IAddressRepo _addressRepo;
     private ITokenService _tokenService;
     private IMapper _mapper;
 
-    public AuthService(IUserRepo userRepo, ITokenService tokenService, IMapper mapper)
+    public AuthService(IUserRepo userRepo, IAddressRepo addressRepo, ITokenService tokenService, IMapper mapper)
     {
         _userRepo = userRepo;
+        _addressRepo = addressRepo;
         _tokenService = tokenService;
         _mapper = mapper;
     }

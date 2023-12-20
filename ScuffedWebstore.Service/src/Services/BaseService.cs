@@ -44,7 +44,8 @@ public class BaseService<T, TReadDTO, TCreateDTO, TUpdateDTO> : IBaseService<T, 
     {
         T currentEntity = _repo.GetOneById(id);
         if (currentEntity == null) return default;
-        T updatedEntity = _mapper.Map<TUpdateDTO, T>(updateObject, currentEntity);
+
+        T updatedEntity = _mapper.Map<TUpdateDTO, T>(updateObject);
 
         return _mapper.Map<T, TReadDTO>(_repo.UpdateOne(updatedEntity));
     }

@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Service.src.Abstractions;
 using ScuffedWebstore.Service.src.DTOs;
+using ScuffedWebstore.Service.src.Services;
 
 namespace ScuffedWebstore.Controller.src.Controllers;
-public class ImageController : BaseController<Image, ImageReadDTO, ImageCreateDTO, ImageUpdateDTO>
+public class ImageController : BaseController<Image, ImageService, ImageReadDTO, ImageCreateDTO, ImageUpdateDTO>
 {
-    public ImageController(IImageService service) : base(service)
+    public ImageController(ImageService service) : base(service)
     {
     }
 

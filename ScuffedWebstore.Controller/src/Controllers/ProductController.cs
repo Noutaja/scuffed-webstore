@@ -4,11 +4,12 @@ using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Core.src.Parameters;
 using ScuffedWebstore.Service.src.Abstractions;
 using ScuffedWebstore.Service.src.DTOs;
+using ScuffedWebstore.Service.src.Services;
 
 namespace ScuffedWebstore.Controller.src.Controllers;
-public class ProductController : BaseController<Product, ProductReadDTO, ProductCreateDTO, ProductUpdateDTO>
+public class ProductController : BaseController<Product, ProductService, ProductReadDTO, ProductCreateDTO, ProductUpdateDTO>
 {
-    public ProductController(IProductService service) : base(service)
+    public ProductController(ProductService service) : base(service)
     {
     }
 

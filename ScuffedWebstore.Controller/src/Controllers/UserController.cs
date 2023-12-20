@@ -1,14 +1,16 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ScuffedWebstore.Core.src.Entities;
+using ScuffedWebstore.Core.src.Types;
 using ScuffedWebstore.Service.src.Abstractions;
 using ScuffedWebstore.Service.src.DTOs;
+using ScuffedWebstore.Service.src.Services;
 
 namespace ScuffedWebstore.Controller.src.Controllers;
 
-public class UserController : BaseController<User, UserReadDTO, UserCreateDTO, UserUpdateDTO>
+public class UserController : BaseController<User, UserService, UserReadDTO, UserCreateDTO, UserUpdateDTO>
 {
-    public UserController(IUserService service) : base(service)
+    public UserController(UserService service) : base(service)
     {
     }
 
@@ -17,6 +19,13 @@ public class UserController : BaseController<User, UserReadDTO, UserCreateDTO, U
     {
         return base.CreateOne(createObject);
     }
+
+    [HttpPatch("/role/{id:guid}")]
+    public ActionResult<UserReadDTO> UpdateRole([FromRoute] Guid id, [FromBody] UserRole userRole)
+    {
+        return _service.UpdateRole(id, userRole);
+    }
+
     /* [HttpGet()]
     public ActionResult<IEnumerable<UserReadDTO>> GetAll([FromQuery] GetAllParams options)
     {

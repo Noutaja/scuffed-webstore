@@ -61,12 +61,12 @@ public class UserService : BaseService<User, UserReadDTO, UserCreateDTO, UserUpd
         return _mapper.Map<User, UserReadDTO>(_repo.UpdateOne(u));
     }
 
-    public UserReadDTO CreateUserAddress(AddressCreateDTO addressCreateDto)
+    public UserReadDTO CreateUserAddress(AddressCreateFullDTO addressCreateDto)
     {
         User? u = _repo.GetOneById(addressCreateDto.UserID);
         if (u == null) throw CustomException.NotFoundException("User not found");
 
-        Address a = _addressRepo.CreateOne(_mapper.Map<AddressCreateDTO, Address>(addressCreateDto));
+        Address a = _addressRepo.CreateOne(_mapper.Map<AddressCreateFullDTO, Address>(addressCreateDto));
         return AddAddress(a.UserID, a.ID);
     }
 }

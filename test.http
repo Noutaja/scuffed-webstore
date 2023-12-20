@@ -46,7 +46,7 @@ content-type: application/json
 
 ###
 
-POST http://localhost:5157/api/v1/addresss HTTP/1.1
+POST http://localhost:5157/api/v1/addresses/profile HTTP/1.1
 content-type: application/json
 Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5NzQzOC04OTgzLTRiY2EtYjExMS1kZjcwNjQzNTYwNmMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMwNjc3NDYsImV4cCI6MTcwMzI0MDU0NiwiaWF0IjoxNzAzMDY3NzQ2LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.2uSlwAehSplFQHXacy49rgKW2c5KoO2sCbXmlCYRNq4
 

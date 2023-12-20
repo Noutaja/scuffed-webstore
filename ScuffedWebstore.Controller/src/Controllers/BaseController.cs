@@ -8,11 +8,13 @@ namespace ScuffedWebstore.Controller.src.Controllers;
 [ApiController]
 [Route("api/v1/[controller]s")]
 [Authorize(Roles = "Admin")]
-public class BaseController<T, TReadDTO, TCreateDTO, TUpdateDTO> : ControllerBase where T : BaseEntity
+public class BaseController<T, TService, TReadDTO, TCreateDTO, TUpdateDTO> : ControllerBase
+    where T : BaseEntity
+    where TService : IBaseService<T, TReadDTO, TCreateDTO, TUpdateDTO>
 {
-    protected IBaseService<T, TReadDTO, TCreateDTO, TUpdateDTO> _service;
+    protected TService _service;
 
-    public BaseController(IBaseService<T, TReadDTO, TCreateDTO, TUpdateDTO> service)
+    public BaseController(TService service)
     {
         _service = service;
     }
