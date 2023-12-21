@@ -25,11 +25,9 @@ public class ProductRepo : BaseRepo<Product>, IProductRepo
 
     public override Product CreateOne(Product createObject)
     {
-        foreach (Image i in createObject.Images)
-        {
-            i.ProductID = createObject.ID;
-        }
         _data.Add(createObject);
+        _database.SaveChanges();
+
 
         return createObject;
     }
