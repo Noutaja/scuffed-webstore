@@ -19,7 +19,6 @@ public class OrderCreateDTO
 {
     public Guid UserID { get; set; }
     public Guid AddressID { get; set; }
-    public OrderStatus Status { get; set; }
     public IEnumerable<OrderProductCreateDTO> OrderProducts { get; set; }
 }
 

@@ -13,6 +13,6 @@ public class OrderRepo : BaseRepo<Order>, IOrderRepo
 
     public override IEnumerable<Order> GetAll(GetAllParams options)
     {
-        return _data.AsNoTracking().Skip(options.Offset).Take(options.Limit);
+        return _data.AsNoTracking().Include(o => o.OrderProducts).Skip(options.Offset).Take(options.Limit);
     }
 }

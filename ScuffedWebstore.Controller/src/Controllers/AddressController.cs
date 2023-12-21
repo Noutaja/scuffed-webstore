@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Service.src.Abstractions;
 using ScuffedWebstore.Service.src.DTOs;
-using ScuffedWebstore.Service.src.Services;
 
 namespace ScuffedWebstore.Controller.src.Controllers;
 [Route("api/v1/addresses")]
@@ -56,11 +55,17 @@ public class AddressController : BaseController<Address, IAddressService, Addres
         return base.DeleteOne(id);
     }
 
-    [HttpDelete("profile")]
+    [HttpDelete("profile/{id:guid}")]
     [Authorize]
-    public ActionResult<bool> DeleteOneFromProfile()
+    public ActionResult<bool> DeleteOneFromProfile(Guid id)
     {
-        _service.DeleteOneFromProfile(GetIdFromToken());
+        AddressReadDTO? a = _service.GetOneById(id);
+        if (a == null) NotFound();
+
+        Guid userID = GetIdFromToken();
+        if (a.UserID != userID) return Forbid();
+
+        _service.DeleteOneFromProfile(id);
         return NoContent();
     }
 

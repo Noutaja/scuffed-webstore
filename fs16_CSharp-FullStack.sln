@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScuffedWebstore.Controller"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScuffedWebstore.Framework", "ScuffedWebstore.Framework\ScuffedWebstore.Framework.csproj", "{08D0A381-1077-4D11-ADF3-4AA2F004CBA8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScuffedWebstore.Test", "ScuffedWebstore.Test\ScuffedWebstore.Test.csproj", "{8E595362-A1D5-43CD-92E1-B0FD14C1815E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{08D0A381-1077-4D11-ADF3-4AA2F004CBA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08D0A381-1077-4D11-ADF3-4AA2F004CBA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08D0A381-1077-4D11-ADF3-4AA2F004CBA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E595362-A1D5-43CD-92E1-B0FD14C1815E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E595362-A1D5-43CD-92E1-B0FD14C1815E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E595362-A1D5-43CD-92E1-B0FD14C1815E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E595362-A1D5-43CD-92E1-B0FD14C1815E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
