@@ -5,7 +5,6 @@ using ScuffedWebstore.Core.src.Parameters;
 using ScuffedWebstore.Core.src.Types;
 using ScuffedWebstore.Service.src.Abstractions;
 using ScuffedWebstore.Service.src.DTOs;
-using ScuffedWebstore.Service.src.Services;
 
 namespace ScuffedWebstore.Controller.src.Controllers;
 
@@ -28,7 +27,7 @@ public class UserController : BaseController<User, IUserService, UserReadDTO, Us
     }
 
     [HttpPatch("role/{id:guid}")]
-    public ActionResult<UserReadDTO> UpdateRole([FromRoute] Guid id, [FromBody] UserRole userRole)
+    public ActionResult<UserReadDTO> UpdateRole([FromRoute] Guid id, [FromQuery] UserRole userRole)
     {
         return _service.UpdateRole(id, userRole);
     }

@@ -41,7 +41,7 @@ public class AuthController : ControllerBase
     [Authorize]
     public ActionResult<bool> DeleteProfile()
     {
-        _authService.DeleteProfile(GetIdFromToken());
+        if (!_authService.DeleteProfile(GetIdFromToken())) return Unauthorized("Not authorized");
         return NoContent();
     }
 

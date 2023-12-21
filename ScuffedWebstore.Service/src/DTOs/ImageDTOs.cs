@@ -10,7 +10,6 @@ public class ImageReadDTO
 
 public class ImageCreateDTO
 {
-    public Guid ProductID { get; set; }
     public string Url { get; set; }
 }
 

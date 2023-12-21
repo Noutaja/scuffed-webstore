@@ -10,5 +10,6 @@ public class ProductService : BaseService<Product, ProductReadDTO, ProductCreate
 {
     public ProductService(IProductRepo repo, IMapper mapper) : base(repo, mapper)
     {
+
     }
 }

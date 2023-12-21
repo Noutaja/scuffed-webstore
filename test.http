@@ -59,3 +59,65 @@ Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5
 }
 
 ###
+
+POST http://localhost:5157/api/v1/categories/ HTTP/1.1
+content-type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5NzQzOC04OTgzLTRiY2EtYjExMS1kZjcwNjQzNTYwNmMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMwNjc3NDYsImV4cCI6MTcwMzI0MDU0NiwiaWF0IjoxNzAzMDY3NzQ2LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.2uSlwAehSplFQHXacy49rgKW2c5KoO2sCbXmlCYRNq4
+
+{
+  "name": "Shoes",
+  "url": "https://picsum.photos/200"
+}
+
+###
+
+POST http://localhost:5157/api/v1/products/ HTTP/1.1
+content-type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5NzQzOC04OTgzLTRiY2EtYjExMS1kZjcwNjQzNTYwNmMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMwNjc3NDYsImV4cCI6MTcwMzI0MDU0NiwiaWF0IjoxNzAzMDY3NzQ2LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.2uSlwAehSplFQHXacy49rgKW2c5KoO2sCbXmlCYRNq4
+
+{
+  "title": "Running shoes",
+  "description": "Sit ea ut quis et nostrud nulla quis proident.",
+  "price": 10,
+  "inventory": 4,
+  "categoryID": "5d7a22cf-bef2-4247-bc1b-b070772c19aa",
+  "images": [
+    {
+      "url": "https://picsum.photos/200"
+    }
+  ]
+}
+
+###
+
+GET http://localhost:5157/api/v1/products/ HTTP/1.1
+content-type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5NzQzOC04OTgzLTRiY2EtYjExMS1kZjcwNjQzNTYwNmMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMwNjc3NDYsImV4cCI6MTcwMzI0MDU0NiwiaWF0IjoxNzAzMDY3NzQ2LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.2uSlwAehSplFQHXacy49rgKW2c5KoO2sCbXmlCYRNq4
+
+{ }
+
+
+###
+
+DELETE http://localhost:5157/api/v1/products/ HTTP/1.1
+content-type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5NzQzOC04OTgzLTRiY2EtYjExMS1kZjcwNjQzNTYwNmMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMwNjc3NDYsImV4cCI6MTcwMzI0MDU0NiwiaWF0IjoxNzAzMDY3NzQ2LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.2uSlwAehSplFQHXacy49rgKW2c5KoO2sCbXmlCYRNq4
+
+{ }
+
+
+###
+
+POST http://localhost:5157/api/v1/orders/ HTTP/1.1
+content-type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5NzQzOC04OTgzLTRiY2EtYjExMS1kZjcwNjQzNTYwNmMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMwNjc3NDYsImV4cCI6MTcwMzI0MDU0NiwiaWF0IjoxNzAzMDY3NzQ2LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.2uSlwAehSplFQHXacy49rgKW2c5KoO2sCbXmlCYRNq4
+
+{
+  "userID": "05097438-8983-4bca-b111-df706435606c",
+  "street": "Some other street",
+  "zipcode": "12345",
+  "city": "Some city",
+  "country": "Some country"
+}
+
+###
