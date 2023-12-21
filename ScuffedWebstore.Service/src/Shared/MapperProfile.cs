@@ -18,8 +18,7 @@ namespace ScuffedWebstore.Service.src.Shared
             CreateMap<UserUpdateDTO, User>().ForAllMembers(opt => opt.Condition((src, dest, value) => value != null));
 
             CreateMap<Address, AddressReadDTO>();
-            CreateMap<AddressCreateFullDTO, Address>();
-            CreateMap<AddressCreateBasicDTO, AddressCreateFullDTO>();
+            CreateMap<AddressCreateDTO, Address>();
             CreateMap<AddressUpdateDTO, Address>().ForAllMembers(opt => opt.Condition((src, dest, value) => value != null));
 
             CreateMap<Product, ProductReadDTO>()

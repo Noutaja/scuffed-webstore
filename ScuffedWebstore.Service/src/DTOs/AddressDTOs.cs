@@ -9,17 +9,9 @@ public class AddressReadDTO
     public string Country { get; set; }
 }
 
-public class AddressCreateFullDTO
+public class AddressCreateDTO
 {
     public Guid UserID { get; set; }
-    public string Street { get; set; }
-    public string Zipcode { get; set; }
-    public string City { get; set; }
-    public string Country { get; set; }
-}
-
-public class AddressCreateBasicDTO
-{
     public string Street { get; set; }
     public string Zipcode { get; set; }
     public string City { get; set; }

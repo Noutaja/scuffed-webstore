@@ -99,7 +99,7 @@ Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5
 
 ###
 
-DELETE http://localhost:5157/api/v1/products/71ab89fb-be39-49ad-9aab-356db9a285cd HTTP/1.1
+DELETE http://localhost:5157/api/v1/products/3bc9f52f-d6e4-4363-a1d7-29793aac7aea HTTP/1.1
 content-type: application/json
 Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5NzQzOC04OTgzLTRiY2EtYjExMS1kZjcwNjQzNTYwNmMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMxODIwMzEsImV4cCI6MTcwMzM1NDgzMSwiaWF0IjoxNzAzMTgyMDMxLCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.gq0cY-TglkLQlL2YRfkgH4DhagOR_MGoFIzeNpIkj1o
 
