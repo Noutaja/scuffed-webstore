@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ScuffedWebstore.Core.src.Entities;
+using ScuffedWebstore.Core.src.Parameters;
 using ScuffedWebstore.Service.src.Abstractions;
 using ScuffedWebstore.Service.src.DTOs;
 
@@ -13,23 +14,16 @@ public class AddressController : BaseController<Address, IAddressService, Addres
     {
     }
 
+    [Authorize]
+    [HttpGet("search")]
+    public ActionResult<IEnumerable<AddressReadDTO>> GetAll([FromQuery] GetAllAddressesParams getAllParams)
+    {
+        return base.GetAll(getAllParams);
+    }
+
     public override ActionResult<AddressReadDTO> CreateOne([FromBody] AddressCreateFullDTO createObject)
     {
         return base.CreateOne(createObject);
-    }
-
-    [HttpGet("profile")]
-    [Authorize]
-    public ActionResult<IEnumerable<AddressReadDTO>> GetAllForProfile()
-    {
-        return Ok(_service.GetAllForProfile(GetIdFromToken()));
-    }
-
-    [HttpPost("profile")]
-    [Authorize]
-    public ActionResult<AddressReadDTO> CreateOneForProfile([FromBody] AddressCreateBasicDTO createObject)
-    {
-        return CreatedAtAction(nameof(CreateOneForProfile), _service.CreateOneForProfile(GetIdFromToken(), createObject));
     }
 
     public override ActionResult<AddressReadDTO> UpdateOne([FromRoute] Guid id, [FromBody] AddressUpdateDTO updateObject)
@@ -37,36 +31,9 @@ public class AddressController : BaseController<Address, IAddressService, Addres
         return base.UpdateOne(id, updateObject);
     }
 
-    [HttpPatch("profile/{id:guid}")]
-    [Authorize]
-    public ActionResult<AddressReadDTO> UpdateOneForProfile([FromRoute] Guid id, [FromBody] AddressUpdateDTO updateObject)
-    {
-        AddressReadDTO? a = _service.GetOneById(id);
-        if (a == null) NotFound();
-
-        Guid userID = GetIdFromToken();
-        if (a.UserID != userID) return Forbid();
-
-        return Ok(_service.UpdateOneForProfile(id, updateObject));
-    }
-
     public override ActionResult<bool> DeleteOne([FromRoute] Guid id)
     {
         return base.DeleteOne(id);
-    }
-
-    [HttpDelete("profile/{id:guid}")]
-    [Authorize]
-    public ActionResult<bool> DeleteOneFromProfile(Guid id)
-    {
-        AddressReadDTO? a = _service.GetOneById(id);
-        if (a == null) NotFound();
-
-        Guid userID = GetIdFromToken();
-        if (a.UserID != userID) return Forbid();
-
-        _service.DeleteOneFromProfile(id);
-        return NoContent();
     }
 
     private Guid GetIdFromToken()

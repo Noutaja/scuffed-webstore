@@ -15,7 +15,8 @@ public class CategoryController : BaseController<Category, ICategoryService, Cat
     }
 
     [AllowAnonymous]
-    public override ActionResult<IEnumerable<CategoryReadDTO>> GetAll([FromQuery] GetAllParams getAllParams)
+    [HttpGet("search")]
+    public ActionResult<IEnumerable<CategoryReadDTO>> GetAll([FromQuery] GetAllCategoriesParams getAllParams)
     {
         return base.GetAll(getAllParams);
     }

@@ -14,6 +14,13 @@ public class ProductController : BaseController<Product, IProductService, Produc
     }
 
     [AllowAnonymous]
+    [HttpGet("search")]
+    public ActionResult<IEnumerable<ProductReadDTO>> GetAll([FromQuery] GetAllProductsParams getAllParams)
+    {
+        return base.GetAll(getAllParams);
+    }
+
+    [AllowAnonymous]
     public override ActionResult<IEnumerable<ProductReadDTO>> GetAll([FromQuery] GetAllParams getAllParams)
     {
         return base.GetAll(getAllParams);

@@ -1,4 +1,3 @@
-using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Core.src.Types;
 
 namespace ScuffedWebstore.Service.src.DTOs;

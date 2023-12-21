@@ -1,9 +1,9 @@
 using AutoMapper;
-using AutoMapper.Configuration.Conventions;
 using ScuffedWebstore.Core.src.Abstractions;
 using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Core.src.Parameters;
 using ScuffedWebstore.Service.src.Abstractions;
+using ScuffedWebstore.Service.src.Shared;
 
 namespace ScuffedWebstore.Service.src.Services;
 public class BaseService<T, TReadDTO, TCreateDTO, TUpdateDTO> : IBaseService<T, TReadDTO, TCreateDTO, TUpdateDTO> where T : BaseEntity
@@ -32,7 +32,7 @@ public class BaseService<T, TReadDTO, TCreateDTO, TUpdateDTO> : IBaseService<T, 
         return _mapper.Map<IEnumerable<T>, IEnumerable<TReadDTO>>(_repo.GetAll(getAllParams));
     }
 
-    public virtual TReadDTO? GetOneById(Guid id)
+    public virtual TReadDTO? GetOneByID(Guid id)
     {
         T? t = _repo.GetOneById(id);
         if (t == null) return default;
@@ -43,7 +43,7 @@ public class BaseService<T, TReadDTO, TCreateDTO, TUpdateDTO> : IBaseService<T, 
     public virtual TReadDTO UpdateOne(Guid id, TUpdateDTO updateObject)
     {
         T currentEntity = _repo.GetOneById(id);
-        if (currentEntity == null) return default;
+        if (currentEntity == null) throw CustomException.NotFoundException("Not Found");
 
         T updatedEntity = _mapper.Map<TUpdateDTO, T>(updateObject);
 

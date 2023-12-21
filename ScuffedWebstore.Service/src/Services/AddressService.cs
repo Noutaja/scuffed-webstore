@@ -12,32 +12,8 @@ public class AddressService : BaseService<Address, AddressReadDTO, AddressCreate
     {
     }
 
-    public AddressReadDTO CreateOneForProfile(Guid UserId, AddressCreateBasicDTO createObject)
-    {
-        AddressCreateFullDTO completeAddress = _mapper.Map<AddressCreateBasicDTO, AddressCreateFullDTO>(createObject);
-        completeAddress.UserID = UserId;
-        return base.CreateOne(completeAddress);
-    }
-
-    public AddressReadDTO? UpdateOneForProfile(Guid id, AddressUpdateDTO updateObject)
-    {
-        Address? a = _repo.GetOneById(id);
-        if (a == null) return null;
-
-        _mapper.Map(updateObject, a);
-        return _mapper.Map<Address, AddressReadDTO>(_repo.UpdateOne(a));
-    }
-
-    public bool DeleteOneFromProfile(Guid id)
-    {
-        Address? a = _repo.GetOneById(id);
-        if (a == null) return false;
-
-        return _repo.DeleteOne(id);
-    }
-
     public IEnumerable<AddressReadDTO> GetAllForProfile(Guid userId)
     {
-        return _mapper.Map<IEnumerable<Address>, IEnumerable<AddressReadDTO>>(_repo.GetAll(new GetAllParams { id = userId }));
+        return _mapper.Map<IEnumerable<Address>, IEnumerable<AddressReadDTO>>(_repo.GetAll(new GetAllAddressesParams { UserID = userId }));
     }
 }

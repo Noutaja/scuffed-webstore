@@ -11,9 +11,14 @@ public class UserRepo : BaseRepo<User>, IUserRepo
     public UserRepo(DatabaseContext database) : base(database)
     { }
 
+    public IEnumerable<User> GetAll(GetAllUsersParams options)
+    {
+        return _data.AsNoTracking().Include(u => u.Addresses).Where(u => (u.FirstName + " " + u.LastName).Contains(options.Query)).Skip(options.Offset).Take(options.Limit);
+    }
+
     public override IEnumerable<User> GetAll(GetAllParams options)
     {
-        return _data.AsNoTracking().Include(u => u.Addresses).Where(u => (u.FirstName + " " + u.LastName).Contains(options.Search)).Skip(options.Offset).Take(options.Limit);
+        return _data.AsNoTracking().Include(u => u.Addresses).Skip(options.Offset).Take(options.Limit);
     }
 
     public User? GetOneByEmail(string email)

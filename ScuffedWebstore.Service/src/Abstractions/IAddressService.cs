@@ -4,8 +4,5 @@ using ScuffedWebstore.Service.src.DTOs;
 namespace ScuffedWebstore.Service.src.Abstractions;
 public interface IAddressService : IBaseService<Address, AddressReadDTO, AddressCreateFullDTO, AddressUpdateDTO>
 {
-    public AddressReadDTO CreateOneForProfile(Guid UserId, AddressCreateBasicDTO createObject);
-    public AddressReadDTO? UpdateOneForProfile(Guid addressId, AddressUpdateDTO updateObject);
     public IEnumerable<AddressReadDTO> GetAllForProfile(Guid userId);
-    public bool DeleteOneFromProfile(Guid id);
 }

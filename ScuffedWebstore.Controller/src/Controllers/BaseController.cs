@@ -41,7 +41,7 @@ public class BaseController<T, TService, TReadDTO, TCreateDTO, TUpdateDTO> : Con
     [HttpGet("{id:guid}")]
     public virtual ActionResult<TReadDTO>? GetOneById([FromRoute] Guid id)
     {
-        return Ok(_service.GetOneById(id));
+        return Ok(_service.GetOneByID(id));
     }
 
     [HttpPatch("{id:guid}")]

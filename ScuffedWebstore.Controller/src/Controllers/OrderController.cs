@@ -15,6 +15,7 @@ public class OrderController : BaseController<Order, IOrderService, OrderReadDTO
     [Authorize]
     public override ActionResult<OrderReadDTO> CreateOne([FromBody] OrderCreateDTO createObject)
     {
+        //string userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
         return base.CreateOne(createObject);
     }
 }

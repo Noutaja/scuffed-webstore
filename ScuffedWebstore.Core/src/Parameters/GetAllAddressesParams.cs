@@ -4,8 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace ScuffedWebstore.Core.src.Parameters;
-public class GetAllParams
+public class GetAllAddressesParams : GetAllParams
 {
-    public int Limit { get; set; } = 20;
-    public int Offset { get; set; } = 0;
+    public Guid? UserID { get; set; } = null;
 }
