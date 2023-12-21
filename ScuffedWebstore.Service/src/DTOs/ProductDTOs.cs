@@ -9,7 +9,7 @@ public class ProductReadDTO
     public double Price { get; set; }
     public int Inventory { get; set; }
     public CategoryReadDTO Category { get; set; }
-    //public IEnumerable<ImageReadDTO> Images { get; set; }
+    public IEnumerable<ImageReadDTO> Images { get; set; }
 }
 
 public class ProductCreateDTO
