@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +8,9 @@ using ScuffedWebstore.Service.src.Services;
 
 namespace ScuffedWebstore.Controller.src.Controllers;
 [Route("api/v1/addresses")]
-public class AddressController : BaseController<Address, AddressService, AddressReadDTO, AddressCreateFullDTO, AddressUpdateDTO>
+public class AddressController : BaseController<Address, IAddressService, AddressReadDTO, AddressCreateFullDTO, AddressUpdateDTO>
 {
-    public AddressController(AddressService service) : base(service)
+    public AddressController(IAddressService service) : base(service)
     {
     }
 
@@ -20,14 +19,20 @@ public class AddressController : BaseController<Address, AddressService, Address
         return base.CreateOne(createObject);
     }
 
+    [HttpGet("profile")]
+    [Authorize]
+    public ActionResult<IEnumerable<AddressReadDTO>> GetAllForProfile()
+    {
+        return Ok(_service.GetAllForProfile(GetIdFromToken()));
+    }
+
     [HttpPost("profile")]
     [Authorize]
     public ActionResult<AddressReadDTO> CreateOneForProfile([FromBody] AddressCreateBasicDTO createObject)
     {
-        return _service.CreateOneForProfile(GetIdFromToken(), createObject);
+        return CreatedAtAction(nameof(CreateOneForProfile), _service.CreateOneForProfile(GetIdFromToken(), createObject));
     }
 
-    [Authorize]
     public override ActionResult<AddressReadDTO> UpdateOne([FromRoute] Guid id, [FromBody] AddressUpdateDTO updateObject)
     {
         return base.UpdateOne(id, updateObject);
@@ -43,13 +48,20 @@ public class AddressController : BaseController<Address, AddressService, Address
         Guid userID = GetIdFromToken();
         if (a.UserID != userID) return Forbid();
 
-        return _service.UpdateOneForProfile(id, updateObject);
+        return Ok(_service.UpdateOneForProfile(id, updateObject));
     }
 
-    [Authorize]
     public override ActionResult<bool> DeleteOne([FromRoute] Guid id)
     {
         return base.DeleteOne(id);
+    }
+
+    [HttpDelete("profile")]
+    [Authorize]
+    public ActionResult<bool> DeleteOneFromProfile()
+    {
+        _service.DeleteOneFromProfile(GetIdFromToken());
+        return NoContent();
     }
 
     private Guid GetIdFromToken()

@@ -7,9 +7,9 @@ using ScuffedWebstore.Service.src.DTOs;
 using ScuffedWebstore.Service.src.Services;
 
 namespace ScuffedWebstore.Controller.src.Controllers;
-public class ProductController : BaseController<Product, ProductService, ProductReadDTO, ProductCreateDTO, ProductUpdateDTO>
+public class ProductController : BaseController<Product, IProductService, ProductReadDTO, ProductCreateDTO, ProductUpdateDTO>
 {
-    public ProductController(ProductService service) : base(service)
+    public ProductController(IProductService service) : base(service)
     {
     }
 

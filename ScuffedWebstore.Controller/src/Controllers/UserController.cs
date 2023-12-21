@@ -8,9 +8,9 @@ using ScuffedWebstore.Service.src.Services;
 
 namespace ScuffedWebstore.Controller.src.Controllers;
 
-public class UserController : BaseController<User, UserService, UserReadDTO, UserCreateDTO, UserUpdateDTO>
+public class UserController : BaseController<User, IUserService, UserReadDTO, UserCreateDTO, UserUpdateDTO>
 {
-    public UserController(UserService service) : base(service)
+    public UserController(IUserService service) : base(service)
     {
     }
 

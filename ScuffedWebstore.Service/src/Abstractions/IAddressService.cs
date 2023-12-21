@@ -6,4 +6,6 @@ public interface IAddressService : IBaseService<Address, AddressReadDTO, Address
 {
     public AddressReadDTO CreateOneForProfile(Guid UserId, AddressCreateBasicDTO createObject);
     public AddressReadDTO? UpdateOneForProfile(Guid addressId, AddressUpdateDTO updateObject);
+    public IEnumerable<AddressReadDTO> GetAllForProfile(Guid userId);
+    public bool DeleteOneFromProfile(Guid id);
 }

@@ -7,9 +7,9 @@ using ScuffedWebstore.Service.src.DTOs;
 using ScuffedWebstore.Service.src.Services;
 
 namespace ScuffedWebstore.Controller.src.Controllers;
-public class ImageController : BaseController<Image, ImageService, ImageReadDTO, ImageCreateDTO, ImageUpdateDTO>
+public class ImageController : BaseController<Image, IImageService, ImageReadDTO, ImageCreateDTO, ImageUpdateDTO>
 {
-    public ImageController(ImageService service) : base(service)
+    public ImageController(IImageService service) : base(service)
     {
     }
 

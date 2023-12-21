@@ -8,9 +8,9 @@ using ScuffedWebstore.Service.src.Services;
 
 namespace ScuffedWebstore.Controller.src.Controllers;
 [Route("api/v1/categories")]
-public class CategoryController : BaseController<Category, CategoryService, CategoryReadDTO, CategoryCreateDTO, CategoryUpdateDTO>
+public class CategoryController : BaseController<Category, ICategoryService, CategoryReadDTO, CategoryCreateDTO, CategoryUpdateDTO>
 {
-    public CategoryController(CategoryService service) : base(service)
+    public CategoryController(ICategoryService service) : base(service)
     {
     }
 

@@ -35,7 +35,6 @@ public class BaseController<T, TService, TReadDTO, TCreateDTO, TUpdateDTO> : Con
     [HttpGet()]
     public virtual ActionResult<IEnumerable<TReadDTO>> GetAll([FromQuery] GetAllParams getAllParams)
     {
-        Console.WriteLine("asd");
         return Ok(_service.GetAll(getAllParams));
     }
 
