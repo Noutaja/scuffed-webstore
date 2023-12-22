@@ -8,7 +8,7 @@ using ScuffedWebstore.Service.src.Abstractions;
 namespace ScuffedWebstore.Controller.src.Controllers;
 [ApiController]
 [Route("api/v1/[controller]s")]
-//[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admin")]
 public class BaseController<T, TService, TReadDTO, TCreateDTO, TUpdateDTO> : ControllerBase
     where T : BaseEntity
     where TService : IBaseService<T, TReadDTO, TCreateDTO, TUpdateDTO>
@@ -48,6 +48,7 @@ public class BaseController<T, TService, TReadDTO, TCreateDTO, TUpdateDTO> : Con
     [HttpPatch("{id:guid}")]
     public virtual async Task<ActionResult<TReadDTO>> UpdateOneAsync([FromRoute] Guid id, [FromBody] TUpdateDTO updateObject)
     {
+        Console.WriteLine(id);
         return Ok(await _service.UpdateOneAsync(id, updateObject));
     }
 

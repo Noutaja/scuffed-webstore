@@ -29,5 +29,5 @@ public class ProductUpdateDTO
     public double? Price { get; set; }
     public int? Inventory { get; set; }
     public Guid? CategoryID { get; set; }
-    public IEnumerable<Guid>? Images { get; set; }
+    public IEnumerable<ImageUpdateDTO>? Images { get; set; }
 }

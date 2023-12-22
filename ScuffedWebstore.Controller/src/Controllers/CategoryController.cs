@@ -4,7 +4,6 @@ using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Core.src.Parameters;
 using ScuffedWebstore.Service.src.Abstractions;
 using ScuffedWebstore.Service.src.DTOs;
-using ScuffedWebstore.Service.src.Services;
 
 namespace ScuffedWebstore.Controller.src.Controllers;
 [Route("api/v1/categories")]
@@ -19,6 +18,12 @@ public class CategoryController : BaseController<Category, ICategoryService, Cat
     public async Task<ActionResult<IEnumerable<CategoryReadDTO>>> GetAllAsync([FromQuery] GetAllCategoriesParams getAllParams)
     {
         return await base.GetAllAsync(getAllParams);
+    }
+
+    [AllowAnonymous]
+    public override Task<ActionResult<IEnumerable<CategoryReadDTO>>> GetAllAsync([FromQuery] GetAllParams getAllParams)
+    {
+        return base.GetAllAsync(getAllParams);
     }
 
     [AllowAnonymous]

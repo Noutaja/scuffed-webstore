@@ -33,10 +33,10 @@ namespace ScuffedWebstore.Service.src.Shared
                 new Image { Url = i.Url })));
 
             CreateMap<ProductUpdateDTO, Product>()
-                .ForMember(dest => dest.Category,
-                    opt => opt.MapFrom(src => src.CategoryID))
-                .ForMember(dest => dest.Images,
-                    opt => opt.MapFrom(src => src.Images))
+                /* .ForMember(dest => dest.CategoryID,
+                    opt => opt.MapFrom(src => src.CategoryID)) */
+                /* .ForMember(dest => dest.Images,
+                    opt => opt.MapFrom(src => src.Images)) */
                 .ForAllMembers(opt => opt.Condition((src, dest, value) => value != null));
 
             CreateMap<Image, ImageReadDTO>();
@@ -55,6 +55,8 @@ namespace ScuffedWebstore.Service.src.Shared
 
             CreateMap<OrderProduct, OrderProductReadDTO>();
             CreateMap<OrderProductCreateDTO, OrderProduct>();
+
+            CreateMap<int?, int>().ConvertUsing((src, dest) => src ?? dest);
         }
     }
 }

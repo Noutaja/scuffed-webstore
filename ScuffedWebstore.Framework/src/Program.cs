@@ -28,7 +28,8 @@ builder.Services.AddSwaggerGen(c =>
     {
         Description = "Bearer token authentication",
         Name = "Authorization",
-        In = ParameterLocation.Header
+        In = ParameterLocation.Header,
+        Scheme = "Bearer"
     });
     c.OperationFilter<SecurityRequirementsOperationFilter>();
 });
@@ -53,6 +54,8 @@ builder.Services.AddScoped<IUserRepo, UserRepo>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+
+builder.Services.AddSingleton<AdminOrOwnerHandler>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
     options =>

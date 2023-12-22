@@ -47,7 +47,15 @@ public class BaseService<T, TReadDTO, TCreateDTO, TUpdateDTO> : IBaseService<T, 
         T? currentEntity = await _repo.GetOneByIdAsync(id);
         if (currentEntity == null) throw CustomException.NotFoundException("Not Found");
 
+
         T updatedEntity = _mapper.Map<TUpdateDTO, T>(updateObject, currentEntity);
+        /*  Console.WriteLine("OBJECT!!!!");
+         Console.WriteLine(updatedEntity);
+         foreach (var prop in updatedEntity.GetType().GetProperties())
+         {
+             Console.WriteLine(prop.Name);
+             Console.WriteLine(prop.GetValue(updatedEntity));
+         } */
 
         return _mapper.Map<T, TReadDTO>(await _repo.UpdateOneAsync(updatedEntity));
     }

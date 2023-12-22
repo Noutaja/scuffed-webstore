@@ -1,7 +1,7 @@
 
 GET http://localhost:5157/api/v1/users HTTP/1.1
 content-type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5NzQzOC04OTgzLTRiY2EtYjExMS1kZjcwNjQzNTYwNmMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMxODIwMzEsImV4cCI6MTcwMzM1NDgzMSwiaWF0IjoxNzAzMTgyMDMxLCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.gq0cY-TglkLQlL2YRfkgH4DhagOR_MGoFIzeNpIkj1o
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIzYTU5NzU2MS02NGFlLTQyOTMtYTEyMC0wOTk3NDBlOWI4MDMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMyNjA0NzgsImV4cCI6MTcwMzQzMzI3OCwiaWF0IjoxNzAzMjYwNDc4LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.CHznkQ0PjzoVyVCr0yG1n-0cASZrnxqgLDrn10mlH2c
 
 {}
 
@@ -97,6 +97,16 @@ Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIzYTU5
       "url": "https://picsum.photos/200"
     }
   ]
+}
+
+###
+
+PATCH http://localhost:5157/api/v1/products/2cca5210-969c-4d56-9f6f-b2fce3093dd5 HTTP/1.1
+content-type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIzYTU5NzU2MS02NGFlLTQyOTMtYTEyMC0wOTk3NDBlOWI4MDMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMyNDM2MzYsImV4cCI6MTcwMzQxNjQzNiwiaWF0IjoxNzAzMjQzNjM2LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.nflDIUk2JTspdxmm0o0iUZZNaMv7UOYxutf5PIK5vcc
+
+{
+  "title": "Crawling shoes"
 }
 
 ###
