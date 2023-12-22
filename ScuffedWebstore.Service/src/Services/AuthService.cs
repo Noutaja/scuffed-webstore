@@ -21,9 +21,9 @@ public class AuthService : IAuthService
         _mapper = mapper;
     }
 
-    public string Login(string email, string password)
+    public async Task<string> LoginAsync(string email, string password)
     {
-        User? u = _userRepo.GetOneByEmail(email);
+        User? u = await _userRepo.GetOneByEmailAsync(email);
         if (u == null) throw CustomException.NotFoundException("User not found");
 
         if (PasswordHandler.VerifyPassword(password, u.Password, u.Salt)) return _tokenService.GenerateToken(u);
@@ -31,29 +31,29 @@ public class AuthService : IAuthService
         throw CustomException.InvalidPassword();
     }
 
-    public UserReadDTO GetProfile(Guid id)
+    public async Task<UserReadDTO> GetProfileAsync(Guid id)
     {
-        return _mapper.Map<User?, UserReadDTO>(_userRepo.GetOneById(id));
+        return _mapper.Map<User?, UserReadDTO>(await _userRepo.GetOneByIdAsync(id));
     }
 
-    public bool ChangePassword(Guid id, string newPassword)
+    public async Task<bool> ChangePasswordAsync(Guid id, string newPassword)
     {
-        User? u = _userRepo.GetOneById(id);
+        User? u = await _userRepo.GetOneByIdAsync(id);
         if (u == null) throw CustomException.NotFoundException("User not found");
 
         var encrypted = PasswordHandler.HashPassword(newPassword);
         u.Password = encrypted.password;
         u.Salt = encrypted.salt;
 
-        _userRepo.UpdateOne(u);
+        await _userRepo.UpdateOneAsync(u);
         return true;
     }
 
-    public bool DeleteProfile(Guid id)
+    public async Task<bool> DeleteProfileAsync(Guid id)
     {
-        User? u = _userRepo.GetOneById(id);
+        User? u = await _userRepo.GetOneByIdAsync(id);
         if (u == null) throw CustomException.NotFoundException("User not found");
 
-        return _userRepo.DeleteOne(id);
+        return await _userRepo.DeleteOneAsync(id);
     }
 }

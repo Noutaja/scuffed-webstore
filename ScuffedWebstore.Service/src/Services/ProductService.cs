@@ -15,14 +15,14 @@ public class ProductService : BaseService<Product, ProductReadDTO, ProductCreate
         _categoryRepo = categoryRepo;
     }
 
-    public override ProductReadDTO CreateOne(Guid id, ProductCreateDTO createObject)
+    public override async Task<ProductReadDTO> CreateOneAsync(Guid id, ProductCreateDTO createObject)
     {
-        Category? c = _categoryRepo.GetOneById(createObject.CategoryID);
+        Category? c = await _categoryRepo.GetOneByIdAsync(createObject.CategoryID);
         if (c == null) throw CustomException.NotFoundException("Category not found");
 
         Product product = _mapper.Map<ProductCreateDTO, Product>(createObject);
         product.ID = id;
 
-        return _mapper.Map<Product, ProductReadDTO>(_repo.CreateOne(product));
+        return _mapper.Map<Product, ProductReadDTO>(await _repo.CreateOneAsync(product));
     }
 }

@@ -14,14 +14,14 @@ public class ImageController : BaseController<Image, IImageService, ImageReadDTO
     }
 
     //[Authorize]
-    public override ActionResult<ImageReadDTO> CreateOne([FromBody] ImageCreateDTO createObject)
+    public override async Task<ActionResult<ImageReadDTO>> CreateOneAsync([FromBody] ImageCreateDTO createObject)
     {
-        return base.CreateOne(createObject);
+        return await base.CreateOneAsync(createObject);
     }
 
     //[Authorize]
-    public override ActionResult<ImageReadDTO> UpdateOne([FromRoute] Guid id, [FromBody] ImageUpdateDTO updateObject)
+    public override async Task<ActionResult<ImageReadDTO>> UpdateOneAsync([FromRoute] Guid id, [FromBody] ImageUpdateDTO updateObject)
     {
-        return base.UpdateOne(id, updateObject);
+        return await base.UpdateOneAsync(id, updateObject);
     }
 }

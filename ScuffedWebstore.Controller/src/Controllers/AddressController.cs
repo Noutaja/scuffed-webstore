@@ -18,27 +18,29 @@ public class AddressController : BaseController<Address, IAddressService, Addres
 
     [Authorize]
     [HttpGet("search")]
-    public ActionResult<IEnumerable<AddressReadDTO>> GetAll([FromQuery] GetAllAddressesParams getAllParams)
+    public async Task<ActionResult<IEnumerable<AddressReadDTO>>> GetAllAsync([FromQuery] GetAllAddressesParams getAllParams)
     {
-        return base.GetAll(getAllParams);
+        return await base.GetAllAsync(getAllParams);
+    }
+
+    public override async Task<ActionResult<bool>> DeleteOneAsync([FromRoute] Guid id)
+    {
+        return await base.DeleteOneAsync(id);
+    }
+
+    //BOTH OF THE ROUTES BELOW CAUSE SWAGGER TO ERROR AND NOT LOAD
+    //All other controllers load just fine, including the same overrides
+    [Authorize]
+    public new async Task<ActionResult<AddressReadDTO>> CreateOneAsync([FromBody] AddressCreateDTO createObject)
+    {
+        return CreatedAtAction(nameof(CreateOneAsync), await _service.CreateOneAsync(GetIdFromToken(), createObject));
     }
 
     [Authorize]
-    public new ActionResult<AddressReadDTO> CreateOne([FromBody] AddressCreateDTO createObject)
+    public override async Task<ActionResult<AddressReadDTO>> UpdateOneAsync([FromRoute] Guid id, [FromBody] AddressUpdateDTO updateObject)
     {
-
-        return CreatedAtAction(nameof(CreateOne), _service.CreateOne(GetIdFromToken(), createObject));
-    }
-
-    public override ActionResult<AddressReadDTO> UpdateOne([FromRoute] Guid id, [FromBody] AddressUpdateDTO updateObject)
-    {
-        AddressReadDTO address = _service.GetOneByID(id);
-        //var authed = _authorizationService.AuthorizeAsync(HttpContext.User, address, "AdminOrOwner");
-        return base.UpdateOne(id, updateObject);
-    }
-
-    public override ActionResult<bool> DeleteOne([FromRoute] Guid id)
-    {
-        return base.DeleteOne(id);
+        /* AddressReadDTO address = await _service.GetOneByIDAsync(id);
+        var authed = await _authorizationService.AuthorizeAsync(HttpContext.User, address, "AdminOrOwner"); */
+        return await base.UpdateOneAsync(id, updateObject);
     }
 }

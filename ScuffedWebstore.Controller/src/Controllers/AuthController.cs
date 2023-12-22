@@ -22,9 +22,9 @@ public class AuthController : ControllerBase
 
     [HttpPost("login")]
     [AllowAnonymous]
-    public ActionResult<string> Login([FromBody] Credentials credentials)
+    public async Task<ActionResult<string>> LoginAsync([FromBody] Credentials credentials)
     {
-        string token = _authService.Login(credentials.email, credentials.password);
+        string token = await _authService.LoginAsync(credentials.email, credentials.password);
         if (string.IsNullOrEmpty(token)) return Forbid();
 
         return Ok(token);
@@ -32,24 +32,24 @@ public class AuthController : ControllerBase
 
     [HttpGet("profile")]
     [Authorize]
-    public ActionResult<UserReadDTO> GetProfile()
+    public async Task<ActionResult<UserReadDTO>> GetProfileAsync()
     {
-        return Ok(_authService.GetProfile(GetIdFromToken()));
+        return Ok(await _authService.GetProfileAsync(GetIdFromToken()));
     }
 
     [HttpDelete("profile/delete")]
     [Authorize]
-    public ActionResult<bool> DeleteProfile()
+    public async Task<ActionResult<bool>> DeleteProfileAsync()
     {
-        if (!_authService.DeleteProfile(GetIdFromToken())) return Unauthorized("Not authorized");
+        if (!await _authService.DeleteProfileAsync(GetIdFromToken())) return Unauthorized("Not authorized");
         return NoContent();
     }
 
     [HttpPatch("profile/password")]
     [Authorize]
-    public ActionResult<bool> ChangePassword([FromBody] string password)
+    public async Task<ActionResult<bool>> ChangePasswordAsync([FromBody] string password)
     {
-        return Ok(_authService.ChangePassword(GetIdFromToken(), password));
+        return Ok(await _authService.ChangePasswordAsync(GetIdFromToken(), password));
     }
 
     private Guid GetIdFromToken()

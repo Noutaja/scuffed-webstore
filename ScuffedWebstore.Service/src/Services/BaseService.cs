@@ -17,38 +17,38 @@ public class BaseService<T, TReadDTO, TCreateDTO, TUpdateDTO> : IBaseService<T, 
         _mapper = mapper;
     }
 
-    public virtual TReadDTO CreateOne(Guid id, TCreateDTO createObject)
+    public virtual async Task<TReadDTO> CreateOneAsync(Guid id, TCreateDTO createObject)
     {
         T t = _mapper.Map<TCreateDTO, T>(createObject);
         t.ID = id;
-        return _mapper.Map<T, TReadDTO>(_repo.CreateOne(t));
+        return _mapper.Map<T, TReadDTO>(await _repo.CreateOneAsync(t));
     }
 
-    public virtual bool DeleteOne(Guid id)
+    public virtual async Task<bool> DeleteOneAsync(Guid id)
     {
-        return _repo.DeleteOne(id);
+        return await _repo.DeleteOneAsync(id);
     }
 
-    public virtual IEnumerable<TReadDTO> GetAll(GetAllParams getAllParams)
+    public virtual async Task<IEnumerable<TReadDTO>> GetAllAsync(GetAllParams getAllParams)
     {
-        return _mapper.Map<IEnumerable<T>, IEnumerable<TReadDTO>>(_repo.GetAll(getAllParams));
+        return _mapper.Map<IEnumerable<T>, IEnumerable<TReadDTO>>(await _repo.GetAllAsync(getAllParams));
     }
 
-    public virtual TReadDTO? GetOneByID(Guid id)
+    public virtual async Task<TReadDTO?> GetOneByIDAsync(Guid id)
     {
-        T? t = _repo.GetOneById(id);
+        T? t = await _repo.GetOneByIdAsync(id);
         if (t == null) return default;
 
         return _mapper.Map<T, TReadDTO>(t);
     }
 
-    public virtual TReadDTO UpdateOne(Guid id, TUpdateDTO updateObject)
+    public virtual async Task<TReadDTO> UpdateOneAsync(Guid id, TUpdateDTO updateObject)
     {
-        T currentEntity = _repo.GetOneById(id);
+        T? currentEntity = await _repo.GetOneByIdAsync(id);
         if (currentEntity == null) throw CustomException.NotFoundException("Not Found");
 
         T updatedEntity = _mapper.Map<TUpdateDTO, T>(updateObject, currentEntity);
 
-        return _mapper.Map<T, TReadDTO>(_repo.UpdateOne(updatedEntity));
+        return _mapper.Map<T, TReadDTO>(await _repo.UpdateOneAsync(updatedEntity));
     }
 }

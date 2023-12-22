@@ -6,7 +6,7 @@ using ScuffedWebstore.Core.src.Entities;
 namespace ScuffedWebstore.Framework.src.Database;
 public class TimestampInterceptor : SaveChangesInterceptor
 {
-    public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
+    public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken token)
     {
         IEnumerable<EntityEntry>? changedData = eventData.Context.ChangeTracker.Entries();
         IEnumerable<EntityEntry>? updatedEntries = changedData.Where(entity => entity.State == EntityState.Modified);
@@ -28,6 +28,6 @@ public class TimestampInterceptor : SaveChangesInterceptor
                 entity.CreatedAt = DateTime.Now;
             }
         }
-        return base.SavingChanges(eventData, result);
+        return base.SavingChangesAsync(eventData, result);
     }
 }

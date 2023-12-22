@@ -13,24 +13,24 @@ public class OrderRepo : BaseRepo<Order>, IOrderRepo
         _products = database.Products;
     }
 
-    public override IEnumerable<Order> GetAll(GetAllParams options)
+    public override async Task<IEnumerable<Order>> GetAllAsync(GetAllParams options)
     {
-        return _data.AsNoTracking().Include(o => o.OrderProducts).Skip(options.Offset).Take(options.Limit);
+        return await _data.AsNoTracking().Include(o => o.OrderProducts).Skip(options.Offset).Take(options.Limit).ToListAsync();
     }
 
-    public override Order CreateOne(Order createObject)
+    public override async Task<Order> CreateOneAsync(Order createObject)
     {
         foreach (OrderProduct op in createObject.OrderProducts)
         {
             Console.WriteLine(op.Amount);
-            Product product = _products.FirstOrDefault(p => p.ID == op.ProductID)!;
+            Product product = await _products.FirstOrDefaultAsync(p => p.ID == op.ProductID)!;
             product.Inventory -= op.Amount;
             op.Price = product.Price;
             _products.Update(product);
-            _database.SaveChanges();
+            await _database.SaveChangesAsync();
         }
         _data.Add(createObject);
-        _database.SaveChanges();
+        await _database.SaveChangesAsync();
         return createObject;
 
     }

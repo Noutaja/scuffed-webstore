@@ -12,21 +12,21 @@ public class ProductRepo : BaseRepo<Product>, IProductRepo
 
     }
 
-    public IEnumerable<Product> GetAll(GetAllProductsParams options)
+    public async Task<IEnumerable<Product>> GetAllAsync(GetAllProductsParams options)
     {
-        return _data.AsNoTracking().Include(p => p.Category).Include(p => p.Images).Where(p => p.Title.Contains(options.Query)).Skip(options.Offset).Take(options.Limit);
+        return await _data.AsNoTracking().Include(p => p.Category).Include(p => p.Images)
+            .Where(p => p.Title.Contains(options.Query)).Skip(options.Offset).Take(options.Limit).ToListAsync();
     }
 
-    public override IEnumerable<Product> GetAll(GetAllParams options)
+    public override async Task<IEnumerable<Product>> GetAllAsync(GetAllParams options)
     {
-        return _data.AsNoTracking().Include(p => p.Category).Include(p => p.Images).Skip(options.Offset).Take(options.Limit);
+        return await _data.AsNoTracking().Include(p => p.Category).Include(p => p.Images).Skip(options.Offset).Take(options.Limit).ToListAsync();
     }
 
-    public override Product CreateOne(Product createObject)
+    public override async Task<Product> CreateOneAsync(Product createObject)
     {
         _data.Add(createObject);
-        _database.SaveChanges();
-
+        await _database.SaveChangesAsync();
 
         return createObject;
     }

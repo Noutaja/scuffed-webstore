@@ -15,8 +15,8 @@ public class ImageRepo : BaseRepo<Image>, IImageRepo
     {
     }
 
-    public override IEnumerable<Image> GetAll(GetAllParams options)
+    public override async Task<IEnumerable<Image>> GetAllAsync(GetAllParams options)
     {
-        return _data.AsNoTracking().Skip(options.Offset).Take(options.Limit);
+        return await _data.AsNoTracking().Skip(options.Offset).Take(options.Limit).ToListAsync();
     }
 }

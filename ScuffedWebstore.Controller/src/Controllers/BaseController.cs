@@ -21,34 +21,34 @@ public class BaseController<T, TService, TReadDTO, TCreateDTO, TUpdateDTO> : Con
     }
 
     [HttpPost()]
-    public virtual ActionResult<TReadDTO> CreateOne([FromBody] TCreateDTO createObject)
+    public virtual async Task<ActionResult<TReadDTO>> CreateOneAsync([FromBody] TCreateDTO createObject)
     {
-        return CreatedAtAction(nameof(CreateOne), _service.CreateOne(new Guid(), createObject));
+        return CreatedAtAction(nameof(CreateOneAsync), await _service.CreateOneAsync(new Guid(), createObject));
     }
 
     [HttpDelete("{id:guid}")]
-    public virtual ActionResult<bool> DeleteOne([FromRoute] Guid id)
+    public virtual async Task<ActionResult<bool>> DeleteOneAsync([FromRoute] Guid id)
     {
-        _service.DeleteOne(id);
+        await _service.DeleteOneAsync(id);
         return NoContent();
     }
 
     [HttpGet()]
-    public virtual ActionResult<IEnumerable<TReadDTO>> GetAll([FromQuery] GetAllParams getAllParams)
+    public virtual async Task<ActionResult<IEnumerable<TReadDTO>>> GetAllAsync([FromQuery] GetAllParams getAllParams)
     {
-        return Ok(_service.GetAll(getAllParams));
+        return Ok(await _service.GetAllAsync(getAllParams));
     }
 
     [HttpGet("{id:guid}")]
-    public virtual ActionResult<TReadDTO>? GetOneById([FromRoute] Guid id)
+    public virtual async Task<ActionResult<TReadDTO?>> GetOneByIdAsync([FromRoute] Guid id)
     {
-        return Ok(_service.GetOneByID(id));
+        return Ok(await _service.GetOneByIDAsync(id));
     }
 
     [HttpPatch("{id:guid}")]
-    public virtual ActionResult<TReadDTO> UpdateOne([FromRoute] Guid id, [FromBody] TUpdateDTO updateObject)
+    public virtual async Task<ActionResult<TReadDTO>> UpdateOneAsync([FromRoute] Guid id, [FromBody] TUpdateDTO updateObject)
     {
-        return Ok(_service.UpdateOne(id, updateObject));
+        return Ok(await _service.UpdateOneAsync(id, updateObject));
     }
 
     protected Guid GetIdFromToken()

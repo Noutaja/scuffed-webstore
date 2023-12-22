@@ -15,20 +15,20 @@ public class UserController : BaseController<User, IUserService, UserReadDTO, Us
     }
 
     [HttpGet("search")]
-    public ActionResult<IEnumerable<UserReadDTO>> GetAll([FromQuery] GetAllUsersParams getAllParams)
+    public async Task<ActionResult<IEnumerable<UserReadDTO>>> GetAllAsync([FromQuery] GetAllUsersParams getAllParams)
     {
-        return base.GetAll(getAllParams);
+        return await base.GetAllAsync(getAllParams);
     }
 
     [AllowAnonymous]
-    public override ActionResult<UserReadDTO> CreateOne([FromBody] UserCreateDTO createObject)
+    public override async Task<ActionResult<UserReadDTO>> CreateOneAsync([FromBody] UserCreateDTO createObject)
     {
-        return base.CreateOne(createObject);
+        return await base.CreateOneAsync(createObject);
     }
 
     [HttpPatch("role/{id:guid}")]
-    public ActionResult<UserReadDTO> UpdateRole([FromRoute] Guid id, [FromQuery] UserRole userRole)
+    public async Task<ActionResult<UserReadDTO>> UpdateRole([FromRoute] Guid id, [FromQuery] UserRole userRole)
     {
-        return _service.UpdateRole(id, userRole);
+        return await _service.UpdateRoleAsync(id, userRole);
     }
 }

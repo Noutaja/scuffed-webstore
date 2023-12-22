@@ -11,18 +11,19 @@ public class UserRepo : BaseRepo<User>, IUserRepo
     public UserRepo(DatabaseContext database) : base(database)
     { }
 
-    public IEnumerable<User> GetAll(GetAllUsersParams options)
+    public async Task<IEnumerable<User>> GetAllAsync(GetAllUsersParams options)
     {
-        return _data.AsNoTracking().Include(u => u.Addresses).Where(u => (u.FirstName + " " + u.LastName).Contains(options.Query)).Skip(options.Offset).Take(options.Limit);
+        return await _data.AsNoTracking().Include(u => u.Addresses)
+            .Where(u => (u.FirstName + " " + u.LastName).Contains(options.Query)).Skip(options.Offset).Take(options.Limit).ToListAsync();
     }
 
-    public override IEnumerable<User> GetAll(GetAllParams options)
+    public override async Task<IEnumerable<User>> GetAllAsync(GetAllParams options)
     {
-        return _data.AsNoTracking().Include(u => u.Addresses).Skip(options.Offset).Take(options.Limit);
+        return await _data.AsNoTracking().Include(u => u.Addresses).Skip(options.Offset).Take(options.Limit).ToListAsync();
     }
 
-    public User? GetOneByEmail(string email)
+    public async Task<User?> GetOneByEmailAsync(string email)
     {
-        return _data.AsNoTracking().FirstOrDefault(u => u.Email == email);
+        return await _data.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email);
     }
 }

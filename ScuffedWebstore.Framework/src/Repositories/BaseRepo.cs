@@ -18,34 +18,34 @@ public abstract class BaseRepo<T> : IBaseRepo<T> where T : BaseEntity
         _data = _database.Set<T>();
     }
 
-    public virtual T CreateOne(T createObject)
+    public virtual async Task<T> CreateOneAsync(T createObject)
     {
         _data.Add(createObject);
-        _database.SaveChanges();
+        await _database.SaveChangesAsync();
         return createObject;
     }
 
-    public virtual bool DeleteOne(Guid id)
+    public virtual async Task<bool> DeleteOneAsync(Guid id)
     {
-        T? t = GetOneById(id);
+        T? t = await GetOneByIdAsync(id);
         if (t == null) return false;
 
         _data.Remove(t);
-        _database.SaveChanges();
+        await _database.SaveChangesAsync();
         return true;
     }
 
-    public abstract IEnumerable<T> GetAll(GetAllParams options);
+    public abstract Task<IEnumerable<T>> GetAllAsync(GetAllParams options);
 
-    public virtual T? GetOneById(Guid id)
+    public virtual async Task<T?> GetOneByIdAsync(Guid id)
     {
-        return _data.AsNoTracking().FirstOrDefault(t => t.ID == id);
+        return await _data.AsNoTracking().FirstOrDefaultAsync(t => t.ID == id);
     }
 
-    public virtual T UpdateOne(T updateObject)
+    public virtual async Task<T> UpdateOneAsync(T updateObject)
     {
         _data.Update(updateObject);
-        _database.SaveChanges();
+        await _database.SaveChangesAsync();
         return updateObject;
     }
 }

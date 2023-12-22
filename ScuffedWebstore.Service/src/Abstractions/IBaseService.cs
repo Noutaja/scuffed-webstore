@@ -4,9 +4,9 @@ using ScuffedWebstore.Core.src.Parameters;
 namespace ScuffedWebstore.Service.src.Abstractions;
 public interface IBaseService<T, TReadDTO, TCreateDTO, TUpdateDTO> where T : BaseEntity
 {
-    public IEnumerable<TReadDTO> GetAll(GetAllParams getAllParams);
-    public TReadDTO? GetOneByID(Guid id);
-    public TReadDTO UpdateOne(Guid id, TUpdateDTO updateObject);
-    public bool DeleteOne(Guid id);
-    public TReadDTO CreateOne(Guid id, TCreateDTO createObject);
+    public Task<IEnumerable<TReadDTO>> GetAllAsync(GetAllParams getAllParams);
+    public Task<TReadDTO?> GetOneByIDAsync(Guid id);
+    public Task<TReadDTO> UpdateOneAsync(Guid id, TUpdateDTO updateObject);
+    public Task<bool> DeleteOneAsync(Guid id);
+    public Task<TReadDTO> CreateOneAsync(Guid id, TCreateDTO createObject);
 }

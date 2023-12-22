@@ -17,17 +17,17 @@ public class OrderService : BaseService<Order, OrderReadDTO, OrderCreateDTO, Ord
         _productRepo = productRepo;
     }
 
-    public override OrderReadDTO CreateOne(Guid id, OrderCreateDTO createObject)
+    public override async Task<OrderReadDTO> CreateOneAsync(Guid id, OrderCreateDTO createObject)
     {
-        User? u = _userRepo.GetOneById(id);
+        User? u = await _userRepo.GetOneByIdAsync(id);
         if (u == null) throw CustomException.NotFoundException("User not found");
 
         foreach (OrderProductCreateDTO dto in createObject.OrderProducts)
         {
-            Product? p = _productRepo.GetOneById(dto.ProductID);
+            Product? p = await _productRepo.GetOneByIdAsync(dto.ProductID);
             if (p == null) throw CustomException.NotFoundException("Product not found");
         }
 
-        return _mapper.Map<Order, OrderReadDTO>(_repo.CreateOne(_mapper.Map<OrderCreateDTO, Order>(createObject)));
+        return _mapper.Map<Order, OrderReadDTO>(await _repo.CreateOneAsync(_mapper.Map<OrderCreateDTO, Order>(createObject)));
     }
 }
