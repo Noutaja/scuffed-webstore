@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ScuffedWebstore.Core.src.Entities;
@@ -22,7 +23,7 @@ public class BaseController<T, TService, TReadDTO, TCreateDTO, TUpdateDTO> : Con
     [HttpPost()]
     public virtual ActionResult<TReadDTO> CreateOne([FromBody] TCreateDTO createObject)
     {
-        return CreatedAtAction(nameof(CreateOne), _service.CreateOne(createObject));
+        return CreatedAtAction(nameof(CreateOne), _service.CreateOne(new Guid(), createObject));
     }
 
     [HttpDelete("{id:guid}")]
@@ -48,5 +49,13 @@ public class BaseController<T, TService, TReadDTO, TCreateDTO, TUpdateDTO> : Con
     public virtual ActionResult<TReadDTO> UpdateOne([FromRoute] Guid id, [FromBody] TUpdateDTO updateObject)
     {
         return Ok(_service.UpdateOne(id, updateObject));
+    }
+
+    protected Guid GetIdFromToken()
+    {
+        ClaimsPrincipal claims = HttpContext.User;
+        string id = claims.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)!.Value;
+        Guid guid = new Guid(id);
+        return guid;
     }
 }

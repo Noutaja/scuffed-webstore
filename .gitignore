@@ -14,6 +14,7 @@ bin/
 project.lock.json
 project.fragment.lock.json
 artifacts/
+Migrations/
 
 # Files built by Visual Studio
 *_i.c

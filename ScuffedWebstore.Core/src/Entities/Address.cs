@@ -2,9 +2,8 @@ using ScuffedWebstore.Core.src.Abstractions;
 
 namespace ScuffedWebstore.Core.src.Entities
 {
-    public class Address : BaseEntity
+    public class Address : EntityWithOwner
     {
-        public Guid UserID { get; set; }
         public string Street { get; set; }
         public string Zipcode { get; set; }
         public string City { get; set; }

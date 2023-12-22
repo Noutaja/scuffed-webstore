@@ -15,10 +15,6 @@ public class OrderController : BaseController<Order, IOrderService, OrderReadDTO
     [Authorize]
     public override ActionResult<OrderReadDTO> CreateOne([FromBody] OrderCreateDTO createObject)
     {
-        string userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
-        Guid g = new Guid(userId);
-        if (g != createObject.UserID) Unauthorized("Not authorized");
-
-        return CreatedAtAction(nameof(CreateOne), _service.CreateOne(createObject));
+        return CreatedAtAction(nameof(CreateOne), _service.CreateOne(GetIdFromToken(), createObject));
     }
 }

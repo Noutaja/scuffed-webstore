@@ -13,13 +13,13 @@ public class ImageController : BaseController<Image, IImageService, ImageReadDTO
     {
     }
 
-    [Authorize]
+    //[Authorize]
     public override ActionResult<ImageReadDTO> CreateOne([FromBody] ImageCreateDTO createObject)
     {
         return base.CreateOne(createObject);
     }
 
-    [Authorize]
+    //[Authorize]
     public override ActionResult<ImageReadDTO> UpdateOne([FromRoute] Guid id, [FromBody] ImageUpdateDTO updateObject)
     {
         return base.UpdateOne(id, updateObject);

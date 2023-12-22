@@ -15,12 +15,13 @@ public class UserService : BaseService<User, UserReadDTO, UserCreateDTO, UserUpd
 
     }
 
-    public override UserReadDTO CreateOne(UserCreateDTO user)
+    public override UserReadDTO CreateOne(Guid id, UserCreateDTO user)
     {
         var encrypted = PasswordHandler.HashPassword(user.Password);
         User u = _mapper.Map<UserCreateDTO, User>(user);
         u.Password = encrypted.password;
         u.Salt = encrypted.salt;
+        u.ID = id;
         return _mapper.Map<User, UserReadDTO>(_repo.CreateOne(u));
     }
 

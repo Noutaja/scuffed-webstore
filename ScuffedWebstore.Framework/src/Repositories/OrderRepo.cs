@@ -22,8 +22,10 @@ public class OrderRepo : BaseRepo<Order>, IOrderRepo
     {
         foreach (OrderProduct op in createObject.OrderProducts)
         {
+            Console.WriteLine(op.Amount);
             Product product = _products.FirstOrDefault(p => p.ID == op.ProductID)!;
             product.Inventory -= op.Amount;
+            op.Price = product.Price;
             _products.Update(product);
             _database.SaveChanges();
         }

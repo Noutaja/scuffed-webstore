@@ -37,6 +37,8 @@ public class DatabaseContext : DbContext
         optionsBuilder
             .UseNpgsql(dataSource)
             .UseSnakeCaseNamingConvention()
+            .EnableSensitiveDataLogging()
+            .EnableDetailedErrors()
             .AddInterceptors(new TimestampInterceptor());
         base.OnConfiguring(optionsBuilder);
     }

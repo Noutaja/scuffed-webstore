@@ -8,5 +8,5 @@ public interface IBaseService<T, TReadDTO, TCreateDTO, TUpdateDTO> where T : Bas
     public TReadDTO? GetOneByID(Guid id);
     public TReadDTO UpdateOne(Guid id, TUpdateDTO updateObject);
     public bool DeleteOne(Guid id);
-    public TReadDTO CreateOne(TCreateDTO createObject);
+    public TReadDTO CreateOne(Guid id, TCreateDTO createObject);
 }

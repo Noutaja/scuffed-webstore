@@ -2,14 +2,17 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using ScuffedWebstore.Core.src.Abstractions;
 using ScuffedWebstore.Framework.Middleware;
+using ScuffedWebstore.Framework.src.Authorization;
 using ScuffedWebstore.Framework.src.Database;
 using ScuffedWebstore.Framework.src.Repositories;
 using ScuffedWebstore.Framework.src.Services;
 using ScuffedWebstore.Service.src.Abstractions;
 using ScuffedWebstore.Service.src.Services;
 using ScuffedWebstore.Service.src.Shared;
+using Swashbuckle.AspNetCore.Filters;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +21,17 @@ builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    // Define the OAuth2.0 scheme that's in use (i.e. Implicit Flow)
+    c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Description = "Bearer token authentication",
+        Name = "Authorization",
+        In = ParameterLocation.Header
+    });
+    c.OperationFilter<SecurityRequirementsOperationFilter>();
+});
 
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IAddressRepo, AddressRepo>();
@@ -57,6 +70,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     }
 );
 
+builder.Services.AddAuthorization(policy =>
+{
+    policy.AddPolicy("AdminOrOwner", policy => policy.Requirements.Add(new AdminOrOwnerRequirement()));
+});
+
 builder.Services.AddTransient<ExceptionHandlerMiddleware>();
 
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql());
@@ -69,11 +87,12 @@ WebApplication app = builder.Build();
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(/* opt =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    opt.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    opt.RoutePrefix = string.Empty;
+} */);
 
 app.UseHttpsRedirection();
 

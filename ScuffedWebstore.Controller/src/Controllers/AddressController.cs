@@ -10,8 +10,10 @@ namespace ScuffedWebstore.Controller.src.Controllers;
 [Route("api/v1/addresses")]
 public class AddressController : BaseController<Address, IAddressService, AddressReadDTO, AddressCreateDTO, AddressUpdateDTO>
 {
-    public AddressController(IAddressService service) : base(service)
+    private IAuthorizationService _authorizationService;
+    public AddressController(IAddressService service, IAuthorizationService authorizationService) : base(service)
     {
+        _authorizationService = authorizationService;
     }
 
     [Authorize]
@@ -21,26 +23,22 @@ public class AddressController : BaseController<Address, IAddressService, Addres
         return base.GetAll(getAllParams);
     }
 
-    public override ActionResult<AddressReadDTO> CreateOne([FromBody] AddressCreateDTO createObject)
+    [Authorize]
+    public new ActionResult<AddressReadDTO> CreateOne([FromBody] AddressCreateDTO createObject)
     {
-        return base.CreateOne(createObject);
+
+        return CreatedAtAction(nameof(CreateOne), _service.CreateOne(GetIdFromToken(), createObject));
     }
 
     public override ActionResult<AddressReadDTO> UpdateOne([FromRoute] Guid id, [FromBody] AddressUpdateDTO updateObject)
     {
+        AddressReadDTO address = _service.GetOneByID(id);
+        //var authed = _authorizationService.AuthorizeAsync(HttpContext.User, address, "AdminOrOwner");
         return base.UpdateOne(id, updateObject);
     }
 
     public override ActionResult<bool> DeleteOne([FromRoute] Guid id)
     {
         return base.DeleteOne(id);
-    }
-
-    private Guid GetIdFromToken()
-    {
-        ClaimsPrincipal claims = HttpContext.User;
-        string id = claims.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)!.Value;
-        Guid guid = new Guid(id);
-        return guid;
     }
 }

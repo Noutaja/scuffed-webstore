@@ -17,9 +17,9 @@ public class OrderService : BaseService<Order, OrderReadDTO, OrderCreateDTO, Ord
         _productRepo = productRepo;
     }
 
-    public override OrderReadDTO CreateOne(OrderCreateDTO createObject)
+    public override OrderReadDTO CreateOne(Guid id, OrderCreateDTO createObject)
     {
-        User? u = _userRepo.GetOneById(createObject.UserID);
+        User? u = _userRepo.GetOneById(id);
         if (u == null) throw CustomException.NotFoundException("User not found");
 
         foreach (OrderProductCreateDTO dto in createObject.OrderProducts)

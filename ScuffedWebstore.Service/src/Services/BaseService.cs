@@ -17,9 +17,11 @@ public class BaseService<T, TReadDTO, TCreateDTO, TUpdateDTO> : IBaseService<T, 
         _mapper = mapper;
     }
 
-    public virtual TReadDTO CreateOne(TCreateDTO createObject)
+    public virtual TReadDTO CreateOne(Guid id, TCreateDTO createObject)
     {
-        return _mapper.Map<T, TReadDTO>(_repo.CreateOne(_mapper.Map<TCreateDTO, T>(createObject)));
+        T t = _mapper.Map<TCreateDTO, T>(createObject);
+        t.ID = id;
+        return _mapper.Map<T, TReadDTO>(_repo.CreateOne(t));
     }
 
     public virtual bool DeleteOne(Guid id)
@@ -45,7 +47,7 @@ public class BaseService<T, TReadDTO, TCreateDTO, TUpdateDTO> : IBaseService<T, 
         T currentEntity = _repo.GetOneById(id);
         if (currentEntity == null) throw CustomException.NotFoundException("Not Found");
 
-        T updatedEntity = _mapper.Map<TUpdateDTO, T>(updateObject);
+        T updatedEntity = _mapper.Map<TUpdateDTO, T>(updateObject, currentEntity);
 
         return _mapper.Map<T, TReadDTO>(_repo.UpdateOne(updatedEntity));
     }

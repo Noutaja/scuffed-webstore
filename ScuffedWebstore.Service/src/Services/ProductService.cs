@@ -15,13 +15,13 @@ public class ProductService : BaseService<Product, ProductReadDTO, ProductCreate
         _categoryRepo = categoryRepo;
     }
 
-    public override ProductReadDTO CreateOne(ProductCreateDTO createObject)
+    public override ProductReadDTO CreateOne(Guid id, ProductCreateDTO createObject)
     {
         Category? c = _categoryRepo.GetOneById(createObject.CategoryID);
         if (c == null) throw CustomException.NotFoundException("Category not found");
 
         Product product = _mapper.Map<ProductCreateDTO, Product>(createObject);
-        /* product.Category = c; */
+        product.ID = id;
 
         return _mapper.Map<Product, ProductReadDTO>(_repo.CreateOne(product));
     }

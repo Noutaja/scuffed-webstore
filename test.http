@@ -48,10 +48,10 @@ content-type: application/json
 
 POST http://localhost:5157/api/v1/addresses/ HTTP/1.1
 content-type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5NzQzOC04OTgzLTRiY2EtYjExMS1kZjcwNjQzNTYwNmMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMxODIwMzEsImV4cCI6MTcwMzM1NDgzMSwiaWF0IjoxNzAzMTgyMDMxLCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.gq0cY-TglkLQlL2YRfkgH4DhagOR_MGoFIzeNpIkj1o
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIzYTU5NzU2MS02NGFlLTQyOTMtYTEyMC0wOTk3NDBlOWI4MDMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMyNDM2MzYsImV4cCI6MTcwMzQxNjQzNiwiaWF0IjoxNzAzMjQzNjM2LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.nflDIUk2JTspdxmm0o0iUZZNaMv7UOYxutf5PIK5vcc
 
 {
-  "userID": "05097438-8983-4bca-b111-df706435606c",
+  "userID": "3a597561-64ae-4293-a120-099740e9b803",
   "street": "Some other street",
   "zipcode": "12345",
   "city": "Some city",
@@ -71,16 +71,27 @@ Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5
 
 ###
 
-POST http://localhost:5157/api/v1/products/ HTTP/1.1
+PATCH http://localhost:5157/api/v1/categories/da033fc3-5ad1-42f7-98eb-5816e250f5a9 HTTP/1.1
 content-type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5NzQzOC04OTgzLTRiY2EtYjExMS1kZjcwNjQzNTYwNmMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMxODIxMjUsImV4cCI6MTcwMzM1NDkyNSwiaWF0IjoxNzAzMTgyMTI1LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.8aGjtQ8eN9JzRwGmXEDpJNLytF4kIbnfYqsPqZH9pcA
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5NzQzOC04OTgzLTRiY2EtYjExMS1kZjcwNjQzNTYwNmMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMxODIwMzEsImV4cCI6MTcwMzM1NDgzMSwiaWF0IjoxNzAzMTgyMDMxLCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.gq0cY-TglkLQlL2YRfkgH4DhagOR_MGoFIzeNpIkj1o
 
 {
-  "title": "Running shoes",
+  "name": null,
+  "url": "https://picsum.photos/200"
+}
+
+###
+
+POST http://localhost:5157/api/v1/products/ HTTP/1.1
+content-type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIzYTU5NzU2MS02NGFlLTQyOTMtYTEyMC0wOTk3NDBlOWI4MDMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMyNDM2MzYsImV4cCI6MTcwMzQxNjQzNiwiaWF0IjoxNzAzMjQzNjM2LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.nflDIUk2JTspdxmm0o0iUZZNaMv7UOYxutf5PIK5vcc
+
+{
+  "title": "Walking shoes",
   "description": "Sit ea ut quis et nostrud nulla quis proident.",
   "price": 10,
   "inventory": 4,
-  "categoryID": "5d7a22cf-bef2-4247-bc1b-b070772c19aa",
+  "categoryID": "da033fc3-5ad1-42f7-98eb-5816e250f5a9",
   "images": [
     {
       "url": "https://picsum.photos/200"
@@ -110,14 +121,27 @@ Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5
 
 POST http://localhost:5157/api/v1/orders/ HTTP/1.1
 content-type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5NzQzOC04OTgzLTRiY2EtYjExMS1kZjcwNjQzNTYwNmMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMwNjc3NDYsImV4cCI6MTcwMzI0MDU0NiwiaWF0IjoxNzAzMDY3NzQ2LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.2uSlwAehSplFQHXacy49rgKW2c5KoO2sCbXmlCYRNq4
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIzYTU5NzU2MS02NGFlLTQyOTMtYTEyMC0wOTk3NDBlOWI4MDMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMyNDM2MzYsImV4cCI6MTcwMzQxNjQzNiwiaWF0IjoxNzAzMjQzNjM2LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.nflDIUk2JTspdxmm0o0iUZZNaMv7UOYxutf5PIK5vcc
 
 {
-  "userID": "05097438-8983-4bca-b111-df706435606c",
-  "street": "Some other street",
-  "zipcode": "12345",
-  "city": "Some city",
-  "country": "Some country"
+  "userID": "3a597561-64ae-4293-a120-099740e9b803",
+  "addressID": "c478d6e7-ea28-45ed-b3b4-9d13e6daf62f",
+  "orderProducts": [
+    {
+      "productID": "2cca5210-969c-4d56-9f6f-b2fce3093dd5",
+      "amount": 1
+    }
+  ]
+}
+
+###
+
+PATCH http://localhost:5157/api/v1/images/4b50512e-6e5a-4dbb-a097-6a05056ed502 HTTP/1.1
+content-type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIzYTU5NzU2MS02NGFlLTQyOTMtYTEyMC0wOTk3NDBlOWI4MDMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMyNDM2MzYsImV4cCI6MTcwMzQxNjQzNiwiaWF0IjoxNzAzMjQzNjM2LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.nflDIUk2JTspdxmm0o0iUZZNaMv7UOYxutf5PIK5vcc
+
+{
+  "url": "string"
 }
 
 ###

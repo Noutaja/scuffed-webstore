@@ -7,10 +7,9 @@ using ScuffedWebstore.Framework.src.Database;
 namespace ScuffedWebstore.Framework.src.Repositories;
 public class ProductRepo : BaseRepo<Product>, IProductRepo
 {
-    private DbSet<Image> _imageRepo;
     public ProductRepo(DatabaseContext database) : base(database)
     {
-        _imageRepo = database.Images;
+
     }
 
     public IEnumerable<Product> GetAll(GetAllProductsParams options)

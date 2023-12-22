@@ -14,6 +14,7 @@ public class UserServiceTest
 {
     public UserServiceTest()
     {
+
     }
 
     private static IMapper GetMapper()

@@ -10,6 +10,5 @@ public class OrderProductReadDTO
 public class OrderProductCreateDTO
 {
     public Guid ProductID { get; set; }
-    public Guid OrderID { get; set; }
     public int Amount { get; set; }
 }

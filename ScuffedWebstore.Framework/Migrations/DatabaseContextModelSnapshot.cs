@@ -253,6 +253,9 @@ namespace ScuffedWebstore.Framework.Migrations
                     b.HasKey("ID")
                         .HasName("pk_products");
 
+                    b.HasIndex("CategoryID")
+                        .HasDatabaseName("ix_products_category_id");
+
                     b.ToTable("products", null, t =>
                         {
                             t.HasCheckConstraint("CK_Product_Price_Positive", "price>=0");
@@ -356,12 +359,14 @@ namespace ScuffedWebstore.Framework.Migrations
 
             modelBuilder.Entity("ScuffedWebstore.Core.src.Entities.Address", b =>
                 {
-                    b.HasOne("ScuffedWebstore.Core.src.Entities.User", null)
+                    b.HasOne("ScuffedWebstore.Core.src.Entities.User", "User")
                         .WithMany("Addresses")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_addresses_users_user_id");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ScuffedWebstore.Core.src.Entities.Image", b =>
@@ -376,12 +381,14 @@ namespace ScuffedWebstore.Framework.Migrations
 
             modelBuilder.Entity("ScuffedWebstore.Core.src.Entities.Order", b =>
                 {
-                    b.HasOne("ScuffedWebstore.Core.src.Entities.User", null)
+                    b.HasOne("ScuffedWebstore.Core.src.Entities.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_orders_users_user_id");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ScuffedWebstore.Core.src.Entities.OrderProduct", b =>
@@ -399,6 +406,18 @@ namespace ScuffedWebstore.Framework.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_order_products_products_product_id");
+                });
+
+            modelBuilder.Entity("ScuffedWebstore.Core.src.Entities.Product", b =>
+                {
+                    b.HasOne("ScuffedWebstore.Core.src.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_products_categories_category_id");
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("ScuffedWebstore.Core.src.Entities.Review", b =>
