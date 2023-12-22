@@ -28,19 +28,21 @@ public class AddressController : BaseController<Address, IAddressService, Addres
         return await base.DeleteOneAsync(id);
     }
 
-    //BOTH OF THE ROUTES BELOW CAUSE SWAGGER TO ERROR AND NOT LOAD
-    //All other controllers load just fine, including the same overrides
-    [Authorize]
-    public new async Task<ActionResult<AddressReadDTO>> CreateOneAsync([FromBody] AddressCreateDTO createObject)
-    {
-        return CreatedAtAction(nameof(CreateOneAsync), await _service.CreateOneAsync(GetIdFromToken(), createObject));
-    }
-
     [Authorize]
     public override async Task<ActionResult<AddressReadDTO>> UpdateOneAsync([FromRoute] Guid id, [FromBody] AddressUpdateDTO updateObject)
     {
-        /* AddressReadDTO address = await _service.GetOneByIDAsync(id);
-        var authed = await _authorizationService.AuthorizeAsync(HttpContext.User, address, "AdminOrOwner"); */
-        return await base.UpdateOneAsync(id, updateObject);
+        AddressReadDTO? address = await _service.GetOneByIDAsync(id);
+        if (address == null) return NotFound("Address not found");
+        AuthorizationResult auth = await _authorizationService.AuthorizeAsync(HttpContext.User, address, "AdminOrOwner");
+
+        if (auth.Succeeded) return await _service.UpdateOneAsync(id, updateObject);
+        else if (User.Identity!.IsAuthenticated) return Forbid();
+        else return Challenge();
+    }
+
+    [Authorize]
+    public override async Task<ActionResult<AddressReadDTO>> CreateOneAsync([FromBody] AddressCreateDTO createObject)
+    {
+        return CreatedAtAction(nameof(CreateOneAsync), await _service.CreateOneAsync(GetIdFromToken(), createObject));
     }
 }
