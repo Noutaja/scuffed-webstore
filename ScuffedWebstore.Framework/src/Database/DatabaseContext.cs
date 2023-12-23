@@ -40,7 +40,7 @@ public class DatabaseContext : DbContext
             .UseSnakeCaseNamingConvention()
             .EnableSensitiveDataLogging()
             .EnableDetailedErrors()
-            .AddInterceptors(new TimestampInterceptor());
+            .AddInterceptors(TimestampInterceptor.Instance);
         base.OnConfiguring(optionsBuilder);
     }
 

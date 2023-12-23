@@ -35,6 +35,18 @@ builder.Services.AddSwaggerGen(c =>
     c.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
+//Add
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IAddressRepo, AddressRepo>();
 
@@ -89,6 +101,8 @@ WebApplication app = builder.Build();
 
 
 app.UseMiddleware<ExceptionHandlerMiddleware>();
+
+app.UseCors();
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();

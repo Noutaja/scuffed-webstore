@@ -6,6 +6,10 @@ using ScuffedWebstore.Core.src.Entities;
 namespace ScuffedWebstore.Framework.src.Database;
 public class TimestampInterceptor : SaveChangesInterceptor
 {
+    private static readonly Lazy<TimestampInterceptor> lazyInstance = new Lazy<TimestampInterceptor>(() => new TimestampInterceptor());
+
+    public static TimestampInterceptor Instance => lazyInstance.Value;
+
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken token)
     {
         IEnumerable<EntityEntry>? changedData = eventData.Context.ChangeTracker.Entries();
