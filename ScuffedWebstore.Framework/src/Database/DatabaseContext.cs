@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Core.src.Types;
+using ScuffedWebstore.Service.src.Shared;
 
 namespace ScuffedWebstore.Framework.src.Database;
 public class DatabaseContext : DbContext
@@ -45,12 +46,32 @@ public class DatabaseContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasPostgresEnum<OrderStatus>();
+        modelBuilder.Entity<Order>(entity => entity.Property(e => e.Status).HasColumnType("order_status"));
+
+        modelBuilder.Entity<Review>().HasKey(entity => new { entity.ProductID, entity.UserID });
+
         modelBuilder.HasPostgresEnum<UserRole>();
         modelBuilder.Entity<User>(entity => entity.Property(e => e.Role).HasColumnType("user_role"));
         modelBuilder.Entity<User>(entity => entity.HasIndex(e => e.Email).IsUnique());
 
-        modelBuilder.HasPostgresEnum<OrderStatus>();
-        modelBuilder.Entity<Order>(entity => entity.Property(e => e.Status).HasColumnType("order_status"));
+        var encrypted = PasswordHandler.HashPassword(_config.GetValue<string>("Admin:Password")!);
+        modelBuilder.Entity<User>(entity => entity.HasData(new User()
+        {
+            ID = Guid.NewGuid(),
+            FirstName = _config.GetValue<string>("Admin:FirstName")!,
+            LastName = _config.GetValue<string>("Admin:LastName")!,
+            Email = _config.GetValue<string>("Admin:Email")!,
+            Avatar = _config.GetValue<string>("Admin:Avatar")!,
+            Password = encrypted.password,
+            Salt = encrypted.salt,
+            Role = Enum.Parse<UserRole>(_config.GetValue<string>("Admin:Role")!),
+            Addresses = new List<Address>(),
+            Orders = new List<Order>(),
+            Reviews = new List<Review>()
+        }));
+
+
 
         modelBuilder.Entity<Product>().ToTable(p => p.HasCheckConstraint("CK_Product_Price_Positive", "price>=0"));
 
@@ -58,7 +79,6 @@ public class DatabaseContext : DbContext
         modelBuilder.Entity<OrderProduct>().ToTable(p => p.HasCheckConstraint("CK_OrderProduct_Price_Positive", "price>=0"));
         modelBuilder.Entity<OrderProduct>().ToTable(p => p.HasCheckConstraint("CK_OrderProduct_Amount_Positive", "amount>=0"));
 
-        modelBuilder.Entity<Review>().HasKey(entity => new { entity.ProductID, entity.UserID });
 
         base.OnModelCreating(modelBuilder);
     }

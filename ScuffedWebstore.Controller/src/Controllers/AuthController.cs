@@ -24,7 +24,7 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     public async Task<ActionResult<string>> LoginAsync([FromBody] Credentials credentials)
     {
-        string token = await _authService.LoginAsync(credentials.email, credentials.password);
+        string token = await _authService.LoginAsync(credentials.Email, credentials.Password);
         if (string.IsNullOrEmpty(token)) return Forbid();
 
         return Ok(token);

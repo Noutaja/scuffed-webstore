@@ -9,14 +9,12 @@ namespace ScuffedWebstore.Service.src.Services;
 public class AuthService : IAuthService
 {
     private IUserRepo _userRepo;
-    private IAddressRepo _addressRepo;
     private ITokenService _tokenService;
     private IMapper _mapper;
 
-    public AuthService(IUserRepo userRepo, IAddressRepo addressRepo, ITokenService tokenService, IMapper mapper)
+    public AuthService(IUserRepo userRepo, ITokenService tokenService, IMapper mapper)
     {
         _userRepo = userRepo;
-        _addressRepo = addressRepo;
         _tokenService = tokenService;
         _mapper = mapper;
     }
@@ -51,9 +49,6 @@ public class AuthService : IAuthService
 
     public async Task<bool> DeleteProfileAsync(Guid id)
     {
-        User? u = await _userRepo.GetOneByIdAsync(id);
-        if (u == null) throw CustomException.NotFoundException("User not found");
-
         return await _userRepo.DeleteOneAsync(id);
     }
 }

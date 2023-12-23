@@ -1,4 +1,6 @@
 ### Ignore unnecessary files in backend
+Migrations/
+publish/
 
 # User-specific files
 appsettings.json
@@ -14,7 +16,7 @@ bin/
 project.lock.json
 project.fragment.lock.json
 artifacts/
-Migrations/
+
 
 # Files built by Visual Studio
 *_i.c
