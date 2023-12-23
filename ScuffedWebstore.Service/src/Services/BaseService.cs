@@ -46,7 +46,7 @@ public class BaseService<T, TReadDTO, TCreateDTO, TUpdateDTO> : IBaseService<T, 
     public virtual async Task<TReadDTO> UpdateOneAsync(Guid id, TUpdateDTO updateObject)
     {
         T? currentEntity = await _repo.GetOneByIdAsync(id);
-        if (currentEntity == null) throw CustomException.NotFoundException("Not Found");
+        if (currentEntity == null) throw CustomException.NotFoundException(currentEntity.GetType() + " Not Found");
 
         foreach (PropertyInfo prop in updateObject.GetType().GetProperties())
         {

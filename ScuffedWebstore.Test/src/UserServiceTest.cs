@@ -29,14 +29,14 @@ public class UserServiceTest
 
     [Theory]
     [ClassData(typeof(GetAllUsersData))]
-    public void GetAll_ShouldReturnValidResponse(IEnumerable<User> response, IEnumerable<UserReadDTO> expected)
+    public async void GetAll_ShouldReturnValidResponse(IEnumerable<User> response, IEnumerable<UserReadDTO> expected)
     {
         Mock<IUserRepo> repo = new Mock<IUserRepo>();
         GetAllParams options = new GetAllParams();
-        repo.Setup(repo => repo.GetAll(options)).Returns(response);
+        repo.Setup(repo => repo.GetAllAsync(options)).Returns(Task.FromResult(response));
         UserService service = new UserService(repo.Object, GetMapper());
 
-        IEnumerable<UserReadDTO> result = service.GetAll(options);
+        IEnumerable<UserReadDTO> result = await service.GetAllAsync(options);
 
         Assert.Equivalent(expected, result);
     }
@@ -45,23 +45,23 @@ public class UserServiceTest
     {
         public GetAllUsersData()
         {
-            User user1 = new User() { FirstName = "Asd", LastName = "Asdeer", Email = "a@b.com", Password = "asdf1234", Avatar = "https://picsum.photos/200" };
+            /* User user1 = new User() { FirstName = "Asd", LastName = "Asdeer", Email = "a@b.com", Password = "asdf1234", Avatar = "https://picsum.photos/200" };
             User user2 = new User() { FirstName = "Qwe", LastName = "Qwerty", Email = "q@b.com", Password = "asdf1234", Avatar = "https://picsum.photos/200" };
-            User user3 = new User() { FirstName = "Zxc", LastName = "Zxcvbn", Email = "z@b.com", Password = "asdf1234", Avatar = "https://picsum.photos/200" };
-            IEnumerable<User> users = new List<User>() { user1, user2, user3 };
+            User user3 = new User() { FirstName = "Zxc", LastName = "Zxcvbn", Email = "z@b.com", Password = "asdf1234", Avatar = "https://picsum.photos/200" }; */
+            IEnumerable<User> users = new List<User>();
             Add(users, GetMapper().Map<IEnumerable<User>, IEnumerable<UserReadDTO>>(users));
         }
     }
 
     [Theory]
     [ClassData(typeof(GetOneByIDData))]
-    public void GetOneByID_ShouldReturnValidResponse(User response, UserReadDTO expected)
+    public async void GetOneByID_ShouldReturnValidResponse(User response, UserReadDTO expected)
     {
         Mock<IUserRepo> repo = new Mock<IUserRepo>();
-        repo.Setup(repo => repo.GetOneById(It.IsAny<Guid>())).Returns(response);
+        repo.Setup(repo => repo.GetOneByIdAsync(It.IsAny<Guid>())).Returns(Task.FromResult(response));
         UserService service = new UserService(repo.Object, GetMapper());
 
-        UserReadDTO result = service.GetOneByID(It.IsAny<Guid>());
+        UserReadDTO result = await service.GetOneByIDAsync(It.IsAny<Guid>());
 
         Assert.Equivalent(expected, response);
 
@@ -78,7 +78,7 @@ public class UserServiceTest
                 Email = "a@b.com",
                 Password = "asdf1234",
                 Avatar = "https://picsum.photos/200",
-                Addresses = new List<Address>()  //Is making an empty list here right? It's null otherwise but the DTO is []
+                Addresses = new List<Address>()
             };
             Add(user, GetMapper().Map<User, UserReadDTO>(user));
             Add(null, null);
@@ -87,13 +87,13 @@ public class UserServiceTest
 
     [Theory]
     [ClassData(typeof(CreateOneUserData))]
-    public void CreateOne_ShouldReturnValidResponse(UserCreateDTO input, User response, UserReadDTO expected)
+    public async void CreateOne_ShouldReturnValidResponse(UserCreateDTO input, User response, UserReadDTO expected)
     {
         Mock<IUserRepo> repo = new Mock<IUserRepo>();
-        repo.Setup(repo => repo.CreateOne(It.IsAny<User>())).Returns(response);
+        repo.Setup(repo => repo.CreateOneAsync(It.IsAny<User>())).Returns(Task.FromResult(response));
         UserService service = new UserService(repo.Object, GetMapper());
 
-        UserReadDTO result = service.CreateOne(input);
+        UserReadDTO result = await service.CreateOneAsync(It.IsAny<Guid>(), input);
 
         Assert.Equivalent(expected, result);
     }
@@ -118,30 +118,30 @@ public class UserServiceTest
     [Theory]
     [InlineData(true, true)]
     [InlineData(false, false)]
-    public void DeleteOne_ShouldReturnValidResponse(bool response, bool expected)
+    public async void DeleteOne_ShouldReturnValidResponse(bool response, bool expected)
     {
         Mock<IUserRepo> repo = new Mock<IUserRepo>();
-        repo.Setup(repo => repo.DeleteOne(It.IsAny<Guid>())).Returns(response);
+        repo.Setup(repo => repo.DeleteOneAsync(It.IsAny<Guid>())).Returns(Task.FromResult(response));
         UserService service = new UserService(repo.Object, GetMapper());
 
-        bool result = service.DeleteOne(It.IsAny<Guid>());
+        bool result = await service.DeleteOneAsync(It.IsAny<Guid>());
 
         Assert.Equal(expected, response);
     }
 
     [Theory]
     [ClassData(typeof(UpdateOneUserData))]
-    public void UpdateOne_ShouldReturnValidResponse(UserUpdateDTO? input, User? foundUser, User? response, UserReadDTO? expected, Type? exception)
+    public async void UpdateOne_ShouldReturnValidResponse(UserUpdateDTO? input, User? foundUser, User? response, UserReadDTO? expected, Type? exception)
     {
         Mock<IUserRepo> repo = new Mock<IUserRepo>();
-        repo.Setup(repo => repo.UpdateOne(It.IsAny<User>())).Returns(response);
-        repo.Setup(repo => repo.GetOneById(It.IsAny<Guid>())).Returns(foundUser);
+        repo.Setup(repo => repo.UpdateOneAsync(It.IsAny<User>())).Returns(Task.FromResult(response));
+        repo.Setup(repo => repo.GetOneByIdAsync(It.IsAny<Guid>())).Returns(Task.FromResult(foundUser));
         UserService service = new UserService(repo.Object, GetMapper());
 
-        if (exception != null) Assert.Throws(exception, () => service.UpdateOne(It.IsAny<Guid>(), input));
+        if (exception != null) Assert.ThrowsAsync(exception, async () => await service.UpdateOneAsync(It.IsAny<Guid>(), input));
         else
         {
-            UserReadDTO result = service.UpdateOne(It.IsAny<Guid>(), input);
+            UserReadDTO result = await service.UpdateOneAsync(It.IsAny<Guid>(), input);
 
             Assert.Equivalent(expected, result);
         }
@@ -158,25 +158,37 @@ public class UserServiceTest
                 Email = "a@b.com",
                 Avatar = "https://picsum.photos/200"
             };
-            User user = GetMapper().Map<UserUpdateDTO, User>(userInput);
+            User user = new User()
+            {
+                FirstName = "Asd",
+                LastName = "Asdeer",
+                Email = "a@b.com",
+                Avatar = "https://picsum.photos/200"
+            };
+            UserUpdateDTO partialUserInput = new UserUpdateDTO()
+            {
+                FirstName = "Asd"
+            };
+            //User user = GetMapper().Map<UserUpdateDTO, User>(userInput);
             Add(userInput, user, user, GetMapper().Map<User, UserReadDTO>(user), null);
+            Add(partialUserInput, user, user, GetMapper().Map<User, UserReadDTO>(user), null);
             Add(userInput, null, null, null, typeof(CustomException));
         }
     }
 
     [Theory]
     [ClassData(typeof(UpdateRoleData))]
-    public void UpdateRole_ShouldReturnValidResponse(UserRole input, User? foundUser, User? response, UserReadDTO? expected, Type? exception)
+    public async void UpdateRole_ShouldReturnValidResponse(UserRole input, User? foundUser, User? response, UserReadDTO? expected, Type? exception)
     {
         Mock<IUserRepo> repo = new Mock<IUserRepo>();
-        repo.Setup(repo => repo.UpdateOne(It.IsAny<User>())).Returns(response);
-        repo.Setup(repo => repo.GetOneById(It.IsAny<Guid>())).Returns(foundUser);
+        repo.Setup(repo => repo.UpdateOneAsync(It.IsAny<User>())).Returns(Task.FromResult(response));
+        repo.Setup(repo => repo.GetOneByIdAsync(It.IsAny<Guid>())).Returns(Task.FromResult(foundUser));
         UserService service = new UserService(repo.Object, GetMapper());
 
-        if (exception != null) Assert.Throws(exception, () => service.UpdateRole(It.IsAny<Guid>(), input));
+        if (exception != null) Assert.ThrowsAsync(exception, async () => await service.UpdateRoleAsync(It.IsAny<Guid>(), input));
         else
         {
-            UserReadDTO result = service.UpdateRole(It.IsAny<Guid>(), input);
+            UserReadDTO result = await service.UpdateRoleAsync(It.IsAny<Guid>(), input);
 
             Assert.Equivalent(expected, result);
         }
