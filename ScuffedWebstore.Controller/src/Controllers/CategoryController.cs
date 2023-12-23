@@ -14,13 +14,6 @@ public class CategoryController : BaseController<Category, ICategoryService, Cat
     }
 
     [AllowAnonymous]
-    [HttpGet("search")]
-    public async Task<ActionResult<IEnumerable<CategoryReadDTO>>> GetAll([FromQuery] GetAllCategoriesParams getAllParams)
-    {
-        return await base.GetAll(getAllParams);
-    }
-
-    [AllowAnonymous]
     public override Task<ActionResult<IEnumerable<CategoryReadDTO>>> GetAll([FromQuery] GetAllParams getAllParams)
     {
         return base.GetAll(getAllParams);
@@ -30,5 +23,23 @@ public class CategoryController : BaseController<Category, ICategoryService, Cat
     public override async Task<ActionResult<CategoryReadDTO?>> GetOneById([FromRoute] Guid id)
     {
         return await base.GetOneById(id);
+    }
+
+    [Authorize(Roles = "Admin")]
+    public override Task<ActionResult<CategoryReadDTO>> CreateOne([FromBody] CategoryCreateDTO createObject)
+    {
+        return base.CreateOne(createObject);
+    }
+
+    [Authorize(Roles = "Admin")]
+    public override Task<ActionResult<bool>> DeleteOne([FromRoute] Guid id)
+    {
+        return base.DeleteOne(id);
+    }
+
+    [Authorize(Roles = "Admin")]
+    public override Task<ActionResult<CategoryReadDTO>> UpdateOne([FromRoute] Guid id, [FromBody] CategoryUpdateDTO updateObject)
+    {
+        return base.UpdateOne(id, updateObject);
     }
 }

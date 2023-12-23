@@ -16,9 +16,6 @@ public class PasswordHandler
     public static bool VerifyPassword(string plainPassword, string hashedPassword, byte[] salt)
     {
         HMACSHA256 hmac = new HMACSHA256(salt);
-        Console.WriteLine(BitConverter.ToString(hmac.ComputeHash(Encoding.UTF8.GetBytes(plainPassword))));
-        Console.WriteLine(hashedPassword);
-        Console.WriteLine(BitConverter.ToString(hmac.ComputeHash(Encoding.UTF8.GetBytes(plainPassword))) == hashedPassword);
         return BitConverter.ToString(hmac.ComputeHash(Encoding.UTF8.GetBytes(plainPassword))) == hashedPassword;
     }
 }

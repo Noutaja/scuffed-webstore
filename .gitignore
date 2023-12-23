@@ -100,3 +100,7 @@ frontend/package-*.json
 .DS_Store
 .AppleDouble
 .LSOverride
+
+#Other
+
+test.http

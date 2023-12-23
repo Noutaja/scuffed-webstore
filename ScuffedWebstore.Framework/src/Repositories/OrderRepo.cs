@@ -15,7 +15,7 @@ public class OrderRepo : BaseRepo<Order>, IOrderRepo
 
     public override async Task<IEnumerable<Order>> GetAllAsync(GetAllParams options)
     {
-        return await _data.AsNoTracking().Include(o => o.OrderProducts).Skip(options.Offset).Take(options.Limit).ToListAsync();
+        return await _data.AsNoTracking().Include(o => o.OrderProducts).ThenInclude(o => o.Product).ThenInclude(o => o.Category).Skip(options.Offset).Take(options.Limit).ToListAsync();
     }
 
     public override async Task<Order> CreateOneAsync(Order createObject)

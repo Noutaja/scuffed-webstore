@@ -26,8 +26,8 @@ public class AddressService : BaseService<Address, AddressReadDTO, AddressCreate
         return _mapper.Map<Address, AddressReadDTO>(await _repo.CreateOneAsync(a));
     }
 
-    public async Task<IEnumerable<AddressReadDTO>> GetAllForProfileAsync(Guid userId)
+    /* public async Task<IEnumerable<AddressReadDTO>> GetAllForProfileAsync(Guid userId)
     {
         return _mapper.Map<IEnumerable<Address>, IEnumerable<AddressReadDTO>>(await _repo.GetAllAsync(new GetAllAddressesParams { UserID = userId }));
-    }
+    } */
 }

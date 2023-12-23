@@ -10,14 +10,10 @@ namespace ScuffedWebstore.Controller.src.Controllers;
 
 public class UserController : BaseController<User, IUserService, UserReadDTO, UserCreateDTO, UserUpdateDTO>
 {
-    public UserController(IUserService service) : base(service)
+    private IAuthorizationService _authorizationService;
+    public UserController(IUserService service, IAuthorizationService authorizationService) : base(service)
     {
-    }
-
-    [HttpGet("search")]
-    public async Task<ActionResult<IEnumerable<UserReadDTO>>> GetAll([FromQuery] GetAllUsersParams getAllParams)
-    {
-        return await base.GetAll(getAllParams);
+        _authorizationService = authorizationService;
     }
 
     [AllowAnonymous]
@@ -27,8 +23,39 @@ public class UserController : BaseController<User, IUserService, UserReadDTO, Us
     }
 
     [HttpPatch("role/{id:guid}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<UserReadDTO>> UpdateRole([FromRoute] Guid id, [FromQuery] UserRole userRole)
     {
         return await _service.UpdateRoleAsync(id, userRole);
+    }
+
+    public override async Task<ActionResult<UserReadDTO>> UpdateOne([FromRoute] Guid id, [FromBody] UserUpdateDTO updateObject)
+    {
+        UserReadDTO? order = await _service.GetOneByIDAsync(id);
+        if (order == null) return NotFound("Order not found");
+
+        AuthorizationResult auth = await _authorizationService.AuthorizeAsync(HttpContext.User, order, "AdminOrOwner");
+
+        if (auth.Succeeded) return order;
+        else if (User.Identity!.IsAuthenticated) return Forbid();
+        else return Challenge();
+    }
+
+    [Authorize(Roles = "Admin")]
+    public override Task<ActionResult<bool>> DeleteOne([FromRoute] Guid id)
+    {
+        return base.DeleteOne(id);
+    }
+
+    [Authorize(Roles = "Admin")]
+    public override async Task<ActionResult<IEnumerable<UserReadDTO>>> GetAll([FromQuery] GetAllParams getAllParams)
+    {
+        return await base.GetAll(getAllParams);
+    }
+
+    [Authorize(Roles = "Admin")]
+    public override async Task<ActionResult<UserReadDTO?>> GetOneById([FromRoute] Guid id)
+    {
+        return await base.GetOneById(id);
     }
 }

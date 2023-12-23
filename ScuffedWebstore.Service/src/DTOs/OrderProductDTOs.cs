@@ -1,8 +1,7 @@
 namespace ScuffedWebstore.Service.src.DTOs;
 public class OrderProductReadDTO
 {
-    public Guid ProductID { get; set; }
-    public Guid OrderID { get; set; }
+    public ProductWithoutPriceReadDTO Product { get; set; }
     public int Amount { get; set; }
     public double Price { get; set; }
 }

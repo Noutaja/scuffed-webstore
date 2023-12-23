@@ -26,6 +26,11 @@ namespace ScuffedWebstore.Service.src.Shared
             .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images
                 .Select(img => new ImageReadDTO { Url = img.Url, ID = img.ID, ProductID = img.ProductID })));
 
+            CreateMap<Product, ProductWithoutPriceReadDTO>()
+        .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
+        .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images
+            .Select(img => new ImageReadDTO { Url = img.Url, ID = img.ID, ProductID = img.ProductID })));
+
             CreateMap<ProductCreateDTO, Product>()
                 .ForMember(dest => dest.CategoryID, opt => opt.MapFrom(src => src.CategoryID))
                 .ForMember(dest => dest.Images,

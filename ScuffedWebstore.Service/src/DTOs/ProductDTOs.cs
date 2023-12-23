@@ -12,6 +12,16 @@ public class ProductReadDTO
     public IEnumerable<ImageReadDTO> Images { get; set; }
 }
 
+public class ProductWithoutPriceReadDTO
+{
+    public Guid ID { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public int Inventory { get; set; }
+    public CategoryReadDTO Category { get; set; }
+    public IEnumerable<ImageReadDTO> Images { get; set; }
+}
+
 public class ProductCreateDTO
 {
     public string Title { get; set; }

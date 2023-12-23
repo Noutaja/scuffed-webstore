@@ -39,8 +39,16 @@ Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5
 
 ###
 
-GET http://localhost:5157/api/v1/addresss HTTP/1.1
+GET http://localhost:5157/api/v1/addresses HTTP/1.1
 content-type: application/json
+
+{}
+
+###
+
+DELETE http://localhost:5157/api/v1/addresses/bdd7b4bd-f4f7-4449-9b2c-a21ad45c7967 HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJkNzA0ZGFiYi0yM2M5LTQ2NzYtOTgyNC1kZjU2NDk1NGFhOTUiLCJyb2xlIjoiTm9ybWFsIiwibmJmIjoxNzAzMzMzNzYyLCJleHAiOjE3MDM1MDY1NjIsImlhdCI6MTcwMzMzMzc2MiwiaXNzIjoiTm91dGFqYSIsImF1ZCI6Ik5vdXRhamFTY3VmZmVkV2Vic3RvcmUifQ.8ZSJRDHsaOhIEiQV2dTABI4tIl62I5wSRpRg4AkpfiE
 
 {}
 

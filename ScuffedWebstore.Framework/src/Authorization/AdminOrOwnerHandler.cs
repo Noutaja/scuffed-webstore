@@ -14,6 +14,10 @@ namespace ScuffedWebstore.Framework.src.Authorization
             string userRole = claims.FindFirst(c => c.Type == ClaimTypes.Role)!.Value;
             string userId = claims.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)!.Value;
 
+            Console.WriteLine(userId);
+            Console.WriteLine(UserRole.Admin.ToString());
+            Console.WriteLine(userRole == UserRole.Admin.ToString());
+
             if (userRole == UserRole.Admin.ToString()) context.Succeed(requirement);
             else if (userId == resource.UserID.ToString()) context.Succeed(requirement);
 
