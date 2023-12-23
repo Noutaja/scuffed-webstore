@@ -1,3 +1,4 @@
+using System.Reflection;
 using AutoMapper;
 using ScuffedWebstore.Core.src.Abstractions;
 using ScuffedWebstore.Core.src.Entities;
@@ -47,16 +48,17 @@ public class BaseService<T, TReadDTO, TCreateDTO, TUpdateDTO> : IBaseService<T, 
         T? currentEntity = await _repo.GetOneByIdAsync(id);
         if (currentEntity == null) throw CustomException.NotFoundException("Not Found");
 
+        foreach (PropertyInfo prop in updateObject.GetType().GetProperties())
+        {
+            if (prop.GetValue(updateObject) == null) continue;
 
-        T updatedEntity = _mapper.Map<TUpdateDTO, T>(updateObject, currentEntity);
-        /*  Console.WriteLine("OBJECT!!!!");
-         Console.WriteLine(updatedEntity);
-         foreach (var prop in updatedEntity.GetType().GetProperties())
-         {
-             Console.WriteLine(prop.Name);
-             Console.WriteLine(prop.GetValue(updatedEntity));
-         } */
+            PropertyInfo? editedProp = currentEntity.GetType().GetProperty(prop.Name);
+            editedProp.SetValue(currentEntity, prop.GetValue(updateObject));
+        }
 
-        return _mapper.Map<T, TReadDTO>(await _repo.UpdateOneAsync(updatedEntity));
+
+        //T updatedEntity = _mapper.Map<TUpdateDTO, T>(updateObject, currentEntity);
+
+        return _mapper.Map<T, TReadDTO>(await _repo.UpdateOneAsync(currentEntity));
     }
 }

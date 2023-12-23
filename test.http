@@ -87,7 +87,7 @@ content-type: application/json
 Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIzYTU5NzU2MS02NGFlLTQyOTMtYTEyMC0wOTk3NDBlOWI4MDMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMyNDM2MzYsImV4cCI6MTcwMzQxNjQzNiwiaWF0IjoxNzAzMjQzNjM2LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.nflDIUk2JTspdxmm0o0iUZZNaMv7UOYxutf5PIK5vcc
 
 {
-  "title": "Walking shoes",
+  "title": "Jumping shoes",
   "description": "Sit ea ut quis et nostrud nulla quis proident.",
   "price": 10,
   "inventory": 4,

@@ -13,8 +13,8 @@ public class OrderController : BaseController<Order, IOrderService, OrderReadDTO
     }
 
     [Authorize]
-    public override async Task<ActionResult<OrderReadDTO>> CreateOneAsync([FromBody] OrderCreateDTO createObject)
+    public override async Task<ActionResult<OrderReadDTO>> CreateOne([FromBody] OrderCreateDTO createObject)
     {
-        return CreatedAtAction(nameof(CreateOneAsync), await _service.CreateOneAsync(GetIdFromToken(), createObject));
+        return CreatedAtAction(nameof(CreateOne), await _service.CreateOneAsync(GetIdFromToken(), createObject));
     }
 }

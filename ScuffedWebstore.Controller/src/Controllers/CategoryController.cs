@@ -15,20 +15,20 @@ public class CategoryController : BaseController<Category, ICategoryService, Cat
 
     [AllowAnonymous]
     [HttpGet("search")]
-    public async Task<ActionResult<IEnumerable<CategoryReadDTO>>> GetAllAsync([FromQuery] GetAllCategoriesParams getAllParams)
+    public async Task<ActionResult<IEnumerable<CategoryReadDTO>>> GetAll([FromQuery] GetAllCategoriesParams getAllParams)
     {
-        return await base.GetAllAsync(getAllParams);
+        return await base.GetAll(getAllParams);
     }
 
     [AllowAnonymous]
-    public override Task<ActionResult<IEnumerable<CategoryReadDTO>>> GetAllAsync([FromQuery] GetAllParams getAllParams)
+    public override Task<ActionResult<IEnumerable<CategoryReadDTO>>> GetAll([FromQuery] GetAllParams getAllParams)
     {
-        return base.GetAllAsync(getAllParams);
+        return base.GetAll(getAllParams);
     }
 
     [AllowAnonymous]
-    public override async Task<ActionResult<CategoryReadDTO?>> GetOneByIdAsync([FromRoute] Guid id)
+    public override async Task<ActionResult<CategoryReadDTO?>> GetOneById([FromRoute] Guid id)
     {
-        return await base.GetOneByIdAsync(id);
+        return await base.GetOneById(id);
     }
 }

@@ -15,11 +15,11 @@ namespace ScuffedWebstore.Service.src.Shared
             CreateMap<UserCreateDTO, User>()
                 .ForMember(dest => dest.Password,
                     opt => opt.Ignore());
-            CreateMap<UserUpdateDTO, User>().ForAllMembers(opt => opt.Condition((src, dest, value) => value != null));
+            /* CreateMap<UserUpdateDTO, User>().ForAllMembers(opt => opt.Condition((src, dest, value) => value != null)); */
 
             CreateMap<Address, AddressReadDTO>();
             CreateMap<AddressCreateDTO, Address>();
-            CreateMap<AddressUpdateDTO, Address>().ForAllMembers(opt => opt.Condition((src, dest, value) => value != null));
+            /* CreateMap<AddressUpdateDTO, Address>().ForAllMembers(opt => opt.Condition((src, dest, value) => value != null)); */
 
             CreateMap<Product, ProductReadDTO>()
             .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
@@ -32,31 +32,25 @@ namespace ScuffedWebstore.Service.src.Shared
                      opt => opt.MapFrom(src => src.Images.Select(i =>
                 new Image { Url = i.Url })));
 
-            CreateMap<ProductUpdateDTO, Product>()
-                /* .ForMember(dest => dest.CategoryID,
-                    opt => opt.MapFrom(src => src.CategoryID)) */
-                /* .ForMember(dest => dest.Images,
-                    opt => opt.MapFrom(src => src.Images)) */
-                .ForAllMembers(opt => opt.Condition((src, dest, value) => value != null));
+            /* CreateMap<ProductUpdateDTO, Product>()
+            .ForAllMembers(opt => opt.Condition((src, dest, value) => value != null)); */
 
             CreateMap<Image, ImageReadDTO>();
             CreateMap<ImageCreateDTO, Image>();
-            CreateMap<ImageUpdateDTO, Image>().ForAllMembers(opt => opt.Condition((src, dest, value) => value != null));
+            /* CreateMap<ImageUpdateDTO, Image>().ForAllMembers(opt => opt.Condition((src, dest, value) => value != null)); */
 
             CreateMap<Category, CategoryReadDTO>();
             CreateMap<CategoryCreateDTO, Category>();
-            CreateMap<CategoryUpdateDTO, Category>().ForAllMembers(opt => opt.Condition((src, dest, value) => value != null));
+            /* CreateMap<CategoryUpdateDTO, Category>().ForAllMembers(opt => opt.Condition((src, dest, value) => value != null)); */
 
             CreateMap<Order, OrderReadDTO>();
             CreateMap<OrderCreateDTO, Order>()
                 .ForMember(dest => dest.OrderProducts,
                     opt => opt.MapFrom(src => src.OrderProducts));
-            CreateMap<OrderUpdateDTO, Order>().ForAllMembers(opt => opt.Condition((src, dest, value) => value != null));
+            /* CreateMap<OrderUpdateDTO, Order>().ForAllMembers(opt => opt.Condition((src, dest, value) => value != null)); */
 
             CreateMap<OrderProduct, OrderProductReadDTO>();
             CreateMap<OrderProductCreateDTO, OrderProduct>();
-
-            CreateMap<int?, int>().ConvertUsing((src, dest) => src ?? dest);
         }
     }
 }

@@ -15,20 +15,20 @@ public class ProductController : BaseController<Product, IProductService, Produc
 
     [AllowAnonymous]
     [HttpGet("search")]
-    public async Task<ActionResult<IEnumerable<ProductReadDTO>>> GetAllAsync([FromQuery] GetAllProductsParams getAllParams)
+    public async Task<ActionResult<IEnumerable<ProductReadDTO>>> GetAll([FromQuery] GetAllProductsParams getAllParams)
     {
-        return await base.GetAllAsync(getAllParams);
+        return await base.GetAll(getAllParams);
     }
 
     [AllowAnonymous]
-    public override async Task<ActionResult<IEnumerable<ProductReadDTO>>> GetAllAsync([FromQuery] GetAllParams getAllParams)
+    public override async Task<ActionResult<IEnumerable<ProductReadDTO>>> GetAll([FromQuery] GetAllParams getAllParams)
     {
-        return await base.GetAllAsync(getAllParams);
+        return await base.GetAll(getAllParams);
     }
 
     [AllowAnonymous]
-    public override async Task<ActionResult<ProductReadDTO?>> GetOneByIdAsync([FromRoute] Guid id)
+    public override async Task<ActionResult<ProductReadDTO?>> GetOneById([FromRoute] Guid id)
     {
-        return await base.GetOneByIdAsync(id);
+        return await base.GetOneById(id);
     }
 }

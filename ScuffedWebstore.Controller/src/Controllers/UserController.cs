@@ -15,15 +15,15 @@ public class UserController : BaseController<User, IUserService, UserReadDTO, Us
     }
 
     [HttpGet("search")]
-    public async Task<ActionResult<IEnumerable<UserReadDTO>>> GetAllAsync([FromQuery] GetAllUsersParams getAllParams)
+    public async Task<ActionResult<IEnumerable<UserReadDTO>>> GetAll([FromQuery] GetAllUsersParams getAllParams)
     {
-        return await base.GetAllAsync(getAllParams);
+        return await base.GetAll(getAllParams);
     }
 
     [AllowAnonymous]
-    public override async Task<ActionResult<UserReadDTO>> CreateOneAsync([FromBody] UserCreateDTO createObject)
+    public override async Task<ActionResult<UserReadDTO>> CreateOne([FromBody] UserCreateDTO createObject)
     {
-        return await base.CreateOneAsync(createObject);
+        return await base.CreateOne(createObject);
     }
 
     [HttpPatch("role/{id:guid}")]

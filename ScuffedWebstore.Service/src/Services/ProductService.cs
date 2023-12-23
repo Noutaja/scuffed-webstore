@@ -26,7 +26,7 @@ public class ProductService : BaseService<Product, ProductReadDTO, ProductCreate
         return _mapper.Map<Product, ProductReadDTO>(await _repo.CreateOneAsync(product));
     }
 
-    public override async Task<ProductReadDTO> UpdateOneAsync(Guid id, ProductUpdateDTO updateObject)
+    /* public override async Task<ProductReadDTO> UpdateOneAsync(Guid id, ProductUpdateDTO updateObject)
     {
         Console.WriteLine("UPDATEOBJECT!!!!");
         Console.WriteLine(updateObject);
@@ -56,5 +56,5 @@ public class ProductService : BaseService<Product, ProductReadDTO, ProductCreate
         }
 
         return _mapper.Map<Product, ProductReadDTO>(await _repo.UpdateOneAsync(currentEntity));
-    }
+    } */
 }

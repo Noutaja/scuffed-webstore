@@ -20,16 +20,16 @@ public class AddressController : BaseController<Address, IAddressService, Addres
     [HttpGet("search")]
     public async Task<ActionResult<IEnumerable<AddressReadDTO>>> GetAllAsync([FromQuery] GetAllAddressesParams getAllParams)
     {
-        return await base.GetAllAsync(getAllParams);
+        return await base.GetAll(getAllParams);
     }
 
-    public override async Task<ActionResult<bool>> DeleteOneAsync([FromRoute] Guid id)
+    public override async Task<ActionResult<bool>> DeleteOne([FromRoute] Guid id)
     {
-        return await base.DeleteOneAsync(id);
+        return await base.DeleteOne(id);
     }
 
     [Authorize]
-    public override async Task<ActionResult<AddressReadDTO>> UpdateOneAsync([FromRoute] Guid id, [FromBody] AddressUpdateDTO updateObject)
+    public override async Task<ActionResult<AddressReadDTO>> UpdateOne([FromRoute] Guid id, [FromBody] AddressUpdateDTO updateObject)
     {
         AddressReadDTO? address = await _service.GetOneByIDAsync(id);
         if (address == null) return NotFound("Address not found");
@@ -41,8 +41,8 @@ public class AddressController : BaseController<Address, IAddressService, Addres
     }
 
     [Authorize]
-    public override async Task<ActionResult<AddressReadDTO>> CreateOneAsync([FromBody] AddressCreateDTO createObject)
+    public override async Task<ActionResult<AddressReadDTO>> CreateOne([FromBody] AddressCreateDTO createObject)
     {
-        return CreatedAtAction(nameof(CreateOneAsync), await _service.CreateOneAsync(GetIdFromToken(), createObject));
+        return CreatedAtAction(nameof(CreateOne), await _service.CreateOneAsync(GetIdFromToken(), createObject));
     }
 }
