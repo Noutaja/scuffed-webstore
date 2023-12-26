@@ -28,22 +28,6 @@ public class DatabaseContext : DbContext
         _config = config;
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        NpgsqlDataSourceBuilder dataSourceBuilder = new NpgsqlDataSourceBuilder(_config.GetConnectionString("LocalDb"));
-        dataSourceBuilder.MapEnum<UserRole>();
-        dataSourceBuilder.MapEnum<OrderStatus>();
-        NpgsqlDataSource dataSource = dataSourceBuilder.Build();
-
-        optionsBuilder
-            .UseNpgsql(dataSource)
-            .UseSnakeCaseNamingConvention()
-            .EnableSensitiveDataLogging()
-            .EnableDetailedErrors()
-            .AddInterceptors(TimestampInterceptor.Instance);
-        base.OnConfiguring(optionsBuilder);
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasPostgresEnum<OrderStatus>();

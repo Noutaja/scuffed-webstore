@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Npgsql;
 using ScuffedWebstore.Core.src.Abstractions;
+using ScuffedWebstore.Core.src.Types;
 using ScuffedWebstore.Framework.Middleware;
 using ScuffedWebstore.Framework.src.Authorization;
 using ScuffedWebstore.Framework.src.Database;
@@ -93,7 +95,16 @@ builder.Services.AddAuthorization(policy =>
 
 builder.Services.AddTransient<ExceptionHandlerMiddleware>();
 
-builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql());
+NpgsqlDataSourceBuilder dataSourceBuilder = new NpgsqlDataSourceBuilder(builder.Configuration.GetConnectionString("LocalDb"));
+dataSourceBuilder.MapEnum<UserRole>();
+dataSourceBuilder.MapEnum<OrderStatus>();
+NpgsqlDataSource dataSource = dataSourceBuilder.Build();
+
+builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(dataSource)
+    .UseSnakeCaseNamingConvention()
+    .EnableSensitiveDataLogging()
+    .EnableDetailedErrors()
+    .AddInterceptors(TimestampInterceptor.Instance));
 
 builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
 

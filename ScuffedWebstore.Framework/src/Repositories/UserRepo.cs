@@ -11,15 +11,15 @@ public class UserRepo : BaseRepo<User>, IUserRepo
     public UserRepo(DatabaseContext database) : base(database)
     { }
 
-    public async Task<IEnumerable<User>> GetAllAsync(GetAllUsersParams options)
-    {
-        return await _data.AsNoTracking().Include(u => u.Addresses)
-            .Where(u => (u.FirstName + " " + u.LastName).Contains(options.Query)).Skip(options.Offset).Take(options.Limit).ToListAsync();
-    }
-
     public override async Task<IEnumerable<User>> GetAllAsync(GetAllParams options)
     {
-        return await _data.AsNoTracking().Include(u => u.Addresses).Skip(options.Offset).Take(options.Limit).ToListAsync();
+        return await _data.AsNoTracking().Include(u => u.Addresses)
+            .Where(u => (u.FirstName + " " + u.LastName).Contains(options.Search)).Skip(options.Offset).Take(options.Limit).ToListAsync();
+    }
+
+    public override async Task<User?> GetOneByIdAsync(Guid id)
+    {
+        return await _data.AsNoTracking().Include(u => u.Addresses).FirstOrDefaultAsync(t => t.ID == id);
     }
 
     public async Task<User?> GetOneByEmailAsync(string email)

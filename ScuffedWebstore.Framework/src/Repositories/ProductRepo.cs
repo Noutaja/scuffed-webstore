@@ -23,6 +23,11 @@ public class ProductRepo : BaseRepo<Product>, IProductRepo
         return await _data.AsNoTracking().Include(p => p.Category).Include(p => p.Images).Skip(options.Offset).Take(options.Limit).ToListAsync();
     }
 
+    public override async Task<Product?> GetOneByIdAsync(Guid id)
+    {
+        return await _data.AsNoTracking().Include(p => p.Category).Include(p => p.Images).FirstOrDefaultAsync(t => t.ID == id);
+    }
+
     public override async Task<Product> CreateOneAsync(Product createObject)
     {
         _data.Add(createObject);
