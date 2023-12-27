@@ -1,14 +1,17 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Core.src.Types;
+using ScuffedWebstore.Service.src.DTOs;
 
 namespace ScuffedWebstore.Framework.src.Authorization
 {
-    public class AdminOrOwnerHandler : AuthorizationHandler<AdminOrOwnerRequirement, OwnedEntity>
+    public class CheckAddressHandler : AuthorizationHandler<AdminOrOwnerRequirement, AddressReadDTO>
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AdminOrOwnerRequirement requirement, OwnedEntity resource)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AdminOrOwnerRequirement requirement, AddressReadDTO resource)
         {
             try
             {
@@ -34,6 +37,4 @@ namespace ScuffedWebstore.Framework.src.Authorization
             return Task.CompletedTask;
         }
     }
-
-    public class AdminOrOwnerRequirement : IAuthorizationRequirement { }
 }

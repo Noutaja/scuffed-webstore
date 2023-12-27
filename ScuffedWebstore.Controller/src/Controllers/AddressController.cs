@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Core.src.Parameters;
+using ScuffedWebstore.Core.src.Types;
 using ScuffedWebstore.Service.src.Abstractions;
 using ScuffedWebstore.Service.src.DTOs;
 
@@ -45,16 +46,19 @@ public class AddressController : BaseController<Address, IAddressService, Addres
         else return Challenge();
     }
 
+    [Authorize]
     public override async Task<ActionResult<bool>> DeleteOne([FromRoute] Guid id)
     {
         AddressReadDTO? address = await _service.GetOneByIDAsync(id);
         if (address == null) return NotFound("Address not found");
 
+        Console.WriteLine(address.UserID);
         AuthorizationResult auth = await _authorizationService.AuthorizeAsync(HttpContext.User, address, "AdminOrOwner");
+        Console.WriteLine(auth.Succeeded);
 
         if (auth.Succeeded) return await _service.DeleteOneAsync(id);
         else if (User.Identity!.IsAuthenticated) return Forbid();
-        else return Challenge(); ;
+        else return Challenge();
     }
 
     public override async Task<ActionResult<AddressReadDTO>> UpdateOne([FromRoute] Guid id, [FromBody] AddressUpdateDTO updateObject)

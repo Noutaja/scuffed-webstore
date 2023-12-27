@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -70,7 +71,8 @@ builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
-builder.Services.AddScoped<IAuthorizationHandler, AdminOrOwnerHandler>();
+//builder.Services.AddSingleton<AdminOrOwnerHandler>();
+builder.Services.AddSingleton<IAuthorizationHandler, CheckAddressHandler>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
     options =>
@@ -91,6 +93,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddAuthorization(policy =>
 {
     policy.AddPolicy("AdminOrOwner", policy => policy.Requirements.Add(new AdminOrOwnerRequirement()));
+    policy.AddPolicy("Admin", policy => policy.RequireRole(ClaimTypes.Role, "Admin"));
+    policy.AddPolicy("Customer", policy => policy.RequireRole(ClaimTypes.Role, "Customer"));
 });
 
 builder.Services.AddTransient<ExceptionHandlerMiddleware>();

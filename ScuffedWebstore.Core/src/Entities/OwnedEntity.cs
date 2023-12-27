@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ScuffedWebstore.Core.src.Entities
 {
-    public class EntityWithOwner : BaseEntity
+    public class OwnedEntity : BaseEntity
     {
         public User User { get; set; }
         public Guid UserID { get; set; }

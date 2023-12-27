@@ -1,5 +1,7 @@
+using ScuffedWebstore.Core.src.Entities;
+
 namespace ScuffedWebstore.Service.src.DTOs;
-public class AddressReadDTO
+public class AddressReadDTO : OwnedEntity
 {
     public Guid ID { get; set; }
     public Guid UserID { get; set; }
