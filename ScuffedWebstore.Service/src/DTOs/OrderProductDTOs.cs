@@ -1,5 +1,7 @@
+using ScuffedWebstore.Core.src.Entities;
+
 namespace ScuffedWebstore.Service.src.DTOs;
-public class OrderProductReadDTO
+public class OrderProductReadDTO : Timestamp
 {
     public ProductWithoutPriceReadDTO Product { get; set; }
     public int Amount { get; set; }

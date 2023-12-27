@@ -1,9 +1,8 @@
 using ScuffedWebstore.Core.src.Entities;
 
 namespace ScuffedWebstore.Service.src.DTOs;
-public class ImageReadDTO
+public class ImageReadDTO : BaseEntity
 {
-    public Guid ID { get; set; }
     public Guid ProductID { get; set; }
     public string Url { get; set; }
 }

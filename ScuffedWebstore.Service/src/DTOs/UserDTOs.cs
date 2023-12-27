@@ -1,7 +1,8 @@
+using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Core.src.Types;
 
 namespace ScuffedWebstore.Service.src.DTOs;
-public class UserReadDTO
+public class UserReadDTO : BaseEntity
 {
     public Guid ID { get; set; }
     public string FirstName { get; set; }
