@@ -27,12 +27,4 @@ public class ProductRepo : BaseRepo<Product>, IProductRepo
     {
         return await _data.AsNoTracking().Include(p => p.Category).Include(p => p.Images).FirstOrDefaultAsync(t => t.ID == id);
     }
-
-    /* public override async Task<Product> CreateOneAsync(Product createObject)
-    {
-        _data.Add(createObject);
-        await _database.SaveChangesAsync();
-
-        return await GetOneByIdAsync(createObject.ID);
-    } */
 }

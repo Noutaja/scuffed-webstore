@@ -104,9 +104,9 @@ content-type: application/json
 Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJiZjgyMjVhOC1jNjBlLTQ0ZTAtOTAyZC1iYzFlM2ZkMDljNTAiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDM2ODkyNjIsImV4cCI6MTcwMzg2MjA2MiwiaWF0IjoxNzAzNjg5MjYyLCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.SjeLO_t7fuA0NtZXpnXLUsDCXBquwu4fnUQxQw5PA_I
 
 {
-  "title": "Walking shoes",
+  "title": "Crawling shoes",
   "description": "Sit ea ut quis et nostrud nulla quis proident.",
-  "price": 10,
+  "price": 11,
   "inventory": 4,
   "categoryID": "3b221500-59c6-4607-82fb-6ce84e20450d",
   "images": [
