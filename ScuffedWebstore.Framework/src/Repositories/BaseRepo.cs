@@ -46,6 +46,6 @@ public abstract class BaseRepo<T> : IBaseRepo<T> where T : BaseEntity
     {
         _data.Update(updateObject);
         await _database.SaveChangesAsync();
-        return updateObject;
+        return await GetOneByIdAsync(updateObject.ID);
     }
 }

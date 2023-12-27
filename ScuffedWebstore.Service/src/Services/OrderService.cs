@@ -28,6 +28,9 @@ public class OrderService : BaseService<Order, OrderReadDTO, OrderCreateDTO, Ord
             if (p == null) throw CustomException.NotFoundException("Product not found");
         }
 
-        return _mapper.Map<Order, OrderReadDTO>(await _repo.CreateOneAsync(_mapper.Map<OrderCreateDTO, Order>(createObject)));
+        Order o = _mapper.Map<OrderCreateDTO, Order>(createObject);
+        o.UserID = id;
+        //Console.WriteLine(o.UserID);
+        return _mapper.Map<Order, OrderReadDTO>(await _repo.CreateOneAsync(o));
     }
 }
