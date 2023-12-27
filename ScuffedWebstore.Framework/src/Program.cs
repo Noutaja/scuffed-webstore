@@ -71,8 +71,8 @@ builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
-//builder.Services.AddSingleton<AdminOrOwnerHandler>();
-builder.Services.AddSingleton<IAuthorizationHandler, CheckAddressHandler>();
+builder.Services.AddSingleton<IAuthorizationHandler, AdminOrOwnerHandler>();
+//builder.Services.AddSingleton<IAuthorizationHandler, CheckAddressHandler>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
     options =>

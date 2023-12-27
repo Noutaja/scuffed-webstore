@@ -39,7 +39,7 @@ Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5
 
 ###
 
-GET http://localhost:5157/api/v1/addresses?search=aab1fe72-a5a6-4f38-badd-eae87b5a9294 HTTP/1.1
+GET http://localhost:5157/api/v1/addresses?ownerid=aab1fe72-a5a6-4f38-badd-eae87b5a9294 HTTP/1.1
 content-type: application/json
 Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJhYWIxZmU3Mi1hNWE2LTRmMzgtYmFkZC1lYWU4N2I1YTkyOTQiLCJyb2xlIjoiTm9ybWFsIiwibmJmIjoxNzAzNjU4Mzg1LCJleHAiOjE3MDM4MzExODUsImlhdCI6MTcwMzY1ODM4NSwiaXNzIjoiTm91dGFqYSIsImF1ZCI6Ik5vdXRhamFTY3VmZmVkV2Vic3RvcmUifQ.AcMPZFqPTEE8Ursy5Q7AEdb-Kfye2STQIJHeQ0PI3iU
 
@@ -47,7 +47,15 @@ Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJhYWIx
 
 ###
 
-DELETE http://localhost:5157/api/v1/addresses/5956d601-a168-4200-afc8-b80ea3fee296 HTTP/1.1
+GET http://localhost:5157/api/v1/addresses/a54a90f3-e469-4d89-b3e5-177c58f92388 HTTP/1.1
+content-type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJhYWIxZmU3Mi1hNWE2LTRmMzgtYmFkZC1lYWU4N2I1YTkyOTQiLCJyb2xlIjoiTm9ybWFsIiwibmJmIjoxNzAzNjU4Mzg1LCJleHAiOjE3MDM4MzExODUsImlhdCI6MTcwMzY1ODM4NSwiaXNzIjoiTm91dGFqYSIsImF1ZCI6Ik5vdXRhamFTY3VmZmVkV2Vic3RvcmUifQ.AcMPZFqPTEE8Ursy5Q7AEdb-Kfye2STQIJHeQ0PI3iU
+
+{}
+
+###
+
+DELETE http://localhost:5157/api/v1/addresses/a54a90f3-e469-4d89-b3e5-177c58f92388 HTTP/1.1
 content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJhYWIxZmU3Mi1hNWE2LTRmMzgtYmFkZC1lYWU4N2I1YTkyOTQiLCJyb2xlIjoiTm9ybWFsIiwibmJmIjoxNzAzNjY4MTc2LCJleHAiOjE3MDM4NDA5NzYsImlhdCI6MTcwMzY2ODE3NiwiaXNzIjoiTm91dGFqYSIsImF1ZCI6Ik5vdXRhamFTY3VmZmVkV2Vic3RvcmUifQ.hNqRoGcQ1uLX20mpezce3t-jpMN-UkTypDQn825BULU
 
@@ -80,9 +88,9 @@ Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5
 
 ###
 
-PATCH http://localhost:5157/api/v1/categories/da033fc3-5ad1-42f7-98eb-5816e250f5a9 HTTP/1.1
+PATCH http://localhost:5157/api/v1/categories/3b221500-59c6-4607-82fb-6ce84e20450d HTTP/1.1
 content-type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5NzQzOC04OTgzLTRiY2EtYjExMS1kZjcwNjQzNTYwNmMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMxODIwMzEsImV4cCI6MTcwMzM1NDgzMSwiaWF0IjoxNzAzMTgyMDMxLCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.gq0cY-TglkLQlL2YRfkgH4DhagOR_MGoFIzeNpIkj1o
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJiZjgyMjVhOC1jNjBlLTQ0ZTAtOTAyZC1iYzFlM2ZkMDljNTAiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDM2ODkyNjIsImV4cCI6MTcwMzg2MjA2MiwiaWF0IjoxNzAzNjg5MjYyLCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.SjeLO_t7fuA0NtZXpnXLUsDCXBquwu4fnUQxQw5PA_I
 
 {
   "name": null,
@@ -93,14 +101,14 @@ Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNTA5
 
 POST http://localhost:5157/api/v1/products/ HTTP/1.1
 content-type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIzYTU5NzU2MS02NGFlLTQyOTMtYTEyMC0wOTk3NDBlOWI4MDMiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDMyNDM2MzYsImV4cCI6MTcwMzQxNjQzNiwiaWF0IjoxNzAzMjQzNjM2LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.nflDIUk2JTspdxmm0o0iUZZNaMv7UOYxutf5PIK5vcc
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJiZjgyMjVhOC1jNjBlLTQ0ZTAtOTAyZC1iYzFlM2ZkMDljNTAiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDM2ODkyNjIsImV4cCI6MTcwMzg2MjA2MiwiaWF0IjoxNzAzNjg5MjYyLCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.SjeLO_t7fuA0NtZXpnXLUsDCXBquwu4fnUQxQw5PA_I
 
 {
-  "title": "Jumping shoes",
+  "title": "Walking shoes",
   "description": "Sit ea ut quis et nostrud nulla quis proident.",
   "price": 10,
   "inventory": 4,
-  "categoryID": "da033fc3-5ad1-42f7-98eb-5816e250f5a9",
+  "categoryID": "3b221500-59c6-4607-82fb-6ce84e20450d",
   "images": [
     {
       "url": "https://picsum.photos/200"

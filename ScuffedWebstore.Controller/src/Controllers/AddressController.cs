@@ -19,19 +19,14 @@ public class AddressController : BaseController<Address, IAddressService, Addres
 
     public override async Task<ActionResult<IEnumerable<AddressReadDTO>>> GetAll([FromQuery] GetAllParams getAllParams)
     {
-        ClaimsPrincipal claims = HttpContext.User;
-        string userRole = claims.FindFirst(c => c.Type == ClaimTypes.Role)!.Value;
+        IEnumerable<AddressReadDTO> addresses = await _service.GetAllAsync(getAllParams);
+        if (addresses.Count() < 1) return NotFound();
 
-        if (getAllParams.OwnerID != null)
-        {
-            if (getAllParams.OwnerID != GetIdFromToken() || userRole != "Admin") return Forbid();
-        }
-        else
-        {
-            if (userRole != "Admin") return Forbid();
-        }
+        AuthorizationResult auth = await _authorizationService.AuthorizeAsync(HttpContext.User, addresses.First(), "AdminOrOwner");
 
-        return await base.GetAll(getAllParams);
+        if (auth.Succeeded) return Ok(addresses);
+        else if (User.Identity!.IsAuthenticated) return Forbid();
+        else return Challenge();
     }
 
     public override async Task<ActionResult<AddressReadDTO?>> GetOneById([FromRoute] Guid id)
@@ -52,9 +47,7 @@ public class AddressController : BaseController<Address, IAddressService, Addres
         AddressReadDTO? address = await _service.GetOneByIDAsync(id);
         if (address == null) return NotFound("Address not found");
 
-        Console.WriteLine(address.UserID);
         AuthorizationResult auth = await _authorizationService.AuthorizeAsync(HttpContext.User, address, "AdminOrOwner");
-        Console.WriteLine(auth.Succeeded);
 
         if (auth.Succeeded) return await _service.DeleteOneAsync(id);
         else if (User.Identity!.IsAuthenticated) return Forbid();
@@ -73,6 +66,7 @@ public class AddressController : BaseController<Address, IAddressService, Addres
         else return Challenge();
     }
 
+    [Authorize]
     public override async Task<ActionResult<AddressReadDTO>> CreateOne([FromBody] AddressCreateDTO createObject)
     {
         return CreatedAtAction(nameof(CreateOne), await _service.CreateOneAsync(GetIdFromToken(), createObject));

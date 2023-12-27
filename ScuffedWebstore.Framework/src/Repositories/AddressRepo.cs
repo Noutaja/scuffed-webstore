@@ -11,16 +11,17 @@ public class AddressRepo : BaseRepo<Address>, IAddressRepo
     public AddressRepo(DatabaseContext database) : base(database)
     { }
 
-    public async Task<IEnumerable<Address>> GetAllAsync(GetAllAddressesParams options)
-    {
-        List<Address> data;
-        if (options.UserID != null) data = await _data.AsNoTracking().Where(a => a.UserID == options.UserID).Skip(options.Offset).Take(options.Limit).ToListAsync();
-        else data = await _data.AsNoTracking().Skip(options.Offset).Take(options.Limit).ToListAsync();
-        return data;
-    }
-
     public override async Task<IEnumerable<Address>> GetAllAsync(GetAllParams options)
     {
-        return await _data.AsNoTracking().Skip(options.Offset).Take(options.Limit).ToListAsync();
+        IQueryable<Address> results = _data.AsQueryable();
+
+        if (options.OwnerID != null && options.OwnerID != Guid.Parse("00000000-0000-0000-0000-000000000000"))
+        {
+            results = results.Where(a => a.UserID == options.OwnerID);
+        }
+
+        results = results.Skip(options.Offset).Take(options.Limit);
+
+        return await results.ToListAsync();
     }
 }

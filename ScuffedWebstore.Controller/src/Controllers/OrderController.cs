@@ -20,17 +20,16 @@ public class OrderController : BaseController<Order, IOrderService, OrderReadDTO
         return CreatedAtAction(nameof(CreateOne), await _service.CreateOneAsync(GetIdFromToken(), createObject));
     }
 
-    [Authorize(Roles = "Admin")]
     public override async Task<ActionResult<OrderReadDTO>> UpdateOne([FromRoute] Guid id, [FromBody] OrderUpdateDTO updateObject)
     {
-        /* OrderReadDTO? address = await _service.GetOneByIDAsync(id);
-        if (address == null) return NotFound("Address not found");
-        AuthorizationResult auth = await _authorizationService.AuthorizeAsync(HttpContext.User, address, "AdminOrOwner");
+        OrderReadDTO? order = await _service.GetOneByIDAsync(id);
+        if (order == null) return NotFound("Order not found");
+
+        AuthorizationResult auth = await _authorizationService.AuthorizeAsync(HttpContext.User, order, "AdminOrOwner");
 
         if (auth.Succeeded) return await _service.UpdateOneAsync(id, updateObject);
         else if (User.Identity!.IsAuthenticated) return Forbid();
-        else return Challenge(); */
-        return await _service.UpdateOneAsync(id, updateObject);
+        else return Challenge();
     }
 
     [Authorize(Roles = "Admin")]
@@ -41,19 +40,14 @@ public class OrderController : BaseController<Order, IOrderService, OrderReadDTO
 
     public override async Task<ActionResult<IEnumerable<OrderReadDTO>>> GetAll([FromQuery] GetAllParams getAllParams)
     {
-        ClaimsPrincipal claims = HttpContext.User;
-        string userRole = claims.FindFirst(c => c.Type == ClaimTypes.Role)!.Value;
+        IEnumerable<OrderReadDTO> orders = await _service.GetAllAsync(getAllParams);
+        if (orders.Count() < 1) return NotFound();
 
-        if (getAllParams.OwnerID != null)
-        {
-            if (getAllParams.OwnerID != GetIdFromToken() || userRole != "Admin") return Forbid();
-        }
-        else
-        {
-            if (userRole != "Admin") return Forbid();
-        }
+        AuthorizationResult auth = await _authorizationService.AuthorizeAsync(HttpContext.User, orders.First(), "AdminOrOwner");
 
-        return await base.GetAll(getAllParams);
+        if (auth.Succeeded) return Ok(orders);
+        else if (User.Identity!.IsAuthenticated) return Forbid();
+        else return Challenge();
     }
 
     public override async Task<ActionResult<OrderReadDTO?>> GetOneById([FromRoute] Guid id)
@@ -63,7 +57,7 @@ public class OrderController : BaseController<Order, IOrderService, OrderReadDTO
 
         AuthorizationResult auth = await _authorizationService.AuthorizeAsync(HttpContext.User, order, "AdminOrOwner");
 
-        if (auth.Succeeded) return order;
+        if (auth.Succeeded) return Ok(order);
         else if (User.Identity!.IsAuthenticated) return Forbid();
         else return Challenge();
     }

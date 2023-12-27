@@ -3,8 +3,6 @@ using ScuffedWebstore.Core.src.Entities;
 namespace ScuffedWebstore.Service.src.DTOs;
 public class AddressReadDTO : OwnedEntity
 {
-    public Guid ID { get; set; }
-    public Guid UserID { get; set; }
     public string Street { get; set; }
     public string Zipcode { get; set; }
     public string City { get; set; }

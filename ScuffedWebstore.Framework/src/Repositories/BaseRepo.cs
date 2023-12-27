@@ -22,7 +22,7 @@ public abstract class BaseRepo<T> : IBaseRepo<T> where T : BaseEntity
     {
         _data.Add(createObject);
         await _database.SaveChangesAsync();
-        return createObject;
+        return await GetOneByIdAsync(createObject.ID);
     }
 
     public virtual async Task<bool> DeleteOneAsync(Guid id)

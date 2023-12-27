@@ -8,8 +8,6 @@ using ScuffedWebstore.Core.src.Types;
 namespace ScuffedWebstore.Service.src.DTOs;
 public class OrderReadDTO : OwnedEntity
 {
-    public Guid ID { get; set; }
-    public Guid UserID { get; set; }
     public Guid AddressID { get; set; }
     public OrderStatus Status { get; set; }
     public IEnumerable<OrderProductReadDTO> OrderProducts { get; set; }

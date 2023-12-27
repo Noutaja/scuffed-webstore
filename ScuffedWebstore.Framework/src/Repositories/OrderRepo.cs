@@ -22,7 +22,6 @@ public class OrderRepo : BaseRepo<Order>, IOrderRepo
     {
         foreach (OrderProduct op in createObject.OrderProducts)
         {
-            Console.WriteLine(op.Amount);
             Product product = await _products.FirstOrDefaultAsync(p => p.ID == op.ProductID)!;
             product.Inventory -= op.Amount;
             op.Price = product.Price;
