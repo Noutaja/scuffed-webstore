@@ -50,7 +50,7 @@ public class BaseService<T, TReadDTO, TCreateDTO, TUpdateDTO> : IBaseService<T, 
 
         foreach (PropertyInfo prop in updateObject.GetType().GetProperties())
         {
-            if (prop.GetValue(updateObject) == null) continue;
+            if (prop.GetValue(updateObject) == null || prop.GetType() == typeof(IEnumerable<>)) continue;
 
             PropertyInfo? editedProp = currentEntity.GetType().GetProperty(prop.Name);
             editedProp.SetValue(currentEntity, prop.GetValue(updateObject));

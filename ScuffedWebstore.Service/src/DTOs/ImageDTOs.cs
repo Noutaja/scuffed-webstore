@@ -14,5 +14,6 @@ public class ImageCreateDTO
 
 public class ImageUpdateDTO
 {
+    public Guid? ID { get; set; }
     public string? Url { get; set; }
 }

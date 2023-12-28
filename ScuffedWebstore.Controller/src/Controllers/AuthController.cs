@@ -22,12 +22,12 @@ public class AuthController : ControllerBase
 
     [HttpPost("login")]
     [AllowAnonymous]
-    public async Task<ActionResult<string>> LoginAsync([FromBody] Credentials credentials)
+    public async Task<ActionResult<LoginResponse>> LoginAsync([FromBody] Credentials credentials)
     {
         string token = await _authService.LoginAsync(credentials.Email, credentials.Password);
         if (string.IsNullOrEmpty(token)) return Forbid();
 
-        return Ok(token);
+        return Ok(new LoginResponse { accessToken = token });
     }
 
     [HttpGet("profile")]
@@ -59,4 +59,9 @@ public class AuthController : ControllerBase
         Guid guid = new Guid(id);
         return guid;
     }
+}
+
+public struct LoginResponse()
+{
+    public string accessToken { get; set; }
 }

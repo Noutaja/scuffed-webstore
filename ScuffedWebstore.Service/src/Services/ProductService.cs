@@ -1,3 +1,4 @@
+using System.Reflection;
 using AutoMapper;
 using ScuffedWebstore.Core.src.Abstractions;
 using ScuffedWebstore.Core.src.Entities;
@@ -10,9 +11,11 @@ namespace ScuffedWebstore.Service.src.Services;
 public class ProductService : BaseService<Product, ProductReadDTO, ProductCreateDTO, ProductUpdateDTO>, IProductService
 {
     private ICategoryRepo _categoryRepo;
-    public ProductService(IProductRepo repo, ICategoryRepo categoryRepo, IMapper mapper) : base(repo, mapper)
+    //private IImageRepo _imageRepo;
+    public ProductService(IProductRepo repo, ICategoryRepo categoryRepo, /* IImageRepo imageRepo, */ IMapper mapper) : base(repo, mapper)
     {
         _categoryRepo = categoryRepo;
+        //_imageRepo = imageRepo;
     }
 
     public override async Task<ProductReadDTO> CreateOneAsync(Guid id, ProductCreateDTO createObject)
@@ -28,32 +31,35 @@ public class ProductService : BaseService<Product, ProductReadDTO, ProductCreate
 
     /* public override async Task<ProductReadDTO> UpdateOneAsync(Guid id, ProductUpdateDTO updateObject)
     {
-        Console.WriteLine("UPDATEOBJECT!!!!");
-        Console.WriteLine(updateObject);
-        foreach (var prop in updateObject.GetType().GetProperties())
-        {
-            Console.WriteLine(prop.Name);
-            Console.WriteLine(prop.GetValue(updateObject));
-        }
         Product? currentEntity = await _repo.GetOneByIdAsync(id);
-        if (currentEntity == null) throw CustomException.NotFoundException("Not Found");
-        Console.WriteLine("CURRENT!!!!");
-        Console.WriteLine(currentEntity);
-        foreach (var prop in currentEntity.GetType().GetProperties())
+        if (currentEntity == null) throw CustomException.NotFoundException("Entity to update not Found");
+
+        if (updateObject.Title != null) currentEntity.Title = updateObject.Title;
+        if (updateObject.Description != null) currentEntity.Description = updateObject.Description;
+        if (updateObject.Price != null) currentEntity.Price = (double)updateObject.Price;
+        if (updateObject.Inventory != null) currentEntity.Inventory = (int)updateObject.Inventory;
+        if (updateObject.CategoryID != null) currentEntity.CategoryID = (Guid)updateObject.CategoryID;
+
+        if (updateObject.Images != null && updateObject.Images.Count() > 0)
         {
-            Console.WriteLine(prop.Name);
-            Console.WriteLine(prop.GetValue(currentEntity));
+
+        }
+
+        foreach (PropertyInfo prop in updateObject.GetType().GetProperties())
+        {
+            if (prop.GetValue(updateObject) == null) continue;
+
+            if (prop.GetType() == typeof(IEnumerable<ImageUpdateDTO>))
+            {
+
+            }
+
+            PropertyInfo? editedProp = currentEntity.GetType().GetProperty(prop.Name);
+            editedProp.SetValue(currentEntity, prop.GetValue(updateObject));
         }
 
 
-        _mapper.Map<ProductUpdateDTO, Product>(updateObject, currentEntity);
-        Console.WriteLine("UPDATED!!!!");
-        Console.WriteLine(currentEntity);
-        foreach (var prop in currentEntity.GetType().GetProperties())
-        {
-            Console.WriteLine(prop.Name);
-            Console.WriteLine(prop.GetValue(currentEntity));
-        }
+        //T updatedEntity = _mapper.Map<TUpdateDTO, T>(updateObject, currentEntity);
 
         return _mapper.Map<Product, ProductReadDTO>(await _repo.UpdateOneAsync(currentEntity));
     } */

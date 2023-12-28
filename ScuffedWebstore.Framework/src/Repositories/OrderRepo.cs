@@ -15,13 +15,19 @@ public class OrderRepo : BaseRepo<Order>, IOrderRepo
 
     public override async Task<IEnumerable<Order>> GetAllAsync(GetAllParams options)
     {
-        return await _data.AsNoTracking().Include(o => o.OrderProducts).ThenInclude(o => o.Product).ThenInclude(o => o.Category)
+        return await _data.AsNoTracking().Include(o => o.OrderProducts).ThenInclude(o => o.Product).ThenInclude(o => o.Images)
+        .Include(o => o.OrderProducts).ThenInclude(o => o.Product).ThenInclude(o => o.Category)
+        .Include(o => o.User)
+        .Include(o => o.Address)
         .Skip(options.Offset).Take(options.Limit).ToListAsync();
     }
 
     public override async Task<Order?> GetOneByIdAsync(Guid id)
     {
-        return await _data.AsNoTracking().Include(o => o.OrderProducts).ThenInclude(o => o.Product).ThenInclude(o => o.Category)
+        return await _data.AsNoTracking().Include(o => o.OrderProducts).ThenInclude(o => o.Product).ThenInclude(o => o.Images)
+        .Include(o => o.OrderProducts).ThenInclude(o => o.Product).ThenInclude(o => o.Category)
+        .Include(o => o.User)
+        .Include(o => o.Address)
         .FirstOrDefaultAsync(t => t.ID == id);
     }
 

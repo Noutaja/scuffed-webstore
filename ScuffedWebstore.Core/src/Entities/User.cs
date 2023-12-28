@@ -12,6 +12,7 @@ public class User : BaseEntity
     public byte[] Salt { get; set; }
     public string Avatar { get; set; }
     public UserRole Role { get; set; }
+    //public Address? PrimaryAddress {get; set;}
     public IEnumerable<Address> Addresses { get; set; }
     public IEnumerable<Order> Orders { get; set; }
     public IEnumerable<Review> Reviews { get; set; }

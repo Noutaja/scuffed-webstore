@@ -165,11 +165,21 @@ Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJhYWIx
 
 PATCH http://localhost:5157/api/v1/orders/f56273e7-7e01-4931-8ba8-2cbff28da864 HTTP/1.1
 content-type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJhYWIxZmU3Mi1hNWE2LTRmMzgtYmFkZC1lYWU4N2I1YTkyOTQiLCJyb2xlIjoiTm9ybWFsIiwibmJmIjoxNzAzNjU4Mzg1LCJleHAiOjE3MDM4MzExODUsImlhdCI6MTcwMzY1ODM4NSwiaXNzIjoiTm91dGFqYSIsImF1ZCI6Ik5vdXRhamFTY3VmZmVkV2Vic3RvcmUifQ.AcMPZFqPTEE8Ursy5Q7AEdb-Kfye2STQIJHeQ0PI3iU
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJiZjgyMjVhOC1jNjBlLTQ0ZTAtOTAyZC1iYzFlM2ZkMDljNTAiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDM3ODI5NzUsImV4cCI6MTcwMzk1NTc3NSwiaWF0IjoxNzAzNzgyOTc1LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.31rRgr7EHnXSX6kVFRq_rjRAxA_lCuY-0bhvFSRhhKc
 
 {
   "status": "cancelled"
 }
+
+
+
+###
+
+GET http://localhost:5157/api/v1/orders/ HTTP/1.1
+content-type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJiZjgyMjVhOC1jNjBlLTQ0ZTAtOTAyZC1iYzFlM2ZkMDljNTAiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MDM3ODI5NzUsImV4cCI6MTcwMzk1NTc3NSwiaWF0IjoxNzAzNzgyOTc1LCJpc3MiOiJOb3V0YWphIiwiYXVkIjoiTm91dGFqYVNjdWZmZWRXZWJzdG9yZSJ9.31rRgr7EHnXSX6kVFRq_rjRAxA_lCuY-0bhvFSRhhKc
+
+{}
 
 
 
