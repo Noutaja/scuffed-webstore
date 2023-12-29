@@ -30,7 +30,6 @@ public class OrderService : BaseService<Order, OrderReadDTO, OrderCreateDTO, Ord
 
         Order o = _mapper.Map<OrderCreateDTO, Order>(createObject);
         o.UserID = id;
-        //Console.WriteLine(o.UserID);
         return _mapper.Map<Order, OrderReadDTO>(await _repo.CreateOneAsync(o));
     }
 }

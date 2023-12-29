@@ -4,7 +4,6 @@ using ScuffedWebstore.Core.src.Types;
 namespace ScuffedWebstore.Service.src.DTOs;
 public class UserReadDTO : BaseEntity
 {
-    public Guid ID { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Email { get; set; }

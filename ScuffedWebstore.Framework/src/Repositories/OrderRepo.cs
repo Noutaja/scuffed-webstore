@@ -15,10 +15,19 @@ public class OrderRepo : BaseRepo<Order>, IOrderRepo
 
     public override async Task<IEnumerable<Order>> GetAllAsync(GetAllParams options)
     {
-        return await _data.AsNoTracking().Include(o => o.OrderProducts).ThenInclude(o => o.Product).ThenInclude(o => o.Images)
+        IQueryable<Order> results = _data.AsQueryable();
+
+        if (options.OwnerID != null && options.OwnerID != Guid.Parse("00000000-0000-0000-0000-000000000000"))
+        {
+            results = results.Where(a => a.UserID == options.OwnerID);
+        }
+
+        return await results.AsNoTracking().Include(o => o.OrderProducts).ThenInclude(o => o.Product).ThenInclude(o => o.Images)
         .Include(o => o.OrderProducts).ThenInclude(o => o.Product).ThenInclude(o => o.Category)
         .Include(o => o.User)
         .Include(o => o.Address)
+        .OrderByDescending((o) => o.UpdatedAt)
+
         .Skip(options.Offset).Take(options.Limit).ToListAsync();
     }
 

@@ -11,9 +11,8 @@ public class ProductReadDTO : BaseEntity
     public IEnumerable<ImageReadDTO> Images { get; set; }
 }
 
-public class ProductWithoutPriceReadDTO
+public class ProductWithoutPriceReadDTO : BaseEntity
 {
-    public Guid ID { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
     public int Inventory { get; set; }
@@ -38,5 +37,7 @@ public class ProductUpdateDTO
     public double? Price { get; set; }
     public int? Inventory { get; set; }
     public Guid? CategoryID { get; set; }
-    //public IEnumerable<ImageUpdateDTO> Images { get; set; }
+    public IEnumerable<ImageUpdateDTO>? UpdatedImages { get; set; }
+    public IEnumerable<ImageCreateDTO>? NewImages { get; set; }
+    public IEnumerable<Guid>? DeletedImages { get; set; }
 }
