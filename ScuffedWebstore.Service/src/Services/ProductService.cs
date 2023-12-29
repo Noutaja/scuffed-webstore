@@ -40,6 +40,7 @@ public class ProductService : BaseService<Product, ProductReadDTO, ProductCreate
         if (updateObject.Inventory != null) currentEntity.Inventory = (int)updateObject.Inventory;
         if (updateObject.CategoryID != null) currentEntity.CategoryID = (Guid)updateObject.CategoryID;
 
+        List<Image> updates = new List<Image>();
         if (updateObject.UpdatedImages != null && updateObject.UpdatedImages.Count() > 0)
         {
             foreach (ImageUpdateDTO i in updateObject.UpdatedImages)
@@ -49,41 +50,34 @@ public class ProductService : BaseService<Product, ProductReadDTO, ProductCreate
 
                 if (i.Url != null && i.Url.Length > 0) img.Url = i.Url;
 
-                await _imageRepo.UpdateOneAsync(img);
+                updates.Add(img);
             }
         }
 
+        List<Image> creates = new List<Image>();
         if (updateObject.NewImages != null && updateObject.NewImages.Count() > 0)
         {
             foreach (ImageCreateDTO i in updateObject.NewImages)
             {
-                await _imageRepo.CreateOneAsync(_mapper.Map<ImageCreateDTO, Image>(i));
+                Image img = _mapper.Map<ImageCreateDTO, Image>(i);
+                img.ProductID = currentEntity.ID;
+                creates.Add(img);
             }
         }
 
+        List<Image> deletes = new List<Image>();
         if (updateObject.DeletedImages != null && updateObject.DeletedImages.Count() > 0)
         {
             foreach (Guid i in updateObject.DeletedImages)
             {
-                await _imageRepo.DeleteOneAsync(i);
+                Image? img = await _imageRepo.GetOneByIdAsync(i);
+                if (img == null) throw CustomException.NotFoundException("Image not found");
+
+                deletes.Add(img);
             }
         }
 
-        /* foreach (PropertyInfo prop in updateObject.GetType().GetProperties())
-        {
-            if (prop.GetValue(updateObject) == null) continue;
-
-            if (prop.GetType() == typeof(IEnumerable<ImageUpdateDTO>))
-            {
-
-            }
-
-            PropertyInfo? editedProp = currentEntity.GetType().GetProperty(prop.Name);
-            editedProp.SetValue(currentEntity, prop.GetValue(updateObject));
-        } */
-
-
-        //T updatedEntity = _mapper.Map<TUpdateDTO, T>(updateObject, currentEntity);
+        currentEntity.Images = await _imageRepo.UpdateProductImages(updates, creates, deletes);
 
         return _mapper.Map<Product, ProductReadDTO>(await _repo.UpdateOneAsync(currentEntity));
     }

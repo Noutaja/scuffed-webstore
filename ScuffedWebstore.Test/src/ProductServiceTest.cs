@@ -38,9 +38,10 @@ public class ProductServiceTest
     {
         Mock<IProductRepo> repo = new Mock<IProductRepo>();
         Mock<ICategoryRepo> categoryRepo = new Mock<ICategoryRepo>();
+        Mock<IImageRepo> imageRepo = new Mock<IImageRepo>();
         GetAllParams options = new GetAllParams();
         repo.Setup(repo => repo.GetAllAsync(options)).Returns(Task.FromResult(response));
-        ProductService service = new ProductService(repo.Object, categoryRepo.Object, GetMapper());
+        ProductService service = new ProductService(repo.Object, categoryRepo.Object, imageRepo.Object, GetMapper());
 
         IEnumerable<ProductReadDTO> result = await service.GetAllAsync(options);
 
@@ -75,8 +76,9 @@ public class ProductServiceTest
     {
         Mock<IProductRepo> repo = new Mock<IProductRepo>();
         Mock<ICategoryRepo> categoryRepo = new Mock<ICategoryRepo>();
+        Mock<IImageRepo> imageRepo = new Mock<IImageRepo>();
         repo.Setup(repo => repo.GetOneByIdAsync(It.IsAny<Guid>())).Returns(Task.FromResult(response));
-        ProductService service = new ProductService(repo.Object, categoryRepo.Object, GetMapper());
+        ProductService service = new ProductService(repo.Object, categoryRepo.Object, imageRepo.Object, GetMapper());
 
         ProductReadDTO result = await service.GetOneByIDAsync(It.IsAny<Guid>());
 
@@ -110,9 +112,10 @@ public class ProductServiceTest
     {
         Mock<IProductRepo> repo = new Mock<IProductRepo>();
         Mock<ICategoryRepo> categoryRepo = new Mock<ICategoryRepo>();
+        Mock<IImageRepo> imageRepo = new Mock<IImageRepo>();
         repo.Setup(repo => repo.CreateOneAsync(It.IsAny<Product>())).Returns(Task.FromResult(response));
         categoryRepo.Setup(repo => repo.GetOneByIdAsync(It.IsAny<Guid>())).Returns(Task.FromResult(foundCategory));
-        ProductService service = new ProductService(repo.Object, categoryRepo.Object, GetMapper());
+        ProductService service = new ProductService(repo.Object, categoryRepo.Object, imageRepo.Object, GetMapper());
 
         ProductReadDTO result = await service.CreateOneAsync(It.IsAny<Guid>(), input);
 
@@ -133,7 +136,7 @@ public class ProductServiceTest
                 Images = new List<ImageCreateDTO>(),
             };
             Product product = GetMapper().Map<ProductCreateDTO, Product>(productInput);
-            Category category = new Category() /* { FirstName = "Asd", LastName = "Asdeer", Email = "a@b.com", Password = "asdf1234", Avatar = "https://picsum.photos/200" } */;
+            Category category = new Category();
             Add(category, productInput, product, GetMapper().Map<Product, ProductReadDTO>(product));
         }
     }
@@ -145,8 +148,9 @@ public class ProductServiceTest
     {
         Mock<IProductRepo> repo = new Mock<IProductRepo>();
         Mock<ICategoryRepo> categoryRepo = new Mock<ICategoryRepo>();
+        Mock<IImageRepo> imageRepo = new Mock<IImageRepo>();
         repo.Setup(repo => repo.DeleteOneAsync(It.IsAny<Guid>())).Returns(Task.FromResult(response));
-        ProductService service = new ProductService(repo.Object, categoryRepo.Object, GetMapper());
+        ProductService service = new ProductService(repo.Object, categoryRepo.Object, imageRepo.Object, GetMapper());
 
         bool result = await service.DeleteOneAsync(It.IsAny<Guid>());
 
@@ -159,9 +163,10 @@ public class ProductServiceTest
     {
         Mock<IProductRepo> repo = new Mock<IProductRepo>();
         Mock<ICategoryRepo> categoryRepo = new Mock<ICategoryRepo>();
+        Mock<IImageRepo> imageRepo = new Mock<IImageRepo>();
         repo.Setup(repo => repo.UpdateOneAsync(It.IsAny<Product>())).Returns(Task.FromResult(response));
         repo.Setup(repo => repo.GetOneByIdAsync(It.IsAny<Guid>())).Returns(Task.FromResult(foundCategory));
-        ProductService service = new ProductService(repo.Object, categoryRepo.Object, GetMapper());
+        ProductService service = new ProductService(repo.Object, categoryRepo.Object, imageRepo.Object, GetMapper());
 
         if (exception != null) Assert.ThrowsAsync(exception, async () => await service.UpdateOneAsync(It.IsAny<Guid>(), input));
         else

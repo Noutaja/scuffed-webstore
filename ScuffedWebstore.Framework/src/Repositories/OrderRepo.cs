@@ -24,7 +24,7 @@ public class OrderRepo : BaseRepo<Order>, IOrderRepo
 
         return await results.AsNoTracking().Include(o => o.OrderProducts).ThenInclude(o => o.Product).ThenInclude(o => o.Images)
         .Include(o => o.OrderProducts).ThenInclude(o => o.Product).ThenInclude(o => o.Category)
-        .Include(o => o.User)
+        //.Include(o => o.User)
         .Include(o => o.Address)
         .OrderByDescending((o) => o.UpdatedAt)
 
@@ -35,7 +35,7 @@ public class OrderRepo : BaseRepo<Order>, IOrderRepo
     {
         return await _data.AsNoTracking().Include(o => o.OrderProducts).ThenInclude(o => o.Product).ThenInclude(o => o.Images)
         .Include(o => o.OrderProducts).ThenInclude(o => o.Product).ThenInclude(o => o.Category)
-        .Include(o => o.User)
+        //.Include(o => o.User)
         .Include(o => o.Address)
         .FirstOrDefaultAsync(t => t.ID == id);
     }

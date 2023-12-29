@@ -7,7 +7,7 @@ namespace ScuffedWebstore.Core.src.Entities
 {
     public class OwnedEntity : BaseEntity
     {
-        public User User { get; set; }
+        //public User User { get; set; }
         public Guid UserID { get; set; }
     }
 }
