@@ -40,6 +40,10 @@ public class ProductService : BaseService<Product, ProductReadDTO, ProductCreate
         if (updateObject.Inventory != null) currentEntity.Inventory = (int)updateObject.Inventory;
         if (updateObject.CategoryID != null) currentEntity.CategoryID = (Guid)updateObject.CategoryID;
 
+        Category? c = await _categoryRepo.GetOneByIdAsync((Guid)updateObject.CategoryID);
+        if (c == null) throw CustomException.NotFoundException("Category not found");
+        currentEntity.Category = c;
+
         List<Image> updates = new List<Image>();
         if (updateObject.UpdatedImages != null && updateObject.UpdatedImages.Count() > 0)
         {
