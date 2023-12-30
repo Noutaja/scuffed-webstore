@@ -1,5 +1,4 @@
-
-using Microsoft.AspNetCore.Authorization;
+/* using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Core.src.Parameters;
@@ -15,4 +14,4 @@ public class ImageController : BaseController<Image, IImageService, ImageReadDTO
     public ImageController(IImageService service) : base(service)
     {
     }
-}
+} */

@@ -57,7 +57,7 @@ builder.Services.AddScoped<IAddressRepo, AddressRepo>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
 
-builder.Services.AddScoped<IImageService, ImageService>();
+//builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IImageRepo, ImageRepo>();
 
 builder.Services.AddScoped<IOrderService, OrderService>();

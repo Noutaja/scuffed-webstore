@@ -1,4 +1,4 @@
-using AutoMapper;
+/* using AutoMapper;
 using ScuffedWebstore.Core.src.Abstractions;
 using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Core.src.Parameters;
@@ -11,4 +11,4 @@ public class ImageService : BaseService<Image, ImageReadDTO, ImageCreateDTO, Ima
     public ImageService(IImageRepo repo, IMapper mapper) : base(repo, mapper)
     {
     }
-}
+} */
