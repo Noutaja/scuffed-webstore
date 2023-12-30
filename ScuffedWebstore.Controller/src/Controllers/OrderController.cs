@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,11 @@ public class OrderController : BaseController<Order, IOrderService, OrderReadDTO
 
     public override async Task<ActionResult<OrderReadDTO>> UpdateOne([FromRoute] Guid id, [FromBody] OrderUpdateDTO updateObject)
     {
+        foreach (PropertyInfo prop in updateObject.GetType().GetProperties())
+        {
+            Console.WriteLine(prop.Name);
+            Console.WriteLine(prop.GetValue(updateObject));
+        }
         OrderReadDTO? order = await _service.GetOneByIDAsync(id);
         if (order == null) return NotFound("Order not found");
 

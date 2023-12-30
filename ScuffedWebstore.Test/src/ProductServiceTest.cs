@@ -159,13 +159,15 @@ public class ProductServiceTest
 
     [Theory]
     [ClassData(typeof(UpdateOneProductData))]
-    public async void UpdateOne_ShouldReturnValidResponse(ProductUpdateDTO? input, Product? foundCategory, Product? response, ProductReadDTO? expected, Type? exception)
+    public async void UpdateOne_ShouldReturnValidResponse(ProductUpdateDTO? input, Product? foundProduct, Category? foundCategory, Product? response, ProductReadDTO? expected, Type? exception)
     {
         Mock<IProductRepo> repo = new Mock<IProductRepo>();
         Mock<ICategoryRepo> categoryRepo = new Mock<ICategoryRepo>();
         Mock<IImageRepo> imageRepo = new Mock<IImageRepo>();
         repo.Setup(repo => repo.UpdateOneAsync(It.IsAny<Product>())).Returns(Task.FromResult(response));
-        repo.Setup(repo => repo.GetOneByIdAsync(It.IsAny<Guid>())).Returns(Task.FromResult(foundCategory));
+        repo.Setup(repo => repo.GetOneByIdAsync(It.IsAny<Guid>())).Returns(Task.FromResult(foundProduct));
+        categoryRepo.Setup(repo => repo.GetOneByIdAsync(It.IsAny<Guid>())).Returns(Task.FromResult(foundCategory));
+        imageRepo.Setup(repo => repo.UpdateProductImages(It.IsAny<IEnumerable<Image>>(), It.IsAny<IEnumerable<Image>>(), It.IsAny<IEnumerable<Image>>())).Returns(Task.FromResult(It.IsAny<IEnumerable<Image>>()));
         ProductService service = new ProductService(repo.Object, categoryRepo.Object, imageRepo.Object, GetMapper());
 
         if (exception != null) Assert.ThrowsAsync(exception, async () => await service.UpdateOneAsync(It.IsAny<Guid>(), input));
@@ -177,7 +179,7 @@ public class ProductServiceTest
         }
     }
 
-    public class UpdateOneProductData : TheoryData<ProductUpdateDTO?, Product?, Product?, ProductReadDTO?, Type?>
+    public class UpdateOneProductData : TheoryData<ProductUpdateDTO?, Product?, Category?, Product?, ProductReadDTO?, Type?>
     {
         public UpdateOneProductData()
         {
@@ -201,15 +203,17 @@ public class ProductServiceTest
                 Price = 0,
                 Inventory = 1,
                 CategoryID = It.IsAny<Guid>(),
-                Category = It.IsAny<Category>(),
+                Category = new Category(),
                 Images = new List<Image>(),
                 Reviews = new List<Review>(),
                 OrderProducts = new List<OrderProduct>()
             };
+
+            Category category = new Category();
             //Product product = GetMapper().Map<ProductUpdateDTO, Product>(productInput);
-            Add(productInput, product, product, GetMapper().Map<Product, ProductReadDTO>(product), null);
-            Add(partialProductInput, product, product, GetMapper().Map<Product, ProductReadDTO>(product), null);
-            Add(productInput, null, null, null, typeof(CustomException));
+            Add(productInput, product, category, product, GetMapper().Map<Product, ProductReadDTO>(product), null);
+            Add(partialProductInput, product, category, product, GetMapper().Map<Product, ProductReadDTO>(product), null);
+            Add(productInput, null, category, null, GetMapper().Map<Product, ProductReadDTO>(product), typeof(CustomException));
         }
     }
 }

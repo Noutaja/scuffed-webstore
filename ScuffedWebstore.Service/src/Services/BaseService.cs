@@ -56,8 +56,11 @@ public class BaseService<T, TReadDTO, TCreateDTO, TUpdateDTO> : IBaseService<T, 
             editedProp.SetValue(currentEntity, prop.GetValue(updateObject));
         }
 
-
-        //T updatedEntity = _mapper.Map<TUpdateDTO, T>(updateObject, currentEntity);
+        /* foreach (PropertyInfo prop in currentEntity.GetType().GetProperties())
+        {
+            Console.WriteLine(prop.Name);
+            Console.WriteLine(prop.GetValue(currentEntity));
+        } */
 
         return _mapper.Map<T, TReadDTO>(await _repo.UpdateOneAsync(currentEntity));
     }
