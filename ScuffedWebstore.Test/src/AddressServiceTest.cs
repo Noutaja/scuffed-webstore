@@ -83,7 +83,7 @@ public class AddressServiceTest
 
     [Theory]
     [ClassData(typeof(CreateOneAddressData))]
-    public async void CreateOne_ShouldReturnValidResponse(User foundUser, AddressCreateDTO input, Address response, AddressReadDTO expected)
+    public async void CreateOne_ShouldReturnValidResponse(User foundUser, AddressCreateDTO input, Address response, AddressReadDTO expected, Type? exception)
     {
         Mock<IAddressRepo> repo = new Mock<IAddressRepo>();
         Mock<IUserRepo> userRepo = new Mock<IUserRepo>();
@@ -91,19 +91,28 @@ public class AddressServiceTest
         userRepo.Setup(repo => repo.GetOneByIdAsync(It.IsAny<Guid>())).Returns(Task.FromResult(foundUser));
         AddressService service = new AddressService(repo.Object, userRepo.Object, GetMapper());
 
-        AddressReadDTO result = await service.CreateOneAsync(It.IsAny<Guid>(), input);
+        if (exception != null)
+        {
+            await Assert.ThrowsAsync(exception, async () => await service.CreateOneAsync(It.IsAny<Guid>(), input));
+        }
+        else
+        {
+            AddressReadDTO result = await service.CreateOneAsync(It.IsAny<Guid>(), input);
 
-        Assert.Equivalent(expected, result);
+            Assert.Equivalent(expected, result);
+        }
     }
 
-    public class CreateOneAddressData : TheoryData<User, AddressCreateDTO, Address, AddressReadDTO>
+    public class CreateOneAddressData : TheoryData<User, AddressCreateDTO, Address, AddressReadDTO, Type?>
     {
         public CreateOneAddressData()
         {
             AddressCreateDTO addressInput = new AddressCreateDTO() { City = "Some city", Country = "Some country", Zipcode = "12345", Street = "Street 1" };
             Address address = GetMapper().Map<AddressCreateDTO, Address>(addressInput);
             User user = new User() { FirstName = "Asd", LastName = "Asdeer", Email = "a@b.com", Password = "asdf1234", Avatar = "https://picsum.photos/200" };
-            Add(user, addressInput, address, GetMapper().Map<Address, AddressReadDTO>(address));
+            AddressCreateDTO invalidAddressInput = new AddressCreateDTO() { City = "", Country = "Some country", Zipcode = "12345", Street = "Street 1" };
+            Add(user, addressInput, address, GetMapper().Map<Address, AddressReadDTO>(address), null);
+            Add(user, invalidAddressInput, null, null, typeof(CustomException));
         }
     }
 
@@ -132,7 +141,7 @@ public class AddressServiceTest
         repo.Setup(repo => repo.GetOneByIdAsync(It.IsAny<Guid>())).Returns(Task.FromResult(foundUser));
         AddressService service = new AddressService(repo.Object, userRepo.Object, GetMapper());
 
-        if (exception != null) Assert.ThrowsAsync(exception, async () => await service.UpdateOneAsync(It.IsAny<Guid>(), input));
+        if (exception != null) await Assert.ThrowsAsync(exception, async () => await service.UpdateOneAsync(It.IsAny<Guid>(), input));
         else
         {
             AddressReadDTO result = await service.UpdateOneAsync(It.IsAny<Guid>(), input);
@@ -159,9 +168,11 @@ public class AddressServiceTest
                 Zipcode = "12345",
                 Street = "Street 1"
             };
+            AddressUpdateDTO invalidAddressInput = new AddressUpdateDTO() { City = "" };
             //Address address = GetMapper().Map<AddressUpdateDTO, Address>(addressInput);
             Add(addressInput, address, address, GetMapper().Map<Address, AddressReadDTO>(address), null);
             Add(addressInput, null, null, null, typeof(CustomException));
+            Add(invalidAddressInput, null, null, null, typeof(CustomException));
         }
     }
 }

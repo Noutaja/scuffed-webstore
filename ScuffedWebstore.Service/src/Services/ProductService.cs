@@ -20,6 +20,15 @@ public class ProductService : BaseService<Product, ProductReadDTO, ProductCreate
 
     public override async Task<ProductReadDTO> CreateOneAsync(Guid id, ProductCreateDTO createObject)
     {
+        if (createObject.Title.Length < 3)
+            throw CustomException.InvalidParameters("Title can't be less than 3 characters long");
+        if (createObject.Description.Length < 10)
+            throw CustomException.InvalidParameters("Description can't be less than 10 characters long");
+        if (createObject.Price < 0)
+            throw CustomException.InvalidParameters("Price can't be less than 0");
+        if (createObject.Inventory < 0)
+            throw CustomException.InvalidParameters("Inventory can't be less than 0");
+
         Category? c = await _categoryRepo.GetOneByIdAsync(createObject.CategoryID);
         if (c == null) throw CustomException.NotFoundException("Category not found");
 
@@ -31,6 +40,15 @@ public class ProductService : BaseService<Product, ProductReadDTO, ProductCreate
 
     public override async Task<ProductReadDTO> UpdateOneAsync(Guid id, ProductUpdateDTO updateObject)
     {
+        if (updateObject.Title != null && updateObject.Title.Length < 3)
+            throw CustomException.InvalidParameters("Title can't be less than 3 characters long");
+        if (updateObject.Description != null && updateObject.Description.Length < 10)
+            throw CustomException.InvalidParameters("Description can't be less than 10 characters long");
+        if (updateObject.Price != null && updateObject.Price < 0)
+            throw CustomException.InvalidParameters("Price can't be less than 0");
+        if (updateObject.Inventory != null && updateObject.Inventory < 0)
+            throw CustomException.InvalidParameters("Inventory can't be less than 0");
+
         Product? currentEntity = await _repo.GetOneByIdAsync(id);
         if (currentEntity == null) throw CustomException.NotFoundException("Entity to update not Found");
 

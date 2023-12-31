@@ -86,18 +86,22 @@ public class CategoryServiceTest
 
     [Theory]
     [ClassData(typeof(CreateOneCategoryData))]
-    public async void CreateOne_ShouldReturnValidResponse(CategoryCreateDTO input, Category response, CategoryReadDTO expected)
+    public async void CreateOne_ShouldReturnValidResponse(CategoryCreateDTO input, Category? response, CategoryReadDTO? expected, Type? exception)
     {
         Mock<ICategoryRepo> repo = new Mock<ICategoryRepo>();
         repo.Setup(repo => repo.CreateOneAsync(It.IsAny<Category>())).Returns(Task.FromResult(response));
         CategoryService service = new CategoryService(repo.Object, GetMapper());
 
-        CategoryReadDTO result = await service.CreateOneAsync(It.IsAny<Guid>(), input);
+        if (exception != null) await Assert.ThrowsAsync(exception, async () => await service.CreateOneAsync(It.IsAny<Guid>(), input));
+        else
+        {
+            CategoryReadDTO result = await service.CreateOneAsync(It.IsAny<Guid>(), input);
 
-        Assert.Equivalent(expected, result);
+            Assert.Equivalent(expected, result);
+        }
     }
 
-    public class CreateOneCategoryData : TheoryData<CategoryCreateDTO, Category, CategoryReadDTO>
+    public class CreateOneCategoryData : TheoryData<CategoryCreateDTO, Category?, CategoryReadDTO?, Type?>
     {
         public CreateOneCategoryData()
         {
@@ -106,8 +110,14 @@ public class CategoryServiceTest
                 Name = "Name",
                 Url = "https://picsum.photos/200"
             };
+            CategoryCreateDTO invalidCategoryInput = new CategoryCreateDTO()
+            {
+                Name = "Name",
+                Url = "httpspicsum.photos/200"
+            };
             Category category = GetMapper().Map<CategoryCreateDTO, Category>(categoryInput);
-            Add(categoryInput, category, GetMapper().Map<Category, CategoryReadDTO>(category));
+            Add(categoryInput, category, GetMapper().Map<Category, CategoryReadDTO>(category), null);
+            Add(invalidCategoryInput, null, null, typeof(CustomException));
         }
     }
 
@@ -161,10 +171,15 @@ public class CategoryServiceTest
             {
                 Name = "Name"
             };
-            //Category category = GetMapper().Map<CategoryUpdateDTO, Category>(categoryInput);
+            CategoryUpdateDTO invalidCategoryInput = new CategoryUpdateDTO()
+            {
+                Name = "Name",
+                Url = "httpspicsum.photos/200"
+            };
             Add(categoryInput, category, category, GetMapper().Map<Category, CategoryReadDTO>(category), null);
             Add(partialCategoryInput, category, category, GetMapper().Map<Category, CategoryReadDTO>(category), null);
             Add(categoryInput, null, null, null, typeof(CustomException));
+            Add(invalidCategoryInput, category, null, null, typeof(CustomException));
         }
     }
 }

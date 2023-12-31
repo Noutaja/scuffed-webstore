@@ -15,10 +15,30 @@ public class UserService : BaseService<User, UserReadDTO, UserCreateDTO, UserUpd
 
     }
 
-    public override async Task<UserReadDTO> CreateOneAsync(Guid id, UserCreateDTO user)
+    public override async Task<UserReadDTO> CreateOneAsync(Guid id, UserCreateDTO createObject)
     {
-        var encrypted = PasswordHandler.HashPassword(user.Password);
-        User u = _mapper.Map<UserCreateDTO, User>(user);
+        if (createObject.FirstName.Length < 1)
+        {
+            throw CustomException.InvalidParameters("FirstName can't be less than 1 characters long");
+        }
+        if (createObject.LastName.Length < 1)
+        {
+            throw CustomException.InvalidParameters("LastName can't be less than 1 characters long");
+        }
+        if (createObject.Password.Length < 8)
+        {
+            throw CustomException.InvalidParameters("Password can't be less than 3 characters long");
+        }
+        if (!createObject.Password.Any(char.IsDigit))
+        {
+            throw CustomException.InvalidParameters("Password must have a number");
+        }
+        if (!Uri.IsWellFormedUriString(createObject.Avatar, UriKind.Absolute))
+        {
+            throw CustomException.InvalidParameters("Not a valid URI");
+        }
+        var encrypted = PasswordHandler.HashPassword(createObject.Password);
+        User u = _mapper.Map<UserCreateDTO, User>(createObject);
         u.Password = encrypted.password;
         u.Salt = encrypted.salt;
         u.ID = id;
@@ -35,5 +55,23 @@ public class UserService : BaseService<User, UserReadDTO, UserCreateDTO, UserUpd
 
         return _mapper.Map<User, UserReadDTO>(await _repo.UpdateOneAsync(u));
 
+    }
+
+    public override Task<UserReadDTO> UpdateOneAsync(Guid id, UserUpdateDTO updateObject)
+    {
+        if (updateObject.FirstName != null && updateObject.FirstName.Length < 1)
+        {
+            throw CustomException.InvalidParameters("FirstName can't be less than 1 characters long");
+        }
+        if (updateObject.LastName != null && updateObject.LastName.Length < 1)
+        {
+            throw CustomException.InvalidParameters("LastName can't be less than 1 characters long");
+        }
+        if (updateObject.Avatar != null && !Uri.IsWellFormedUriString(updateObject.Avatar, UriKind.Absolute))
+        {
+            throw CustomException.InvalidParameters("Not a valid URI");
+        }
+
+        return base.UpdateOneAsync(id, updateObject);
     }
 }

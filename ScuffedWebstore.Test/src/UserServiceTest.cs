@@ -87,18 +87,22 @@ public class UserServiceTest
 
     [Theory]
     [ClassData(typeof(CreateOneUserData))]
-    public async void CreateOne_ShouldReturnValidResponse(UserCreateDTO input, User response, UserReadDTO expected)
+    public async void CreateOne_ShouldReturnValidResponse(UserCreateDTO input, User response, UserReadDTO expected, Type? exception)
     {
         Mock<IUserRepo> repo = new Mock<IUserRepo>();
         repo.Setup(repo => repo.CreateOneAsync(It.IsAny<User>())).Returns(Task.FromResult(response));
         UserService service = new UserService(repo.Object, GetMapper());
 
-        UserReadDTO result = await service.CreateOneAsync(It.IsAny<Guid>(), input);
+        if (exception != null) await Assert.ThrowsAsync(exception, async () => await service.CreateOneAsync(It.IsAny<Guid>(), input));
+        else
+        {
+            UserReadDTO result = await service.CreateOneAsync(It.IsAny<Guid>(), input);
 
-        Assert.Equivalent(expected, result);
+            Assert.Equivalent(expected, result);
+        }
     }
 
-    public class CreateOneUserData : TheoryData<UserCreateDTO, User, UserReadDTO>
+    public class CreateOneUserData : TheoryData<UserCreateDTO, User?, UserReadDTO?, Type?>
     {
         public CreateOneUserData()
         {
@@ -110,8 +114,17 @@ public class UserServiceTest
                 Password = "asdf1234",
                 Avatar = "https://picsum.photos/200"
             };
+            UserCreateDTO invalidUserInput = new UserCreateDTO()
+            {
+                FirstName = "Asd",
+                LastName = "Asdeer",
+                Email = "a@b.com",
+                Password = "asdf1234",
+                Avatar = "httpspicsum.photos/200"
+            };
             User user = GetMapper().Map<UserCreateDTO, User>(userInput);
-            Add(userInput, user, GetMapper().Map<User, UserReadDTO>(user));
+            Add(userInput, user, GetMapper().Map<User, UserReadDTO>(user), null);
+            Add(invalidUserInput, null, null, typeof(CustomException));
         }
     }
 
@@ -169,10 +182,15 @@ public class UserServiceTest
             {
                 FirstName = "Asd"
             };
+            UserUpdateDTO invalidUserInput = new UserUpdateDTO()
+            {
+                Avatar = "httpspicsum.photos/200"
+            };
             //User user = GetMapper().Map<UserUpdateDTO, User>(userInput);
             Add(userInput, user, user, GetMapper().Map<User, UserReadDTO>(user), null);
             Add(partialUserInput, user, user, GetMapper().Map<User, UserReadDTO>(user), null);
             Add(userInput, null, null, null, typeof(CustomException));
+            Add(invalidUserInput, null, null, null, typeof(CustomException));
         }
     }
 

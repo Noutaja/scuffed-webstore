@@ -26,16 +26,15 @@ namespace ScuffedWebstore.Test.src
             IMapper mapper = mappingConfig.CreateMapper();
             return mapper;
         }
-        /* [Theory]
+        [Theory]
         [ClassData(typeof(LoginData))]
         public async void Login_ShouldReturnValidResponse(User? foundUser, Credentials creds, string response, string expected, Type? exception)
         {
             Mock<IUserRepo> repo = new Mock<IUserRepo>();
             Mock<ITokenService> tokenService = new Mock<ITokenService>();
-            Mock<PasswordHandler> passwordHandler = new Mock<PasswordHandler>();
             repo.Setup(repo => repo.GetOneByEmailAsync(It.IsAny<string>())).Returns(Task.FromResult(foundUser));
             tokenService.Setup(service => service.GenerateToken(It.IsAny<User>())).Returns(response);
-            
+
             AuthService service = new AuthService(repo.Object, tokenService.Object, GetMapper());
 
 
@@ -45,20 +44,21 @@ namespace ScuffedWebstore.Test.src
                 string result = await service.LoginAsync(creds.Email, creds.Password);
                 Assert.Equal(expected, result);
             }
-        } */
+        }
 
         public class LoginData : TheoryData<User?, Credentials, string, string, Type?>
         {
             public LoginData()
             {
                 Credentials credentials = new Credentials() { Email = "a@b.com", Password = "asdf1234" };
+                var encrypted = PasswordHandler.HashPassword(credentials.Password);
                 User user = new User()
                 {
                     FirstName = "Asd",
                     LastName = "Asdeer",
                     Email = "a@b.com",
-                    Password = "asdf1234",
-                    Salt = new byte[] { 1, 2 },
+                    Password = encrypted.password,
+                    Salt = encrypted.salt,
                     Role = It.IsAny<UserRole>(),
                     Addresses = new List<Address>(),
                     Orders = new List<Order>(),
@@ -69,42 +69,73 @@ namespace ScuffedWebstore.Test.src
         }
 
         [Theory]
-        [ClassData(typeof(GetProfileData))]
-        public async void GetProfileAsync_ShouldReturnValidResponse(User response, UserReadDTO expected)
+        [ClassData(typeof(ChangePasswordData))]
+        public async void ChangePasswordAsync(Guid userId, string password, User? foundUser, bool? expected, Type? exception)
         {
             Mock<IUserRepo> repo = new Mock<IUserRepo>();
             Mock<ITokenService> tokenService = new Mock<ITokenService>();
-            repo.Setup(repo => repo.GetOneByIdAsync(It.IsAny<Guid>())).Returns(Task.FromResult(response));
+            repo.Setup(repo => repo.GetOneByIdAsync(It.IsAny<Guid>())).ReturnsAsync(foundUser);
             AuthService service = new AuthService(repo.Object, tokenService.Object, GetMapper());
 
-            UserReadDTO result = await service.GetProfileAsync(It.IsAny<Guid>());
-
-            Assert.Equivalent(expected, result);
-        }
-
-        public class GetProfileData : TheoryData<User, UserReadDTO>
-        {
-            public GetProfileData()
+            if (exception != null)
             {
-                User user = new User();
-                Add(user, GetMapper().Map<User, UserReadDTO>(user));
+                await Assert.ThrowsAsync(exception, () => service.ChangePasswordAsync(userId, password));
+            }
+            else
+            {
+                bool result = await service.ChangePasswordAsync(userId, password);
+
+                Assert.Equal(expected, result);
             }
         }
 
-        [Theory]
-        [InlineData(true, true)]
-        [InlineData(false, false)]
-        public async void DeleteProfileAsync_ShouldReturnValidResponse(bool response, bool expected)
+        public class ChangePasswordData : TheoryData<Guid?, string?, User?, bool?, Type?>
         {
-            Mock<IUserRepo> repo = new Mock<IUserRepo>();
-            Mock<ITokenService> tokenService = new Mock<ITokenService>();
-            repo.Setup(repo => repo.DeleteOneAsync(It.IsAny<Guid>())).Returns(Task.FromResult(response));
-            AuthService service = new AuthService(repo.Object, tokenService.Object, GetMapper());
+            public ChangePasswordData()
+            {
+                User user = new User();
+                Add(It.IsAny<Guid>(), "password", null, false, typeof(CustomException));
+                Add(It.IsAny<Guid>(), "password", user, true, null);
+            }
 
-            bool result = await service.DeleteProfileAsync(It.IsAny<Guid>());
+            [Theory]
+            [ClassData(typeof(GetProfileData))]
+            public async void GetProfileAsync_ShouldReturnValidResponse(User response, UserReadDTO expected)
+            {
+                Mock<IUserRepo> repo = new Mock<IUserRepo>();
+                Mock<ITokenService> tokenService = new Mock<ITokenService>();
+                repo.Setup(repo => repo.GetOneByIdAsync(It.IsAny<Guid>())).Returns(Task.FromResult(response));
+                AuthService service = new AuthService(repo.Object, tokenService.Object, GetMapper());
 
-            Assert.Equivalent(expected, result);
+                UserReadDTO result = await service.GetProfileAsync(It.IsAny<Guid>());
+
+                Assert.Equivalent(expected, result);
+            }
+
+            public class GetProfileData : TheoryData<User, UserReadDTO>
+            {
+                public GetProfileData()
+                {
+                    User user = new User();
+                    Add(user, GetMapper().Map<User, UserReadDTO>(user));
+                }
+            }
+
+            [Theory]
+            [InlineData(true, true)]
+            [InlineData(false, false)]
+            public async void DeleteProfileAsync_ShouldReturnValidResponse(bool response, bool expected)
+            {
+                Mock<IUserRepo> repo = new Mock<IUserRepo>();
+                Mock<ITokenService> tokenService = new Mock<ITokenService>();
+                repo.Setup(repo => repo.DeleteOneAsync(It.IsAny<Guid>())).Returns(Task.FromResult(response));
+                AuthService service = new AuthService(repo.Object, tokenService.Object, GetMapper());
+
+                bool result = await service.DeleteProfileAsync(It.IsAny<Guid>());
+
+                Assert.Equivalent(expected, result);
+            }
+
         }
-
     }
 }

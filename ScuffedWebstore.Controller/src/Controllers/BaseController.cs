@@ -29,7 +29,6 @@ public class BaseController<T, TService, TReadDTO, TCreateDTO, TUpdateDTO> : Con
     [HttpDelete("{id:guid}")]
     public virtual async Task<ActionResult<bool>> DeleteOne([FromRoute] Guid id)
     {
-        Console.WriteLine("CONTROLLER");
         await _service.DeleteOneAsync(id);
         return NoContent();
     }

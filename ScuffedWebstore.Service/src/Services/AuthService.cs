@@ -22,11 +22,11 @@ public class AuthService : IAuthService
     public async Task<string> LoginAsync(string email, string password)
     {
         User? u = await _userRepo.GetOneByEmailAsync(email);
-        if (u == null) throw CustomException.NotFoundException("User not found");
+        if (u == null) throw CustomException.InvalidPasswordOrEmail();
 
         if (PasswordHandler.VerifyPassword(password, u.Password, u.Salt)) return _tokenService.GenerateToken(u);
 
-        throw CustomException.InvalidPassword();
+        throw CustomException.InvalidPasswordOrEmail();
     }
 
     public async Task<UserReadDTO> GetProfileAsync(Guid id)

@@ -108,7 +108,7 @@ public class ProductServiceTest
 
     [Theory]
     [ClassData(typeof(CreateOneProductData))]
-    public async void CreateOne_ShouldReturnValidResponse(Category foundCategory, ProductCreateDTO input, Product response, ProductReadDTO expected)
+    public async void CreateOne_ShouldReturnValidResponse(Category foundCategory, ProductCreateDTO input, Product response, ProductReadDTO expected, Type? exception)
     {
         Mock<IProductRepo> repo = new Mock<IProductRepo>();
         Mock<ICategoryRepo> categoryRepo = new Mock<ICategoryRepo>();
@@ -117,12 +117,16 @@ public class ProductServiceTest
         categoryRepo.Setup(repo => repo.GetOneByIdAsync(It.IsAny<Guid>())).Returns(Task.FromResult(foundCategory));
         ProductService service = new ProductService(repo.Object, categoryRepo.Object, imageRepo.Object, GetMapper());
 
-        ProductReadDTO result = await service.CreateOneAsync(It.IsAny<Guid>(), input);
+        if (exception != null) await Assert.ThrowsAsync(exception, async () => await service.CreateOneAsync(It.IsAny<Guid>(), input));
+        else
+        {
+            ProductReadDTO result = await service.CreateOneAsync(It.IsAny<Guid>(), input);
 
-        Assert.Equivalent(expected, result);
+            Assert.Equivalent(expected, result);
+        }
     }
 
-    public class CreateOneProductData : TheoryData<Category, ProductCreateDTO, Product, ProductReadDTO>
+    public class CreateOneProductData : TheoryData<Category, ProductCreateDTO, Product?, ProductReadDTO?, Type?>
     {
         public CreateOneProductData()
         {
@@ -135,9 +139,19 @@ public class ProductServiceTest
                 CategoryID = It.IsAny<Guid>(),
                 Images = new List<ImageCreateDTO>(),
             };
+            ProductCreateDTO invalidProductInput = new ProductCreateDTO()
+            {
+                Title = "Product1",
+                Description = "Desc",
+                Price = 0,
+                Inventory = 1,
+                CategoryID = It.IsAny<Guid>(),
+                Images = new List<ImageCreateDTO>(),
+            };
             Product product = GetMapper().Map<ProductCreateDTO, Product>(productInput);
             Category category = new Category();
-            Add(category, productInput, product, GetMapper().Map<Product, ProductReadDTO>(product));
+            Add(category, productInput, product, GetMapper().Map<Product, ProductReadDTO>(product), null);
+            Add(category, invalidProductInput, null, null, typeof(CustomException));
         }
     }
 
@@ -195,6 +209,10 @@ public class ProductServiceTest
             {
                 Title = "Product1"
             };
+            ProductUpdateDTO invalidProductInput = new ProductUpdateDTO()
+            {
+                Title = "P"
+            };
 
             Product product = new Product()
             {
@@ -214,6 +232,7 @@ public class ProductServiceTest
             Add(productInput, product, category, product, GetMapper().Map<Product, ProductReadDTO>(product), null);
             Add(partialProductInput, product, category, product, GetMapper().Map<Product, ProductReadDTO>(product), null);
             Add(productInput, null, category, null, GetMapper().Map<Product, ProductReadDTO>(product), typeof(CustomException));
+            Add(invalidProductInput, null, null, null, null, typeof(CustomException));
         }
     }
 }
