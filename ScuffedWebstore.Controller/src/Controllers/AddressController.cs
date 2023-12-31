@@ -20,7 +20,7 @@ public class AddressController : BaseController<Address, IAddressService, Addres
     public override async Task<ActionResult<IEnumerable<AddressReadDTO>>> GetAll([FromQuery] GetAllParams getAllParams)
     {
         IEnumerable<AddressReadDTO> addresses = await _service.GetAllAsync(getAllParams);
-        if (addresses.Count() < 1) return NotFound();
+        if (addresses.Count() < 1) return Ok(new List<AddressReadDTO>());
 
         AuthorizationResult auth = await _authorizationService.AuthorizeAsync(HttpContext.User, addresses.First(), "AdminOrOwner");
 

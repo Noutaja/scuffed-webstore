@@ -33,7 +33,7 @@ public class OrderController : BaseController<Order, IOrderService, OrderReadDTO
 
         AuthorizationResult auth = await _authorizationService.AuthorizeAsync(HttpContext.User, order, "AdminOrOwner");
 
-        if (auth.Succeeded) return await _service.UpdateOneAsync(id, updateObject);
+        if (auth.Succeeded) return Ok(await _service.UpdateOneAsync(id, updateObject));
         else if (User.Identity!.IsAuthenticated) return Forbid();
         else return Challenge();
     }
@@ -47,7 +47,7 @@ public class OrderController : BaseController<Order, IOrderService, OrderReadDTO
     public override async Task<ActionResult<IEnumerable<OrderReadDTO>>> GetAll([FromQuery] GetAllParams getAllParams)
     {
         IEnumerable<OrderReadDTO> orders = await _service.GetAllAsync(getAllParams);
-        if (orders.Count() < 1) return NotFound();
+        if (orders.Count() < 1) return Ok(new List<OrderReadDTO>());
 
         AuthorizationResult auth = await _authorizationService.AuthorizeAsync(HttpContext.User, orders.First(), "AdminOrOwner");
 

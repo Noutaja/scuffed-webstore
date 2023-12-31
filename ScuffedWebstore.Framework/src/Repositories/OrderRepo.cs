@@ -23,7 +23,7 @@ public class OrderRepo : BaseRepo<Order>, IOrderRepo
         }
 
         return await results.AsNoTracking().Include(o => o.OrderProducts).ThenInclude(o => o.Product).ThenInclude(o => o.Images)
-        .Include(o => o.OrderProducts).ThenInclude(o => o.Product).ThenInclude(o => o.Category)
+        .Include(o => o.OrderProducts).ThenInclude(o => o.Product)
         .Include(o => o.User)
         .Include(o => o.Address)
         .OrderByDescending((o) => o.UpdatedAt)
@@ -34,7 +34,7 @@ public class OrderRepo : BaseRepo<Order>, IOrderRepo
     public override async Task<Order?> GetOneByIdAsync(Guid id)
     {
         return await _data.AsNoTracking().Include(o => o.OrderProducts).ThenInclude(o => o.Product).ThenInclude(o => o.Images)
-        .Include(o => o.OrderProducts).ThenInclude(o => o.Product).ThenInclude(o => o.Category)
+        .Include(o => o.OrderProducts).ThenInclude(o => o.Product)
         .Include(o => o.User)
         .Include(o => o.Address)
         .FirstOrDefaultAsync(t => t.ID == id);
