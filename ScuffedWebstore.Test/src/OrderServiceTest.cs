@@ -115,7 +115,7 @@ public class OrderServiceTest
                          new OrderProductCreateDTO { ProductID = It.IsAny<Guid>(), Amount = 1 } }
             };
             Order order = GetMapper().Map<OrderCreateDTO, Order>(orderInput);
-            User user = new User() /* { FirstName = "Asd", LastName = "Asdeer", Email = "a@b.com", Password = "asdf1234", Avatar = "https://picsum.photos/200" } */;
+            User user = new User();
             Product product = new Product();
             Add(user, product, orderInput, order, GetMapper().Map<Order, OrderReadDTO>(order));
         }

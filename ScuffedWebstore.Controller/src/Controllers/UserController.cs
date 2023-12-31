@@ -31,12 +31,12 @@ public class UserController : BaseController<User, IUserService, UserReadDTO, Us
 
     public override async Task<ActionResult<UserReadDTO>> UpdateOne([FromRoute] Guid id, [FromBody] UserUpdateDTO updateObject)
     {
-        UserReadDTO? order = await _service.GetOneByIDAsync(id);
-        if (order == null) return NotFound("Order not found");
+        UserReadDTO? user = await _service.GetOneByIDAsync(id);
+        if (user == null) return NotFound("User not found");
 
-        AuthorizationResult auth = await _authorizationService.AuthorizeAsync(HttpContext.User, order, "AdminOrOwner");
+        bool auth = GetIdFromToken() == user.ID;
 
-        if (auth.Succeeded) return order;
+        if (auth) return Ok(await _service.UpdateOneAsync(id, updateObject));
         else if (User.Identity!.IsAuthenticated) return Forbid();
         else return Challenge();
     }

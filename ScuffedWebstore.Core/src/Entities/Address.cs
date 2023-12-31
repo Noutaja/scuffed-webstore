@@ -1,5 +1,3 @@
-using ScuffedWebstore.Core.src.Abstractions;
-
 namespace ScuffedWebstore.Core.src.Entities
 {
     public class Address : OwnedEntity
@@ -8,5 +6,6 @@ namespace ScuffedWebstore.Core.src.Entities
         public string Zipcode { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
+        public bool Hidden { get; set; }
     }
 }

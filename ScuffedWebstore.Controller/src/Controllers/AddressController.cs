@@ -19,11 +19,12 @@ public class AddressController : BaseController<Address, IAddressService, Addres
 
     public override async Task<ActionResult<IEnumerable<AddressReadDTO>>> GetAll([FromQuery] GetAllParams getAllParams)
     {
+        Console.WriteLine("CONTROLLER");
         IEnumerable<AddressReadDTO> addresses = await _service.GetAllAsync(getAllParams);
         if (addresses.Count() < 1) return Ok(new List<AddressReadDTO>());
-
+        Console.WriteLine("CONTROLLER2");
         AuthorizationResult auth = await _authorizationService.AuthorizeAsync(HttpContext.User, addresses.First(), "AdminOrOwner");
-
+        Console.WriteLine("CONTROLLER3");
         if (auth.Succeeded) return Ok(addresses);
         else if (User.Identity!.IsAuthenticated) return Forbid();
         else return Challenge();

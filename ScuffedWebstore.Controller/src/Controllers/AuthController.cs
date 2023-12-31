@@ -41,7 +41,7 @@ public class AuthController : ControllerBase
     [Authorize]
     public async Task<ActionResult<bool>> DeleteProfileAsync()
     {
-        if (!await _authService.DeleteProfileAsync(GetIdFromToken())) return Unauthorized("Not authorized");
+        await _authService.DeleteProfileAsync(GetIdFromToken());
         return NoContent();
     }
 

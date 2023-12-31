@@ -7,6 +7,7 @@ public class AddressReadDTO : OwnedEntity
     public string Zipcode { get; set; }
     public string City { get; set; }
     public string Country { get; set; }
+    public bool Hidden { get; set; }
 }
 
 public class AddressCreateDTO
@@ -23,4 +24,5 @@ public class AddressUpdateDTO
     public string? Zipcode { get; set; }
     public string? City { get; set; }
     public string? Country { get; set; }
+    public bool Hidden { get; set; }
 }
