@@ -98,7 +98,7 @@ builder.Services.AddAuthorization(policy =>
 
 builder.Services.AddTransient<ExceptionHandlerMiddleware>();
 
-NpgsqlDataSourceBuilder dataSourceBuilder = new NpgsqlDataSourceBuilder(builder.Configuration.GetConnectionString("LocalDb"));
+NpgsqlDataSourceBuilder dataSourceBuilder = new NpgsqlDataSourceBuilder(builder.Configuration.GetConnectionString("RemoteDb"));
 dataSourceBuilder.MapEnum<UserRole>();
 dataSourceBuilder.MapEnum<OrderStatus>();
 NpgsqlDataSource dataSource = dataSourceBuilder.Build();
