@@ -15,14 +15,9 @@ namespace ScuffedWebstore.Framework.src.Repositories
         public CategoryRepo(DatabaseContext database) : base(database)
         { }
 
-        public async Task<IEnumerable<Category>> GetAllAsync(GetAllCategoriesParams options)
-        {
-            return await _data.AsNoTracking().Where(c => c.Name.Contains(options.Query)).Skip(options.Offset).Take(options.Limit).ToListAsync();
-        }
-
         public override async Task<IEnumerable<Category>> GetAllAsync(GetAllParams options)
         {
-            return await _data.AsNoTracking().Skip(options.Offset).Take(options.Limit).ToListAsync();
+            return await _data.AsNoTracking().Where(c => c.Name.Contains(options.Search)).Skip(options.Offset).Take(options.Limit).ToListAsync();
         }
     }
 }

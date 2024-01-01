@@ -1,17 +1,22 @@
 # Fullstack Project
 
-![TypeScript](https://img.shields.io/badge/TypeScript-v.4-green)
-![SASS](https://img.shields.io/badge/SASS-v.4-hotpink)
-![React](https://img.shields.io/badge/React-v.18-blue)
-![Redux toolkit](https://img.shields.io/badge/Redux-v.1.9-brown)
-![.NET Core](https://img.shields.io/badge/.NET%20Core-v.7-purple)
-![EF Core](https://img.shields.io/badge/EF%20Core-v.7-cyan)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-v.14-drakblue)
+![.NET Core](https://img.shields.io/badge/.NET%20Core-v.8-purple)
+![EF Core](https://img.shields.io/badge/EF%20Core-v.8-cyan)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-v.16-drakblue)
 
 This project involves creating a Fullstack project with React and Redux in the frontend and ASP.NET Core 7 in the backend. The goal is to provide a seamless experience for users, along with robust management system for administrators.
 
-- Frontend: SASS, TypeScript, React, Redux Toolkit
-- Backend: ASP.NET Core, Entity Framework Core, PostgreSQL
+### Frontend
+
+-   Technologies used: TypeScript, React, Redux Toolkit
+-   Github repo: https://github.com/Noutaja/fs16_6-frontend-project
+-   Public deployment: https://noutaja.github.io/fs16_6-frontend-project/#/
+
+### Backend
+
+-   Technologies used: ASP.NET Core, Entity Framework Core, PostgreSQL
+-   Github repo: This page
+-   Swagger documentation: https://noutaja-scuffed-webstore.azurewebsites.net/index.html
 
 You can follow the same topics as your backend project or choose the alternative one, between E-commerce and Library. You can reuse the previous frontend project, with necessary modification to fit your backend server.
 
@@ -19,8 +24,8 @@ You can follow the same topics as your backend project or choose the alternative
 
 1. [Instruction](#instruction)
 2. [Features](#features)
-   - [Mandatory features](#mandatory-features)
-   - [Extra features](#extra-features)
+    - [Mandatory features](#mandatory-features)
+    - [Extra features](#extra-features)
 3. [Requirements](#requirements)
 4. [Getting Started](#getting-started)
 5. [Testing](#testing)
@@ -77,28 +82,28 @@ And any other extra features that you want to implement (like file upload, revie
 4. Document with Swagger: Make sure to annotate your API endpoints and generate a Swagger UI for easier testing and documentation.
 5. Project should have proper file structure, naming convention, and comply with Rest API.
 6. `README` file should sufficiently describe the project, as well as the deployment, link to frontend github as well.
-7. Frontend, backend, and database servers need to be available in the live servers.  
+7. Frontend, backend, and database servers need to be available in the live servers.
 
 ## Getting Started
 
 1. Start with backend first before moving to frontend.
 2. In the backend, here is the recommended order:
 
-   - Plan Your Database Schema before start coding
+    - Plan Your Database Schema before start coding
 
-   - Set Up the Project Structure
+    - Set Up the Project Structure
 
-   - Build the models
+    - Build the models
 
-   - Create the Repositories
+    - Create the Repositories
 
-   - Build the Services
+    - Build the Services
 
-   - Set Up Authentication & Authorization
+    - Set Up Authentication & Authorization
 
-   - Build the Controllers
+    - Build the Controllers
 
-   - Implement Error Handling Middleware
+    - Implement Error Handling Middleware
 
 3. You should focus on the mandatory features first. Make sure you have minimal working project before opting for advanced functionalities.
 

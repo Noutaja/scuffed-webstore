@@ -12,15 +12,10 @@ public class ProductRepo : BaseRepo<Product>, IProductRepo
 
     }
 
-    public async Task<IEnumerable<Product>> GetAllAsync(GetAllProductsParams options)
-    {
-        return await _data.AsNoTracking().Include(p => p.Category).Include(p => p.Images)
-            .Where(p => p.Title.Contains(options.Query)).Skip(options.Offset).Take(options.Limit).ToListAsync();
-    }
-
     public override async Task<IEnumerable<Product>> GetAllAsync(GetAllParams options)
     {
-        return await _data.AsNoTracking().Include(p => p.Category).Include(p => p.Images).Skip(options.Offset).Take(options.Limit).ToListAsync();
+        return await _data.AsNoTracking().Include(p => p.Category).Include(p => p.Images)
+            .Where(p => p.Title.Contains(options.Search)).Skip(options.Offset).Take(options.Limit).ToListAsync();
     }
 
     public override async Task<Product?> GetOneByIdAsync(Guid id)
