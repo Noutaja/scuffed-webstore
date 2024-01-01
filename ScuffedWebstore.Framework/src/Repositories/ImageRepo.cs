@@ -34,7 +34,6 @@ public class ImageRepo : BaseRepo<Image>, IImageRepo
 
                     if (img != null) productID = img.ProductID;
 
-                    Console.WriteLine(img.ID);
                     _data.Remove(img);
                 }
 
@@ -59,7 +58,6 @@ public class ImageRepo : BaseRepo<Image>, IImageRepo
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
                 await transaction.RollbackAsync();
                 throw;
             }

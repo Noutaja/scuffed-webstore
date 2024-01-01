@@ -54,7 +54,6 @@ public class OrderRepo : BaseRepo<Order>, IOrderRepo
                     _products.Update(product);
                     await _database.SaveChangesAsync();
                 }
-                Console.WriteLine(createObject.UserID);
                 _data.Add(createObject);
                 await _database.SaveChangesAsync();
                 await transaction.CommitAsync();
@@ -62,7 +61,6 @@ public class OrderRepo : BaseRepo<Order>, IOrderRepo
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
                 await transaction.RollbackAsync();
                 throw;
             }

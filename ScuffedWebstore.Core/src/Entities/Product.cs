@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace ScuffedWebstore.Core.src.Entities;
 public class Product : BaseEntity
 {

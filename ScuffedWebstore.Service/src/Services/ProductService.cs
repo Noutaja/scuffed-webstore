@@ -56,9 +56,9 @@ public class ProductService : BaseService<Product, ProductReadDTO, ProductCreate
         if (updateObject.Description != null) currentEntity.Description = updateObject.Description;
         if (updateObject.Price != null) currentEntity.Price = (double)updateObject.Price;
         if (updateObject.Inventory != null) currentEntity.Inventory = (int)updateObject.Inventory;
-        if (updateObject.CategoryID != null) currentEntity.CategoryID = (Guid)updateObject.CategoryID;
+        if (updateObject.CategoryID != null) currentEntity.Category.ID = (Guid)updateObject.CategoryID;
 
-        Category? c = await _categoryRepo.GetOneByIdAsync(currentEntity.CategoryID);
+        Category? c = await _categoryRepo.GetOneByIdAsync(currentEntity.Category.ID);
         if (c == null) throw CustomException.NotFoundException("Category not found");
         currentEntity.Category = c;
 

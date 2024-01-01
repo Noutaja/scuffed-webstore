@@ -57,7 +57,6 @@ builder.Services.AddScoped<IAddressRepo, AddressRepo>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
 
-//builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IImageRepo, ImageRepo>();
 
 builder.Services.AddScoped<IOrderService, OrderService>();
@@ -99,7 +98,7 @@ builder.Services.AddAuthorization(policy =>
 
 builder.Services.AddTransient<ExceptionHandlerMiddleware>();
 
-NpgsqlDataSourceBuilder dataSourceBuilder = new NpgsqlDataSourceBuilder(builder.Configuration.GetConnectionString("LocalDb"));
+NpgsqlDataSourceBuilder dataSourceBuilder = new NpgsqlDataSourceBuilder(builder.Configuration.GetConnectionString("RemoteDb"));
 dataSourceBuilder.MapEnum<UserRole>();
 dataSourceBuilder.MapEnum<OrderStatus>();
 NpgsqlDataSource dataSource = dataSourceBuilder.Build();
@@ -121,11 +120,11 @@ app.UseCors();
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();
-app.UseSwaggerUI(/* opt =>
+app.UseSwaggerUI(opt =>
 {
     opt.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
     opt.RoutePrefix = string.Empty;
-} */);
+});
 
 app.UseHttpsRedirection();
 

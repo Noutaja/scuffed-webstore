@@ -20,6 +20,7 @@ public class DatabaseContext : DbContext
 
     static DatabaseContext()
     {
+        AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     }
 
@@ -32,6 +33,7 @@ public class DatabaseContext : DbContext
     {
         modelBuilder.HasPostgresEnum<OrderStatus>();
         modelBuilder.Entity<Order>(entity => entity.Property(e => e.Status).HasColumnType("order_status"));
+
 
         modelBuilder.Entity<Review>().HasKey(entity => new { entity.ProductID, entity.UserID });
 
@@ -55,6 +57,11 @@ public class DatabaseContext : DbContext
             Reviews = new List<Review>()
         }));
 
+        modelBuilder.Entity<Address>().HasMany<Order>().WithOne(e => e.Address).HasForeignKey(e => e.AddressID);
+        modelBuilder.Entity<Order>().HasOne(e => e.Address).WithMany().HasForeignKey(e => e.AddressID);
+
+        modelBuilder.Entity<Category>().HasMany<Product>().WithOne().HasForeignKey(e => e.CategoryID);
+        modelBuilder.Entity<Product>().HasOne(e => e.Category).WithMany().HasForeignKey(e => e.CategoryID);
 
 
         modelBuilder.Entity<Product>().ToTable(p => p.HasCheckConstraint("CK_Product_Price_Positive", "price>=0"));
@@ -63,6 +70,8 @@ public class DatabaseContext : DbContext
         modelBuilder.Entity<OrderProduct>().ToTable(p => p.HasCheckConstraint("CK_OrderProduct_Price_Positive", "price>=0"));
         modelBuilder.Entity<OrderProduct>().ToTable(p => p.HasCheckConstraint("CK_OrderProduct_Amount_Positive", "amount>=0"));
 
+        modelBuilder.Entity<Category>().HasMany<Product>().WithOne().OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<Address>().HasMany<Order>().WithOne().OnDelete(DeleteBehavior.Restrict);
 
         base.OnModelCreating(modelBuilder);
     }
