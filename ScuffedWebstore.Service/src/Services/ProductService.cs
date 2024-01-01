@@ -28,6 +28,8 @@ public class ProductService : BaseService<Product, ProductReadDTO, ProductCreate
             throw CustomException.InvalidParameters("Price can't be less than 0");
         if (createObject.Inventory < 0)
             throw CustomException.InvalidParameters("Inventory can't be less than 0");
+        if (createObject.Images.Count() < 1)
+            throw CustomException.InvalidParameters("Product must have an image");
 
         Category? c = await _categoryRepo.GetOneByIdAsync(createObject.CategoryID);
         if (c == null) throw CustomException.NotFoundException("Category not found");

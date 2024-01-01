@@ -137,12 +137,12 @@ public class ProductServiceTest
                 Price = 0,
                 Inventory = 1,
                 CategoryID = It.IsAny<Guid>(),
-                Images = new List<ImageCreateDTO>(),
+                Images = new List<ImageCreateDTO>() { new ImageCreateDTO() },
             };
             ProductCreateDTO invalidProductInput = new ProductCreateDTO()
             {
                 Title = "Product1",
-                Description = "Desc",
+                Description = "Description1",
                 Price = 0,
                 Inventory = 1,
                 CategoryID = It.IsAny<Guid>(),
