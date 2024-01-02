@@ -100,7 +100,7 @@ public class OrderServiceTest
                 Status = It.IsAny<OrderStatus>(),
                 OrderProducts = new List<OrderProduct>()
             };
-            //Add(order, GetMapper().Map<Order, OrderReadDTO>(order));
+            Add(order, GetMapper().Map<Order, OrderReadDTO>(order));
             Add(null, null);
         }
     }
@@ -139,7 +139,7 @@ public class OrderServiceTest
             Order order = GetMapper().Map<OrderCreateDTO, Order>(orderInput);
             User user = new User();
             Product product = new Product();
-            //Add(user, product, orderInput, order, GetMapper().Map<Order, OrderReadDTO>(order), null);
+            Add(user, product, orderInput, order, GetMapper().Map<Order, OrderReadDTO>(order), null);
             Add(null, null, orderInput, null, null, typeof(CustomException));
         }
     }
@@ -179,7 +179,7 @@ public class OrderServiceTest
                 Status = It.IsAny<OrderStatus>(),
                 OrderProducts = new List<OrderProduct>()
             };
-            //Add(orderInput, order, order, GetMapper().Map<Order, OrderReadDTO>(order), null);
+            Add(orderInput, order, order, GetMapper().Map<Order, OrderReadDTO>(order), null);
             Add(orderInput, null, null, null, typeof(CustomException));
         }
     }

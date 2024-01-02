@@ -92,7 +92,7 @@ public class AddressServiceTest
         public GetOneByIDData()
         {
             Address address = new Address() { City = "Some city", Country = "Some country", Zipcode = "12345", Street = "Street 1" };
-            //Add(address, GetMapper().Map<Address, AddressReadDTO>(address));
+            Add(address, GetMapper().Map<Address, AddressReadDTO>(address));
             Add(null, null);
         }
     }
@@ -127,7 +127,7 @@ public class AddressServiceTest
             Address address = GetMapper().Map<AddressCreateDTO, Address>(addressInput);
             User user = new User() { FirstName = "Asd", LastName = "Asdeer", Email = "a@b.com", Password = "asdf1234", Avatar = "https://picsum.photos/200" };
             AddressCreateDTO invalidAddressInput = new AddressCreateDTO() { City = "", Country = "Some country", Zipcode = "12345", Street = "Street 1" };
-            //Add(user, addressInput, address, GetMapper().Map<Address, AddressReadDTO>(address), null);
+            Add(user, addressInput, address, GetMapper().Map<Address, AddressReadDTO>(address), null);
             Add(user, invalidAddressInput, null, null, typeof(CustomException));
         }
     }
@@ -170,7 +170,7 @@ public class AddressServiceTest
                 Street = "Street 1"
             };
             AddressUpdateDTO invalidAddressInput = new AddressUpdateDTO() { City = "" };
-            //Add(addressInput, address, address, GetMapper().Map<Address, AddressReadDTO>(address), null);
+            Add(addressInput, address, address, GetMapper().Map<Address, AddressReadDTO>(address), null);
             Add(addressInput, null, null, null, typeof(CustomException));
             Add(invalidAddressInput, null, null, null, typeof(CustomException));
         }

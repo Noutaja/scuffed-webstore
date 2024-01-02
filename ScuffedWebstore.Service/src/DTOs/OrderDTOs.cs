@@ -7,7 +7,7 @@ using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Core.src.Types;
 
 namespace ScuffedWebstore.Service.src.DTOs;
-public class OrderReadDTO : OwnedEntity
+public class OrderReadDTO : BaseEntity
 {
     public AddressReadDTO Address { get; set; }
     public UserReadDTO User { get; set; }

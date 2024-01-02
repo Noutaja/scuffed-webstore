@@ -11,7 +11,7 @@ namespace ScuffedWebstore.Service.src.Shared
             CreateMap<User, UserReadDTO>()
                 .ForMember(dest => dest.Addresses,
                     opt => opt.MapFrom(src => src.Addresses.Select(a =>
-                    new AddressReadDTO { UserID = a.UserID, ID = a.ID, Street = a.Street, City = a.City, Zipcode = a.Zipcode, Country = a.Country })));
+                    new AddressReadDTO { ID = a.ID, Street = a.Street, City = a.City, Zipcode = a.Zipcode, Country = a.Country })));
             CreateMap<UserCreateDTO, User>()
                 .ForMember(dest => dest.Password,
                     opt => opt.Ignore());
