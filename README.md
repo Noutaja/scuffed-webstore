@@ -9,13 +9,13 @@ This project involves creating a Fullstack project with React and Redux in the f
 ### Frontend
 
 -   Technologies used: TypeScript, React, Redux Toolkit
--   Github repo: https://github.com/Noutaja/fs16_6-frontend-project
+-   Github repo: https://github.com/Noutaja/scuffed-frontend
 -   Public deployment: https://noutaja.github.io/fs16_6-frontend-project/#/
 
 ### Backend
 
 -   Technologies used: ASP.NET Core, Entity Framework Core, PostgreSQL
--   Github repo: This page
+-   Github repo: https://github.com/Noutaja/scuffed-webstore
 -   Swagger documentation: https://noutaja-scuffed-webstore.azurewebsites.net/index.html
 -   API url: https://noutaja-scuffed-webstore.azurewebsites.net/api/v1/
 
