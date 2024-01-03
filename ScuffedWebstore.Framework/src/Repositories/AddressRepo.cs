@@ -13,7 +13,7 @@ public class AddressRepo : BaseRepo<Address>, IAddressRepo
 
     public override async Task<IEnumerable<Address>> GetAllAsync(GetAllParams options)
     {
-        IQueryable<Address> results = _data.AsQueryable();
+        IQueryable<Address> results = _data.AsQueryable().Include(a => a.User);
 
         if (options.OwnerID != null && options.OwnerID != Guid.Parse("00000000-0000-0000-0000-000000000000"))
         {
@@ -23,5 +23,12 @@ public class AddressRepo : BaseRepo<Address>, IAddressRepo
         results = results.Skip(options.Offset).Take(options.Limit);
 
         return await results.ToListAsync();
+    }
+
+    public override async Task<Address?> GetOneByIdAsync(Guid id)
+    {
+        IQueryable<Address> results = _data.AsQueryable().Include(a => a.User);
+
+        return await _data.AsQueryable().Include(a => a.User).FirstOrDefaultAsync(a => a.ID == id);
     }
 }

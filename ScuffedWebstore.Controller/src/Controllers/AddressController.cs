@@ -19,8 +19,11 @@ public class AddressController : BaseController<Address, IAddressService, Addres
 
     public override async Task<ActionResult<IEnumerable<AddressReadDTO>>> GetAll([FromQuery] GetAllParams getAllParams)
     {
+        if (getAllParams.OwnerID == null &&
+            User.FindFirst(c => c.Type == ClaimTypes.Role)!.Value != UserRole.Admin.ToString()) return Forbid();
+
         IEnumerable<AddressReadDTO> addresses = await _service.GetAllAsync(getAllParams);
-        if (addresses.Count() < 1) return Ok(new List<AddressReadDTO>());
+        if (!addresses.Any()) return Ok(addresses);
 
         AuthorizationResult auth = await _authorizationService.AuthorizeAsync(HttpContext.User, addresses.First(), "AdminOrOwner");
 

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ScuffedWebstore.Core.src.Entities;
 using ScuffedWebstore.Core.src.Parameters;
+using ScuffedWebstore.Core.src.Types;
 using ScuffedWebstore.Service.src.Abstractions;
 using ScuffedWebstore.Service.src.DTOs;
 
@@ -41,8 +42,11 @@ public class OrderController : BaseController<Order, IOrderService, OrderReadDTO
 
     public override async Task<ActionResult<IEnumerable<OrderReadDTO>>> GetAll([FromQuery] GetAllParams getAllParams)
     {
+        if (getAllParams.OwnerID == null &&
+            User.FindFirst(c => c.Type == ClaimTypes.Role)!.Value != UserRole.Admin.ToString()) return Forbid();
+
         IEnumerable<OrderReadDTO> orders = await _service.GetAllAsync(getAllParams);
-        if (orders.Count() < 1) return Ok(new List<OrderReadDTO>());
+        if (!orders.Any()) return Ok(orders);
 
         AuthorizationResult auth = await _authorizationService.AuthorizeAsync(HttpContext.User, orders.First(), "AdminOrOwner");
 

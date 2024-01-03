@@ -37,7 +37,7 @@ public class OrderRepo : BaseRepo<Order>, IOrderRepo
         .Include(o => o.OrderProducts).ThenInclude(o => o.Product)
         .Include(o => o.User)
         .Include(o => o.Address)
-        .FirstOrDefaultAsync(t => t.ID == id);
+        .FirstOrDefaultAsync(o => o.ID == id);
     }
 
     public override async Task<Order> CreateOneAsync(Order createObject)
