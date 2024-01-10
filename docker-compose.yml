@@ -1,0 +1,9 @@
+services:
+  frontend:
+    image: noutaja/scuffed-frontend
+    ports:
+    - "3000:3000"
+  backend:
+    image: noutaja/scuffed-backend
+    ports:
+    - "5157:8080"
