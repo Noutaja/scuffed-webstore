@@ -133,7 +133,7 @@ app.UseSwaggerUI(opt =>
     opt.RoutePrefix = string.Empty;
 });
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
