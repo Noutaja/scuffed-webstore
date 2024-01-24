@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -99,7 +100,7 @@ builder.Services.AddAuthorization(policy =>
 
 builder.Services.AddTransient<ExceptionHandlerMiddleware>();
 
-NpgsqlDataSourceBuilder dataSourceBuilder = new NpgsqlDataSourceBuilder(builder.Configuration.GetConnectionString("RemoteDb"));
+NpgsqlDataSourceBuilder dataSourceBuilder = new NpgsqlDataSourceBuilder(builder.Configuration.GetConnectionString("AzureDb"));
 dataSourceBuilder.MapEnum<UserRole>();
 dataSourceBuilder.MapEnum<OrderStatus>();
 NpgsqlDataSource dataSource = dataSourceBuilder.Build();
@@ -113,6 +114,11 @@ builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(data
 builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
 
 WebApplication app = builder.Build();
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
 
 
 app.UseMiddleware<ExceptionHandlerMiddleware>();
